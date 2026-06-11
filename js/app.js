@@ -12,75 +12,262 @@ const COLORS = {
     greenD: '#15803d'    // Verde oscuro (Seguro)
 };
 
+// Catálogo interno de logotipos optimizados en SVG puro
+const CUSTOM_SVGS = {
+    banorte: `
+<svg viewBox="0 0 120 80" class="w-full h-full p-[15%]">
+  <defs>
+    <mask id="banorte-mask">
+      <rect width="120" height="80" fill="white" />
+      <polygon points="51,72 69,72 60,8" fill="black" />
+    </mask>
+  </defs>
+  <g mask="url(#banorte-mask)">
+    <ellipse cx="60" cy="22" rx="42" ry="12.5" fill="white" />
+    <ellipse cx="60" cy="58" rx="42" ry="12.5" fill="white" />
+  </g>
+</svg>
+`,
+    bbva: `
+<svg viewBox="0 0 1998.364 600.414" class="w-full h-full p-[15%]">
+  <path d="m1713.3 0h6.543c7.79 4.95 10.746 14.25 15.035 21.953 59.086 110.74 118.26 221.43 177.42 332.14 28.59 53.934 57.766 107.58 86.062 161.66v1.055c-1.684 3.047-3.027 7.836-7.375 7.41-28.738.09-57.52.148-86.242-.027-6.894.277-8.754-7.25-11.359-12.098-5.227-9.93-10.863-19.61-15.578-29.801-8.066-13.691-14.418-28.277-22.484-41.953-6.195-13.531-14.203-26.082-20.438-39.586-3.852-8.172-8.918-15.7-12.738-23.883-5.664-12.156-13-23.418-18.504-35.66-8.3-14.38-15.168-29.508-23.465-43.891-5.828-12.887-13.586-24.762-19.473-37.621-4.113-8.844-9.617-16.973-13.703-25.844-5.328-11.512-12.414-22.102-17.492-33.727-2.535-4.497-4.277-10.75-9.605-12.551-3.426-.278-8.227-1.141-10.16 2.535-8.957 14.395-15.516 30.105-24.152 44.69-6.18 13.52-14.246 26.067-20.453 39.57-3.688 7.848-8.536 15.083-12.254 22.903-2.825 5.875-5.696 11.73-9.032 17.34-5.902 9.957-10.117 20.809-16.09 30.723-5.21 8.699-8.914 18.203-14.113 26.902-5.46 8.976-9.265 18.816-14.637 27.824-6.148 10.25-10.484 21.453-16.648 31.69-5.195 8.7-8.882 18.189-14.098 26.888-5.46 8.976-9.265 18.816-14.637 27.824-5.785 9.648-10.03 20.105-15.477 29.918-1.86 2.914-3.644 6.574-7.304 7.422-5.621.996-11.375.41-17.055.484-21.973-.016-43.95-.086-65.922.074-3.98-.074-8.754-.015-11.477-3.441-.848-3.735-.543-7.777 1.492-11.07 89.637-168.04 179.46-335.97 269.18-503.98 1.379-2.574 3.851-4.274 6.238-5.871zm-1713.3 80.703c6.148-6.484 15.473-4.363 23.422-4.582 80.035.043 160.05 0 240.09.016 23.539-.793 47.371 2.765 69.465 11.012 37.184 13.34 69.184 43.3 81.219 81.406 5.328 14.453 6.484 30.008 7.555 45.238-.98 16.312-2.957 32.89-9.121 48.164-7.395 17.879-18.066 35.102-33.977 46.598-3.836 3.703-9.782 5.273-12.578 9.93 21.172 7.644 39.383 22.124 53.113 39.8 22.574 29.523 28.855 68.594 25.02 104.84-2.02 23.898-8.887 47.621-21.36 68.2-8.327 12.796-18.604 24.526-31.077 33.43-27.23 20.21-60.93 29.522-94.207 33.358-6.82.926-13.82.426-20.512 2.301h-270.95c-2.254-1.816-4.348-3.836-6.106-6.152v-513.56m89.828 75.082c-2.562 3.133-1.86 7.41-2.004 11.16.23 38.91-.351 77.832.29 116.73 2.386 2.976 6.046 5.012 9.925 4.805 51.738.042 103.49-.06 155.22.058 7.203.309 14.29-1.2 21.391-2.195 16.102-2.344 32.191-8.715 43.422-20.867 7.684-7.645 11.184-18.25 13.773-28.5.629-8.301 3.281-16.637.969-24.926-1.113-14.027-6.809-27.66-16.31-38.074-13.308-12.066-31.124-17.836-48.69-19.961-5.621-.555-11.332.281-16.91-.832-6.938-1.496-14.04-.778-21.066-.863-42.47-.047-84.938.042-127.39-.06-4.422 0-8.844 1.216-12.621 3.528m2.883 210.79c-1.727.543-3.38 1.567-3.907 3.426-3.12 6.035-2.476 12.977-2.445 19.535.059 40.039-.043 80.078.043 120.11.086 5.727 3.277 13.84 10.176 13.137 54.664.027 109.34-.031 164 .016 5.492.187 10.98 0 16.398-.996 19.234-1.641 39.145-5.493 55.352-16.578 13.027-9.227 20.188-24.484 22.97-39.848 3.687-17.734 2.312-36.29-2.84-53.598-4.614-13.355-13.72-25.523-26.485-31.996-16.863-9.286-36.215-12.066-55.117-13.68-57.605.015-115.21.015-172.82 0a24.191 24.191 0 0 0 -5.328.468zm440.744-290.03c6.09-.996 12.312-.293 18.461-.41 84.91-.016 169.83.043 254.76-.031 38.383 1.964 77.383 15.39 105.11 42.777 21.082 20.84 33.789 49.438 36.832 78.77-.059 11.613.484 23.258-.32 34.855-3.645 24.895-13.426 49.965-32.164 67.39-5.297 5.551-11.051 10.708-17.785 14.454-1.39 1.171-4.336 1.757-3.47 4.132 21.548 8.786 41.005 23.473 54.399 42.613 5.754 7.895 9.894 16.797 13.879 25.688 7.918 17.88 9.398 37.664 10.555 56.938-.98 14.906-1.875 29.945-5.43 44.531-5.183 25.422-18.402 48.984-36.863 67.113-7.539 6.227-15.152 12.465-23.613 17.414-23.863 14.613-51.633 21.367-79.129 24.996-7.668 1.305-15.574.602-23.145 2.637h-270.77c-4.215-2.46-8.297-6.34-7.758-11.688.032-166.96.032-333.93 0-500.89-.175-4.613 2.578-8.95 6.457-11.289m90.707 76.266c-2.812.66-5.87 1.684-7.379 4.363-2.62 3.707-1.875 8.45-1.976 12.711.133 35.645.043 71.29.027 106.92-.246 4.645 2.844 8.657 6.383 11.305 10.527.926 21.141.106 31.711.368 44.914-.028 89.812.058 134.73-.028 15.066-1.699 30.656-3.664 43.875-11.688 13.617-6.12 22.223-19.375 26.848-33.098 3.484-11.098 2.285-22.828 2.344-34.266-.996-8.113-3.586-16.094-7.277-23.387-10.555-18.117-30.887-28.102-51.062-31.047-7.934-1.992-16.176-.351-24.141-1.992-6.09-1.184-12.297-.598-18.43-.656-43.45-.047-86.898.043-130.34-.059-1.801.012-3.57.188-5.313.555m-2.945 213.79c-4.36.95-6.57 5.55-6.336 9.707-.031 42 .027 83.984-.031 125.97.058 5.348-.528 10.926 1.55 16.008 1.043 3.59 5.434 4.406 8.684 4.48 55.629.075 111.27-.058 166.92.075 7.352.367 14.539-1.524 21.859-1.86 18.75-2.344 38.004-7.746 52.465-20.488 11.406-11.496 16.984-27.59 18.215-43.492 1.46-7.879 1.8-15.949.176-23.828-1.422-17.836-7.656-36.875-22.445-48.016-17.887-13.812-41.078-17.004-62.918-19.055-55.633.016-111.28.016-166.91 0-3.746.09-7.555-.308-11.23.5zm355.702-279.354c-2.648-5.36 2.594-11.805 8.29-11.145 27.343-.016 54.706.133 82.065-.059 3.18-.16 6.691.293 8.39 3.399 6.485 9.957 11.728 20.69 16.939 31.367 3.293 6.824 7.507 13.152 10.805 19.977 6.074 13.164 13.938 25.39 19.953 38.586 8.05 13.69 14.418 28.277 22.473 41.957 6.906 14.789 15.59 28.645 22.41 43.477 5.93 10.37 11.316 21.016 16.69 31.69 6.821 11.056 11.595 23.185 18.329 34.298 4.699 8.172 8.183 16.973 13.043 25.055 6.164 10.238 10.48 21.457 16.645 31.676 6.105 10.254 10.25 21.559 16.82 31.53 2.945 5.536 12.578 5.552 15.535 0 6.543-9.987 10.699-21.276 16.805-31.53 5.445-8.961 9.28-18.79 14.64-27.81 6.15-10.25 10.48-21.452 16.646-31.702 6.09-10.648 10.832-22.027 17.258-32.496 7.496-15.715 16.543-30.605 23.938-46.363 6.062-10.297 11.168-21.09 16.703-31.66 6.472-10.441 10.949-21.938 17.289-32.438 5.476-9.402 9.488-19.551 15.035-28.91 5.62-9.285 9.547-19.461 15.18-28.746 7.527-12.668 12.387-26.93 21.289-38.777 2.02-3.121 5.984-2.418 9.176-2.594 26.863.25 53.742.047 80.605.074 3.648-.41 6.722 2.024 8.449 5.055 1.71 5.05-1.961 9.648-4.278 13.809-85.418 159.65-170.59 319.43-255.98 479.1-4.89 9.121-9.02 19.035-16.586 26.344h-6.441c-9.707-6.078-12.973-17.926-18.52-27.324-86.562-161.92-172.94-323.98-259.59-485.84z" fill="white" />
+</svg>
+`,
+    bitso: `
+<svg viewBox="0 0 48 48" class="w-full h-full p-[18%]">
+  <path d="M24,14.8c5.1,0,9.2,4.1,9.2,9.2v19.4c7.3-3.5,12.3-10.8,12.3-19.4,0-11.9-9.6-21.5-21.5-21.5-1.3,0-2.6,.1-3.9,.4V14.8h3.9Z" fill="white" />
+  <path d="M24,33.2c-5.1,0-9.2-4.1-9.2-9.2V2.5H2.5V24c0,11.9,9.6,21.5,21.5,21.5,1.3,0,2.6-.1,3.9-.4v-11.9h-3.9Z" fill="white" />
+</svg>
+`,
+    didi: `
+<svg viewBox="0 0 100 100" class="w-full h-full p-[18%]">
+  <path d="M 20,20 C 20,17 23,15 26,15 L 48,15 L 48,27 L 32,27 C 32,27 32,38 32,40 C 32,50 40,58 50,58 C 60,58 68,50 68,40 L 68,32 L 80,32 L 80,40 C 80,57 67,70 50,70 C 33,70 20,57 20,40 Z" fill="white" />
+  <path d="M 52,15 L 76,15 C 78,15 80,17 80,20 L 80,27 L 52,27 Z" fill="white" />
+</svg>
+`,
+    figma: `
+<svg viewBox="0 0 60 90" class="w-full h-full p-[15%]">
+  <path d="M 15,0 A 15,15 0 0,0 0,15 A 15,15 0 0,0 15,30 L 30,30 L 30,0 Z" fill="#F24E1E" />
+  <circle cx="45" cy="15" r="15" fill="#FF7262" />
+  <path d="M 15,30 A 15,15 0 0,0 0,45 A 15,15 0 0,0 15,60 L 30,60 L 30,30 Z" fill="#A259FF" />
+  <circle cx="45" cy="45" r="15" fill="#1ABC9C" />
+  <path d="M 15,60 A 15,15 0 0,0 0,75 A 15,15 0 0,0 15,90 A 15,15 0 0,0 30,75 L 30,60 Z" fill="#0ACF83" />
+</svg>
+`,
+    liverpool: `
+<svg viewBox="0 0 110.5 106.5" class="w-full h-full p-[15%]" fill="white">
+  <path d="M 0.0195313 0.152344 L 8.828125 0.152344 L 8.828125 90.203125 C 8.828125 90.203125 8.828125 96.683594 14.636719 96.683594 L 61.964844 96.683594 L 61.964844 106.449219 L 10.492188 106.449219 C 10.492188 106.449219 0 106.4375 0 94.8125 C 0 83.335938 0.0195313 0.152344 0.0195313 0.152344 " />
+  <path d="M 12.183594 0.152344 L 20.964844 0.152344 L 20.964844 77.382813 C 20.964844 77.382813 20.339844 83.378906 26.058594 83.363281 C 54.355469 83.335938 61.921875 83.363281 61.921875 83.363281 L 61.921875 93.019531 L 17.339844 93.019531 C 17.339844 93.019531 12.140625 92.621094 12.183594 87.285156 C 12.21875 83.503906 12.183594 0.152344 12.183594 0.152344 " />
+  <path d="M 24.277344 0.152344 L 33.105469 0.152344 L 33.121094 65.484375 C 33.121094 65.484375 32.613281 69.933594 36.808594 69.933594 L 61.964844 69.933594 L 61.921875 79.628906 L 28.039063 79.628906 C 28.039063 79.628906 24.277344 78.878906 24.277344 74.367188 " />
+  <path d="M 36.414063 0.152344 L 45.253906 0.152344 L 45.253906 52.878906 C 45.253906 52.878906 44.695313 56.613281 48.546875 56.613281 L 61.964844 56.613281 L 61.964844 66.265625 L 41.546875 66.265625 C 37.910156 66.265625 36.414063 65.164063 36.414063 61.449219 " />
+  <path d="M 110.410156 106.332031 L 101.59375 106.332031 L 101.640625 16.277344 C 101.640625 16.277344 101.640625 9.796875 95.828125 9.796875 C 90.386719 9.796875 48.507813 9.785156 48.507813 9.785156 L 48.507813 -0.00390625 L 99.976563 0.03125 C 99.976563 0.03125 110.464844 0.0625 110.464844 11.667969 C 110.449219 23.144531 110.410156 106.332031 110.410156 106.332031 " />
+  <path d="M 98.238281 106.332031 L 89.457031 106.332031 L 89.484375 29.101563 C 89.484375 29.101563 90.09375 23.097656 84.378906 23.117188 C 56.109375 23.132813 48.535156 23.078125 48.535156 23.078125 L 48.546875 13.449219 L 93.117188 13.464844 C 93.117188 13.464844 98.328125 13.859375 98.285156 19.195313 C 98.253906 22.980469 98.238281 106.332031 98.238281 106.332031 " />
+  <path d="M 86.144531 106.332031 L 77.300781 106.316406 L 77.335938 41 C 77.335938 41 77.835938 36.550781 73.644531 36.550781 C 66.144531 36.550781 48.484375 36.535156 48.484375 36.535156 L 48.535156 26.832031 L 82.410156 26.847656 C 82.410156 26.847656 86.179688 27.601563 86.179688 32.101563 C 86.179688 36.230469 86.144531 106.332031 86.144531 106.332031 " />
+  <path d="M 73.996094 106.316406 L 65.167969 106.316406 L 65.203125 53.597656 C 65.203125 53.597656 65.75 49.855469 61.902344 49.855469 L 48.484375 49.855469 L 48.484375 40.203125 L 68.902344 40.214844 C 72.546875 40.214844 74.042969 41.316406 74.042969 45.019531 C 74.042969 49.078125 73.996094 106.316406 73.996094 106.316406 " />
+</svg>
+`,
+    google: `
+<svg viewBox="-3 0 262 262" class="w-full h-full p-[18%]">
+  <path d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" fill="#4285F4"></path>
+  <path d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" fill="#34A853"></path>
+  <path d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" fill="#FBBC05"></path>
+  <path d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" fill="#EB4335"></path>
+</svg>
+`,
+    microsoft: `
+<svg viewBox="0 0 24 24" class="w-full h-full p-[20%]">
+  <path d="M3,12V6.75L9,5.43v6.48L3,12M20,3v8.75L10,11.9V5.21L20,3M3,13l6,.09V19.9L3,18.75V13m17,.25V22L10,20.09v-7Z" fill="white"></path>
+</svg>
+`,
+    rappi: `
+<svg viewBox="0 0 48 48" class="w-full h-full p-[15%]" fill="none" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M18.54,18.25a4.83,4.83,0,0,0-2.12.41C11.6,20.84,10.62,26,4.55,21.78,7.19,30.87,15,29.72,17.17,29.65a9.75,9.75,0,0,0,6.88-3.4,9.75,9.75,0,0,0,6.88,3.4c2.21.07,10,1.22,12.62-7.87-6.1,4.26-7.07-.94-11.87-3.12-2.62-1.18-6,.36-7.59,2.47a7.57,7.57,0,0,0-5.48-2.88Z"></path>
+</svg>
+`,
+    facebookmessenger: `
+<svg viewBox="0 0 24 24" class="w-full h-full p-[15%]">
+  <defs>
+    <radialGradient id="msg-rg" cx="0.55" cy="0.35" r="0.65">
+      <stop offset="0%" stop-color="#FF6B8A"/>
+      <stop offset="40%" stop-color="#C850C0"/>
+      <stop offset="70%" stop-color="#7B5CFA"/>
+      <stop offset="100%" stop-color="#00B2FF"/>
+    </radialGradient>
+  </defs>
+  <path d="M12 0C5.24 0 0 4.952 0 11.64c0 3.499 1.434 6.521 3.769 8.61a.96.96 0 0 1 .323.683l.065 2.135a.96.96 0 0 0 1.347.85l2.381-1.053a.96.96 0 0 1 .641-.046A13 13 0 0 0 12 23.28c6.76 0 12-4.952 12-11.64S18.76 0 12 0z" fill="url(#msg-rg)"/>
+  <path d="M18.806 7.44c.522-.03.971.567.63 1.094l-4.178 6.457a.707.707 0 0 1-.977.208l-3.87-2.504a.44.44 0 0 0-.49.007l-4.363 3.01c-.637.438-1.415-.317-.995-.966l4.179-6.457a.706.706 0 0 1 .977-.21l3.87 2.505c.15.097.344.094.491-.007l4.362-3.008a.7.7 0 0 1 .364-.13z" fill="#fff"/>
+</svg>
+`,
+    volaris: `
+<svg viewBox="0 0 100 100" class="w-full h-full p-[12%]">
+  <rect x="45" y="15" width="10" height="10" fill="#E5007D" />
+  <rect x="45" y="75" width="10" height="10" fill="#00E5FF" />
+  <rect x="15" y="45" width="10" height="10" fill="#FFE600" />
+  <rect x="75" y="45" width="10" height="10" fill="#00FF66" />
+  <rect x="45" y="45" width="10" height="10" fill="#FFFFFF" />
+  <rect x="35" y="35" width="10" height="10" fill="#7F00FF" />
+  <rect x="55" y="35" width="10" height="10" fill="#E5007D" />
+  <rect x="35" y="55" width="10" height="10" fill="#00E5FF" />
+  <rect x="55" y="55" width="10" height="10" fill="#FFE600" />
+</svg>
+`,
+    yahoo: `
+<svg viewBox="0 -184.5 512 512" class="w-full h-full p-[15%]">
+  <path d="M0,34.6068096 L30.4746532,34.6068096 L48.1654477,79.9313997 L66.1145019,34.6068096 L95.8143758,34.6068096 L51.1354351,142.042875 L21.3064313,142.042875 L33.5737705,113.6343 L0,34.6068096 Z M126.676419,32.7989912 C103.820429,32.7989912 89.3578815,53.3306431 89.3578815,73.7331652 C89.3578815,96.718285 105.240858,114.925599 126.289029,114.925599 C142.042875,114.925599 147.98285,105.369987 147.98285,105.369987 L147.98285,112.859521 L174.583607,112.859521 L174.583607,34.6068096 L147.98285,34.6068096 L147.98285,41.7089533 C147.85372,41.7089533 141.268096,32.7989912 126.676419,32.7989912 Z M132.358134,57.979319 C142.946784,57.979319 148.37024,66.3727617 148.37024,73.8622951 C148.37024,81.9974779 142.559395,90.0035309 132.358134,90.0035309 C123.964691,90.0035309 116.346028,83.1596469 116.346028,74.2496847 C116.346028,65.2105927 122.415132,57.979319 132.358134,57.979319 Z M183.622699,112.859521 L183.622699,0 L211.385624,0 L211.385624,41.9672131 C211.385624,41.9672131 217.971248,32.7989912 231.788146,32.7989912 C248.704161,32.7989912 258.647163,45.4537201 258.647163,63.4027743 L258.647163,112.859521 L231.013367,112.859521 L231.013367,70.1175284 C231.013367,64.0484237 228.172509,58.1084489 221.586885,58.1084489 C214.872131,58.1084489 211.385624,64.0484237 211.385624,70.1175284 L211.385624,112.859521 L183.622699,112.859521 Z M306.037831,32.7989912 C279.824464,32.7989912 264.199748,52.6849937 264.199748,74.1205549 C264.199748,98.3969735 283.052711,115.054729 306.166961,115.054729 C328.506431,115.054729 348.005044,99.1717528 348.005044,74.5079445 C348.005044,47.5197982 327.473392,32.7989912 306.037831,32.7989912 Z M306.296091,58.1084489 C315.593443,58.1084489 321.920807,65.8562421 321.920807,73.991425 C321.920807,80.9644388 315.980832,89.6161412 306.296091,89.6161412 C297.386129,89.6161412 290.800504,82.5139975 290.800504,73.8622951 C290.800504,65.7271122 296.22396,58.1084489 306.296091,58.1084489 Z M394.233544,32.7989912 C368.020177,32.7989912 352.39546,52.6849937 352.39546,74.1205549 C352.39546,98.3969735 371.248424,115.054729 394.362673,115.054729 C416.702144,115.054729 436.200757,99.1717528 436.200757,74.5079445 C436.200757,47.5197982 415.798235,32.7989912 394.233544,32.7989912 Z M394.491803,58.1084489 C403.789155,58.1084489 410.11652,65.8562421 410.11652,73.991425 C410.11652,80.9644388 404.176545,89.6161412 394.491803,89.6161412 C385.581841,89.6161412 378.996217,82.5139975 378.996217,73.8622951 C378.996217,65.7271122 384.548802,58.1084489 394.491803,58.1084489 Z M458.152837,77.6070618 C468.354098,77.6070618 476.618411,85.8713745 476.618411,96.0726356 C476.618411,106.273897 468.354098,114.538209 458.152837,114.538209 C447.951576,114.538209 439.687264,106.273897 439.687264,96.0726356 C439.687264,85.8713745 447.951576,77.6070618 458.152837,77.6070618 Z M482.687516,70.8923077 L449.501135,70.8923077 L478.942749,7.10542736e-15 L512,7.10542736e-15 L482.687516,70.8923077 Z" fill="white" fill-rule="nonzero"></path>
+</svg>
+`,
+    disneyplus: `
+<svg viewBox="0 0 320 120" class="w-full h-full p-[10%]">
+  <defs>
+    <linearGradient id="disneyArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(0,162,232,0)"/>
+      <stop offset="60%" stop-color="#02dbff"/>
+      <stop offset="100%" stop-color="#00ffeb"/>
+    </linearGradient>
+    <filter id="disneyGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <style>
+      @import url('https://fonts.cdnfonts.com/css/waltograph');
+      .svg-font-disney {
+        font-family: 'Waltograph', 'Brush Script MT', cursive;
+      }
+    </style>
+  </defs>
+  <text x="40" y="78" class="svg-font-disney" font-size="72" fill="#fff" letter-spacing="2">Disney</text>
+  <text x="255" y="68" font-family="sans-serif" font-size="40" font-weight="200" fill="#00ffeb">+</text>
+  <path d="M20 95 A140 90 0 0 1 240 35" fill="none" stroke="url(#disneyArcGrad)" stroke-width="3" stroke-linecap="round" filter="url(#disneyGlow)"/>
+  <path d="M240 35 Q240 30 235 35 Q240 35 240 40 Q240 35 245 35 Q240 35 240 30" fill="#fff"/>
+</svg>
+`,
+    shein: `
+<svg viewBox="0 0 100 100" class="w-full h-full p-[10%]">
+  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="20" font-weight="bold" font-family="sans-serif" letter-spacing="2.5">SHEIN</text>
+</svg>
+`,
+    snapchat: `
+<svg viewBox="147.553 39.286 514.231 514.631" class="w-full h-full p-[15%]">
+  <path d="M407.001 473.488c-1.068 0-2.087-.039-2.862-.076-.615.053-1.25.076-1.886.076-22.437 0-37.439-10.607-50.678-19.973-9.489-6.703-18.438-13.031-28.922-14.775-5.149-.854-10.271-1.287-15.22-1.287-8.917 0-15.964 1.383-21.109 2.389-3.166.617-5.896 1.148-8.006 1.148-2.21 0-4.895-.49-6.014-4.311-.887-3.014-1.523-5.934-2.137-8.746-1.536-7.027-2.65-11.316-5.281-11.723-28.141-4.342-44.768-10.738-48.08-18.484a7.187 7.187 0 0 1-.584-2.443 4.518 4.518 0 0 1 3.777-4.711c22.348-3.68 42.219-15.492 59.064-35.119 13.049-15.195 19.457-29.713 20.145-31.316a2.85 2.85 0 0 1 .101-.217c3.247-6.588 3.893-12.281 1.926-16.916-3.626-8.551-15.635-12.361-23.58-14.882-1.976-.625-3.845-1.217-5.334-1.808-7.043-2.782-18.626-8.66-17.083-16.773 1.124-5.916 8.949-10.036 15.273-10.036 1.756 0 3.312.308 4.622.923 7.146 3.348 13.575 5.045 19.104 5.045 6.876 0 10.197-2.618 11-3.362a1170.709 1170.709 0 0 0-.679-11.262c-1.614-25.675-3.627-57.627 4.546-75.95 24.462-54.847 76.339-59.112 91.651-59.112a3909.561 3909.561 0 0 0 7.582-.071c15.354 0 67.339 4.27 91.816 59.15 8.173 18.335 6.158 50.314 4.539 76.016l-.076 1.23c-.222 3.49-.427 6.793-.6 9.995.756.696 3.795 3.096 9.978 3.339 5.271-.202 11.328-1.891 17.998-5.014 2.062-.968 4.345-1.169 5.895-1.169 2.343 0 4.727.456 6.714 1.285l.106.041c5.66 2.009 9.367 6.024 9.447 10.242.071 3.932-2.851 9.809-17.223 15.485-1.472.583-3.35 1.179-5.334 1.808-7.952 2.524-19.951 6.332-23.577 14.878-1.97 4.635-1.322 10.326 1.926 16.912.036.072.067.145.102.221 1 2.344 25.205 57.535 79.209 66.432a4.523 4.523 0 0 1 3.778 4.711 7.252 7.252 0 0 1-.598 2.465c-3.289 7.703-19.915 14.09-48.064 18.438-2.642.408-3.755 4.678-5.277 11.668-.63 2.887-1.271 5.717-2.146 8.691-.819 2.797-2.641 4.164-5.567 4.164h-.441c-1.905 0-4.604-.346-8.008-1.012-5.95-1.158-12.623-2.236-21.109-2.236-4.948 0-10.069.434-15.224 1.287-10.473 1.744-19.421 8.062-28.893 14.758-13.265 9.379-28.272 19.987-50.707 19.987" fill="#fff" />
+  <path d="M408.336 124.235c14.455 0 64.231 3.883 87.688 56.472 7.724 17.317 5.744 48.686 4.156 73.885-.248 3.999-.494 7.875-.694 11.576l-.084 1.591 1.062 1.185c.429.476 4.444 4.672 13.374 5.017l.144.008.15-.003c5.904-.225 12.554-2.059 19.776-5.442 1.064-.498 2.48-.741 3.978-.741 1.707 0 3.521.321 5.017.951l.226.09c3.787 1.327 6.464 3.829 6.505 6.093.022 1.28-.935 5.891-14.359 11.194-1.312.518-3.039 1.069-5.041 1.7-8.736 2.774-21.934 6.96-26.376 17.427-2.501 5.896-1.816 12.854 2.034 20.678 1.584 3.697 26.52 59.865 82.631 69.111a2.487 2.487 0 0 1-.229.9c-.951 2.24-6.996 9.979-44.612 15.783-5.886.902-7.328 7.5-9 15.17-.604 2.746-1.218 5.518-2.062 8.381-.258.865-.306.914-1.233.914h-.442c-1.668 0-4.2-.346-7.135-.922-5.345-1.041-12.647-2.318-21.982-2.318-5.21 0-10.577.453-15.962 1.352-11.511 1.914-20.872 8.535-30.786 15.543-13.314 9.408-27.075 19.143-48.071 19.143-.917 0-1.812-.031-2.709-.076l-.236-.01-.237.018c-.515.045-1.034.068-1.564.068-20.993 0-34.76-9.732-48.068-19.143-9.916-7.008-19.282-13.629-30.791-15.543-5.38-.896-10.752-1.352-15.959-1.352-9.333 0-16.644 1.428-21.978 2.471-2.935.574-5.476 1.066-7.139 1.066-1.362 0-1.388-.08-1.676-1.064-.844-2.865-1.461-5.703-2.062-8.445-1.676-7.678-3.119-14.312-9.002-15.215-37.613-5.809-43.659-13.561-44.613-15.795a2.739 2.739 0 0 1-.231-.918c56.11-9.238 81.041-65.408 82.63-69.119 3.857-7.818 4.541-14.775 2.032-20.678-4.442-10.461-17.638-14.653-26.368-17.422-2.007-.635-3.735-1.187-5.048-1.705-11.336-4.479-14.823-8.991-14.305-11.725.601-3.153 6.067-6.359 10.837-6.359 1.072 0 2.012.173 2.707.498 7.747 3.631 14.819 5.472 21.022 5.472 9.751 0 14.091-4.537 14.557-5.055l1.057-1.182-.085-1.583c-.197-3.699-.44-7.574-.696-11.565-1.583-25.205-3.563-56.553 4.158-73.871 23.37-52.396 72.903-56.435 87.525-56.435.36 0 6.717-.065 6.717-.065.26-.002.549-.006.852-.006m0-9.038h-.017c-.333 0-.646 0-.944.004l-6.633.066c-8.566 0-25.705 1.21-44.115 9.336-10.526 4.643-19.994 10.921-28.14 18.66-9.712 9.221-17.624 20.59-23.512 33.796-8.623 19.336-6.576 51.905-4.932 78.078l.006.041c.176 2.803.361 5.73.53 8.582-1.265.581-3.316 1.194-6.339 1.194-4.864 0-10.648-1.555-17.187-4.619-1.924-.896-4.12-1.349-6.543-1.349-3.893 0-7.997 1.146-11.557 3.239-4.479 2.63-7.373 6.347-8.159 10.468-.518 2.726-.493 8.114 5.492 13.578 3.292 3.008 8.128 5.782 14.37 8.249 1.638.645 3.582 1.261 5.641 1.914 7.145 2.271 17.959 5.702 20.779 12.339 1.429 3.365.814 7.793-1.823 13.145-.069.146-.138.289-.201.439-.659 1.539-6.807 15.465-19.418 30.152-7.166 8.352-15.059 15.332-23.447 20.752-10.238 6.617-21.316 10.943-32.923 12.855a9.038 9.038 0 0 0-7.559 9.424c.078 1.33.39 2.656.931 3.939l.013.023c1.843 4.311 6.116 7.973 13.063 11.203 8.489 3.943 21.185 7.26 37.732 9.855.836 1.59 1.704 5.586 2.305 8.322.629 2.908 1.285 5.898 2.22 9.074 1.009 3.441 3.626 7.553 10.349 7.553 2.548 0 5.478-.574 8.871-1.232 4.969-.975 11.764-2.305 20.245-2.305 4.702 0 9.575.414 14.48 1.229 9.455 1.574 17.606 7.332 27.037 14 13.804 9.758 29.429 20.803 53.302 20.803.651 0 1.304-.021 1.949-.066.789.037 1.767.066 2.799.066 23.88 0 39.501-11.049 53.29-20.799l.022-.02c9.433-6.66 17.575-12.41 27.027-13.984 4.903-.814 9.775-1.229 14.479-1.229 8.102 0 14.517 1.033 20.245 2.15 3.738.736 6.643 1.09 8.872 1.09l.218.004h.226c4.917 0 8.53-2.699 9.909-7.422.916-3.109 1.57-6.029 2.215-8.986.562-2.564 1.46-6.674 2.296-8.281 16.558-2.6 29.249-5.91 37.739-9.852 6.931-3.215 11.199-6.873 13.053-11.166.556-1.287.881-2.621.954-3.979a9.036 9.036 0 0 0-7.56-9.424c-51.585-8.502-74.824-61.506-75.785-63.758a6.454 6.454 0 0 0-.205-.438c-2.637-5.354-3.246-9.777-1.816-13.148 2.814-6.631 13.621-10.062 20.771-12.332 2.07-.652 4.021-1.272 5.646-1.914 7.039-2.78 12.07-5.796 15.389-9.221 3.964-4.083 4.736-7.995 4.688-10.555-.121-6.194-4.856-11.698-12.388-14.393-2.544-1.052-5.445-1.607-8.399-1.607-2.011 0-4.989.276-7.808 1.592-6.035 2.824-11.441 4.368-16.082 4.588-2.468-.125-4.199-.66-5.32-1.171.141-2.416.297-4.898.458-7.486l.067-1.108c1.653-26.19 3.707-58.784-4.92-78.134-5.913-13.253-13.853-24.651-23.604-33.892-8.178-7.744-17.678-14.021-28.242-18.661-18.384-8.066-35.522-9.271-44.1-9.271" fill="#020202" />
+</svg>
+`,
+    temu: `
+<svg viewBox="0 0 48 64" class="w-full h-full p-[12%]" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Texto TEMU original del usuario (delgado) -->
+  <g transform="translate(0, -11)" stroke-width="1.8">
+    <polyline points="22.8946 28.031 22.8946 19.9601 26.9345 28.0399 30.9744 19.9723 30.9744 28.0399"></polyline>
+    <line x1="9.5" y1="19.9601" x2="14.8529" y2="19.9601"></line>
+    <line x1="12.1765" y1="28.0399" x2="12.1765" y2="19.9601"></line>
+    <path d="m33.1471,19.9601v5.4034c0,1.4782,1.1983,2.6765,2.6765,2.6765s2.6765-1.1983,2.6765-2.6765v-5.4034"></path>
+    <line x1="16.8132" y1="24" x2="19.4472" y2="24"></line>
+    <polyline points="20.8531 28.0399 16.8132 28.0399 16.8132 19.9601 20.8531 19.9601"></polyline>
+  </g>
+  <!-- Bolsa de compras original -->
+  <g transform="translate(0, 16)" stroke-width="2.5">
+    <path d="m35.761,40.3968c4.4501,0,7.9833-3.744,7.7258-8.1866l-.7145-12.3256c-.3997-6.8949-6.1075-12.2814-13.014-12.2814h-11.5165c-6.9064,0-12.6143,5.3865-13.014,12.2814l-.7145,12.3256c-.2575,4.4426,3.2757,8.1866,7.7258,8.1866h23.522Z"></path>
+    <path d="m16.8115,16.9106c0,3.9701,3.2184,7.1885,7.1885,7.1885s7.1885-3.2184,7.1885-7.1885"></path>
+  </g>
+</svg>
+`,
+    anthropic: `
+<svg viewBox="0 0 100 100" class="w-full h-full p-[15%]">
+  <path d="M50 12 V88 M23 25 L77 75 M77 25 L23 75 M15 50 H85" stroke="#D97757" stroke-width="12" stroke-linecap="round" />
+  <circle cx="50" cy="50" r="8" fill="#D97757" />
+</svg>
+`
+};
+
+// Funciones globales de utilidad para renderizar logotipos
+function getAppInitials(name) {
+    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
+
+window.handleLogoImgError = function(imgElement, name) {
+    const container = imgElement.parentElement;
+    const initials = getAppInitials(name);
+    container.innerHTML = `<span class="text-white text-xs font-bold tracking-wider select-none">${initials}</span>`;
+};
+
+window.getAppLogoHtml = function(app, className = "w-full h-full p-[18%] object-contain") {
+    const logoSlug = app.slug === 'mercadolibre' ? 'mercadopago' : app.slug;
+    if (typeof CUSTOM_SVGS !== 'undefined' && CUSTOM_SVGS[logoSlug]) {
+        return CUSTOM_SVGS[logoSlug];
+    } else if (logoSlug) {
+        const cdnUrl = `https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${logoSlug}.svg`;
+        return `<img src="${cdnUrl}" alt="${app.name}" class="${className} filter invert brightness-200" onerror="handleLogoImgError(this, '${app.name}')" />`;
+    } else {
+        const initials = getAppInitials(app.name);
+        return `<span class="text-white font-bold select-none">${initials}</span>`;
+    }
+};
+
 const MASTER_APPS = [
     // PESO 5: FINANZAS Y CRITICAL ID
-    { name: "WhatsApp", weight: 5, domain: "whatsapp.com", color: "#25D366", desc: "Redes & Social" },
-    { name: "Apple", weight: 5, domain: "apple.com", color: "#000000", desc: "Identidad Digital" },
-    { name: "Google", weight: 5, domain: "google.com", color: "#4285F4", desc: "Identidad Digital" },
-    { name: "Microsoft", weight: 5, domain: "microsoft.com", color: "#00A4EF", desc: "Identidad Digital" },
-    { name: "Bitwarden", weight: 5, domain: "bitwarden.com", color: "#175DDC", desc: "Seguridad" },
-    { name: "BBVA", weight: 5, domain: "bbva.mx", color: "#004481", desc: "Finanzas & Crypto" },
-    { name: "Santander", weight: 5, domain: "santander.com.mx", color: "#EC0000", desc: "Finanzas & Crypto" },
-    { name: "Banorte", weight: 5, domain: "banorte.com", color: "#EB0029", desc: "Finanzas & Crypto" },
-    { name: "HSBC", weight: 5, domain: "hsbc.com.mx", color: "#db0011", desc: "Finanzas & Crypto" },
-    { name: "Nu", weight: 5, domain: "nu.com.mx", color: "#8A05BE", desc: "Finanzas & Crypto" },
-    { name: "Binance", weight: 5, domain: "binance.com", color: "#F3BA2F", desc: "Finanzas & Crypto" },
-    { name: "Bitso", weight: 5, domain: "bitso.com", color: "#1a1a1a", desc: "Finanzas & Crypto" },
-    { name: "PayPal", weight: 5, domain: "paypal.com", color: "#00457C", desc: "Finanzas & Crypto" },
-    { name: "Revolut", weight: 5, domain: "revolut.com", color: "#000000", desc: "Finanzas & Crypto" },
-    { name: "Samsung", weight: 5, domain: "samsung.com", color: "#1428A0", desc: "Identidad Digital" },
-    { name: "Outlook", weight: 5, domain: "outlook.com", color: "#0072C6", desc: "Identidad Digital" },
-    { name: "Signal", weight: 5, domain: "signal.org", color: "#3A76F0", desc: "Redes & Social" },
+    { name: "WhatsApp", weight: 5, domain: "whatsapp.com", color: "#25D366", desc: "Redes & Social", slug: "whatsapp" },
+    { name: "Apple", weight: 5, domain: "apple.com", color: "#000000", desc: "Identidad Digital", slug: "apple" },
+    { name: "Google", weight: 5, domain: "google.com", color: "#4285F4", desc: "Identidad Digital", slug: "google" },
+    { name: "Microsoft", weight: 5, domain: "microsoft.com", color: "#00A4EF", desc: "Identidad Digital", slug: "microsoft" },
+    { name: "Bitwarden", weight: 5, domain: "bitwarden.com", color: "#175DDC", desc: "Seguridad", slug: "bitwarden" },
+    { name: "BBVA", weight: 5, domain: "bbva.mx", color: "#004481", desc: "Finanzas & Crypto", slug: "bbva" },
+    { name: "Santander", weight: 5, domain: "santander.com.mx", color: "#EC0000", desc: "Finanzas & Crypto", slug: "santander" },
+    { name: "Banorte", weight: 5, domain: "banorte.com", color: "#EB0029", desc: "Finanzas & Crypto", slug: "banorte" },
+    { name: "HSBC", weight: 5, domain: "hsbc.com.mx", color: "#db0011", desc: "Finanzas & Crypto", slug: "hsbc" },
+    { name: "Nu", weight: 5, domain: "nu.com.mx", color: "#8A05BE", desc: "Finanzas & Crypto", slug: "nubank" },
+    { name: "Binance", weight: 5, domain: "binance.com", color: "#F3BA2F", desc: "Finanzas & Crypto", slug: "binance" },
+    { name: "Bitso", weight: 5, domain: "bitso.com", color: "#1a1a1a", desc: "Finanzas & Crypto", slug: "bitso" },
+    { name: "PayPal", weight: 5, domain: "paypal.com", color: "#00457C", desc: "Finanzas & Crypto", slug: "paypal" },
+    { name: "Revolut", weight: 5, domain: "revolut.com", color: "#000000", desc: "Finanzas & Crypto", slug: "revolut" },
+    { name: "Samsung", weight: 5, domain: "samsung.com", color: "#1428A0", desc: "Identidad Digital", slug: "samsung" },
+    { name: "Outlook", weight: 5, domain: "outlook.com", color: "#0072C6", desc: "Identidad Digital", slug: "microsoftoutlook" },
+    { name: "Signal", weight: 5, domain: "signal.org", color: "#3A76F0", desc: "Redes & Social", slug: "signal" },
 
-    // PESO 3: IDENTIDAD, TRABAJO Y LOG&#205;STICA
-    { name: "Instagram", weight: 3, domain: "instagram.com", color: "#E1306C", desc: "Redes & Social" },
-    { name: "TikTok", weight: 3, domain: "tiktok.com", color: "#000000", desc: "Redes & Social" },
-    { name: "Facebook", weight: 3, domain: "facebook.com", color: "#1877F2", desc: "Redes & Social" },
-    { name: "LinkedIn", weight: 3, domain: "linkedin.com", color: "#0077B5", desc: "Redes & Social" },
-    { name: "Telegram", weight: 3, domain: "telegram.org", color: "#0088cc", desc: "Redes & Social" },
-    { name: "X", weight: 3, domain: "twitter.com", color: "#000000", desc: "Redes & Social" },
-    { name: "Amazon", weight: 3, domain: "amazon.com", color: "#FF9900", desc: "Servicios & Gaming" },
-    { name: "Mercado Libre", weight: 3, domain: "mercadolibre.com", color: "#FFE600", desc: "Compras" },
-    { name: "Uber", weight: 3, domain: "uber.com", color: "#000000", desc: "Servicios & Gaming" },
-    { name: "ChatGPT", weight: 3, domain: "openai.com", color: "#10A37F", desc: "IA & Herramientas" },
-    { name: "Claude", weight: 3, domain: "anthropic.com", color: "#D97757", desc: "IA & Herramientas" },
-    { name: "Yahoo!", weight: 3, domain: "yahoo.com", color: "#6001d2", desc: "Identidad Digital" },
-    { name: "Rappi", weight: 3, domain: "rappi.com", color: "#ff441f", desc: "Servicios" },
-    { name: "DiDi", weight: 3, domain: "didiglobal.com", color: "#ff8b13", desc: "Servicios" },
-    { name: "Zoom", weight: 3, domain: "zoom.us", color: "#2D8CFF", desc: "Trabajo" },
-    { name: "Reddit", weight: 3, domain: "reddit.com", color: "#FF4500", desc: "Social" },
-    { name: "Discord", weight: 3, domain: "discord.com", color: "#5865F2", desc: "Social" },
-    { name: "Adobe", weight: 3, domain: "adobe.com", color: "#FF0000", desc: "Trabajo" },
-    { name: "Canva", weight: 3, domain: "canva.com", color: "#00C4CC", desc: "Trabajo" },
-    { name: "Figma", weight: 3, domain: "figma.com", color: "#F24E1E", desc: "Trabajo" },
-    { name: "Notion", weight: 3, domain: "notion.so", color: "#000000", desc: "Trabajo" },
-    { name: "Airbnb", weight: 3, domain: "airbnb.com", color: "#FF5A5F", desc: "Servicios" },
-    { name: "Aeroméxico", weight: 3, domain: "aeromexico.com", color: "#00235d", desc: "Viajes" },
-    { name: "Volaris", weight: 3, domain: "volaris.com", color: "#74007b", desc: "Viajes" },
-    { name: "Walmart", weight: 3, domain: "walmart.com", color: "#0071ce", desc: "Compras" },
-    { name: "Liverpool", weight: 3, domain: "liverpool.com.mx", color: "#e3068e", desc: "Compras" },
-    { name: "Coppel", weight: 3, domain: "coppel.com", color: "#f7d900", desc: "Compras" },
-    { name: "Trello", weight: 3, domain: "trello.com", color: "#0079BF", desc: "Trabajo" },
-    { name: "Messenger", weight: 3, domain: "messenger.com", color: "#006AFF", desc: "Redes & Social" },
+    // PESO 3: IDENTIDAD, TRABAJO Y LOGÍSTICA
+    { name: "Instagram", weight: 3, domain: "instagram.com", color: "#E1306C", desc: "Redes & Social", slug: "instagram" },
+    { name: "TikTok", weight: 3, domain: "tiktok.com", color: "#000000", desc: "Redes & Social", slug: "tiktok" },
+    { name: "Facebook", weight: 3, domain: "facebook.com", color: "#1877F2", desc: "Redes & Social", slug: "facebook" },
+    { name: "LinkedIn", weight: 3, domain: "linkedin.com", color: "#0077B5", desc: "Redes & Social", slug: "linkedin" },
+    { name: "Telegram", weight: 3, domain: "telegram.org", color: "#0088cc", desc: "Redes & Social", slug: "telegram" },
+    { name: "X", weight: 3, domain: "twitter.com", color: "#000000", desc: "Redes & Social", slug: "x" },
+    { name: "Amazon", weight: 3, domain: "amazon.com", color: "#FF9900", desc: "Servicios & Gaming", slug: "amazon" },
+    { name: "Mercado Libre", weight: 3, domain: "mercadolibre.com", color: "#FFE600", desc: "Compras", slug: "mercadolibre" },
+    { name: "Uber", weight: 3, domain: "uber.com", color: "#000000", desc: "Servicios & Gaming", slug: "uber" },
+    { name: "ChatGPT", weight: 3, domain: "openai.com", color: "#10A37F", desc: "IA & Herramientas", slug: "openai" },
+    { name: "Claude", weight: 3, domain: "anthropic.com", color: "#D97757", desc: "IA & Herramientas", slug: "anthropic" },
+    { name: "Yahoo!", weight: 3, domain: "yahoo.com", color: "#6001d2", desc: "Identidad Digital", slug: "yahoo" },
+    { name: "Rappi", weight: 3, domain: "rappi.com", color: "#ff441f", desc: "Servicios", slug: "rappi" },
+    { name: "DiDi", weight: 3, domain: "didiglobal.com", color: "#ff8b13", desc: "Servicios", slug: "didi" },
+    { name: "Zoom", weight: 3, domain: "zoom.us", color: "#2D8CFF", desc: "Trabajo", slug: "zoom" },
+    { name: "Reddit", weight: 3, domain: "reddit.com", color: "#FF4500", desc: "Social", slug: "reddit" },
+    { name: "Discord", weight: 3, domain: "discord.com", color: "#5865F2", desc: "Social", slug: "discord" },
+    { name: "Adobe", weight: 3, domain: "adobe.com", color: "#FF0000", desc: "Trabajo", slug: "adobe" },
+    { name: "Canva", weight: 3, domain: "canva.com", color: "#00C4CC", desc: "Trabajo", slug: "canva" },
+    { name: "Figma", weight: 3, domain: "figma.com", color: "#F24E1E", desc: "Trabajo", slug: "figma" },
+    { name: "Notion", weight: 3, domain: "notion.so", color: "#000000", desc: "Trabajo", slug: "notion" },
+    { name: "Airbnb", weight: 3, domain: "airbnb.com", color: "#FF5A5F", desc: "Servicios", slug: "airbnb" },
+    { name: "Aeroméxico", weight: 3, domain: "aeromexico.com", color: "#00235d", desc: "Viajes", slug: "aeromexico" },
+    { name: "Volaris", weight: 3, domain: "volaris.com", color: "#74007b", desc: "Viajes", slug: "volaris" },
+    { name: "Walmart", weight: 3, domain: "walmart.com", color: "#0071ce", desc: "Compras", slug: "walmart" },
+    { name: "Liverpool", weight: 3, domain: "liverpool.com.mx", color: "#e3068e", desc: "Compras", slug: "liverpool" },
+    { name: "Coppel", weight: 3, domain: "coppel.com", color: "#f7d900", desc: "Compras", slug: "coppel" },
+    { name: "Trello", weight: 3, domain: "trello.com", color: "#0079BF", desc: "Trabajo", slug: "trello" },
+    { name: "Messenger", weight: 3, domain: "messenger.com", color: "#006AFF", desc: "Redes & Social", slug: "facebookmessenger" },
 
     // PESO 1: ENTRETENIMIENTO Y CONSUMO
-    { name: "Netflix", weight: 1, domain: "netflix.com", color: "#E50914", desc: "Entretenimiento" },
-    { name: "Spotify", weight: 1, domain: "spotify.com", color: "#1DB954", desc: "Entretenimiento" },
-    { name: "YouTube", weight: 1, domain: "youtube.com", color: "#FF0000", desc: "Entretenimiento" },
-    { name: "Twitch", weight: 1, domain: "twitch.tv", color: "#9146FF", desc: "Entretenimiento" },
-    { name: "Disney+", weight: 1, domain: "disneyplus.com", color: "#113CCF", desc: "Entretenimiento" },
-    { name: "Nintendo", weight: 1, domain: "nintendo.com", color: "#E60012", desc: "Gaming" },
-    { name: "Pinterest", weight: 1, domain: "pinterest.com", color: "#E60023", desc: "Social" },
-    { name: "Temu", weight: 1, domain: "temu.com", color: "#FF6000", desc: "Compras" },
-    { name: "Shein", weight: 1, domain: "shein.com", color: "#000000", desc: "Compras" },
-    { name: "Dropbox", weight: 1, domain: "dropbox.com", color: "#0061FF", desc: "Herramientas" },
-    { name: "Shazam", weight: 1, domain: "shazam.com", color: "#0088FF", desc: "Herramientas" },
-    { name: "Snapchat", weight: 1, domain: "snapchat.com", color: "#FFFC00", desc: "Social" },
-    { name: "Steam", weight: 1, domain: "steampowered.com", color: "#000000", desc: "Gaming" },
-    { name: "Epic Games", weight: 1, domain: "epicgames.com", color: "#000000", desc: "Gaming" },
-    { name: "Xbox", weight: 1, domain: "xbox.com", color: "#107C10", desc: "Gaming" },
-    { name: "Roblox", weight: 1, domain: "roblox.com", color: "#000000", desc: "Gaming" },
-    { name: "Evernote", weight: 1, domain: "evernote.com", color: "#00A82D", desc: "Herramientas" }
+    { name: "Netflix", weight: 1, domain: "netflix.com", color: "#E50914", desc: "Entretenimiento", slug: "netflix" },
+    { name: "Spotify", weight: 1, domain: "spotify.com", color: "#1DB954", desc: "Entretenimiento", slug: "spotify" },
+    { name: "YouTube", weight: 1, domain: "youtube.com", color: "#FF0000", desc: "Entretenimiento", slug: "youtube" },
+    { name: "Twitch", weight: 1, domain: "twitch.tv", color: "#9146FF", desc: "Entretenimiento", slug: "twitch" },
+    { name: "Disney+", weight: 1, domain: "disneyplus.com", color: "#113CCF", desc: "Entretenimiento", slug: "disneyplus" },
+    { name: "Nintendo", weight: 1, domain: "nintendo.com", color: "#E60012", desc: "Gaming", slug: "nintendo" },
+    { name: "Pinterest", weight: 1, domain: "pinterest.com", color: "#E60023", desc: "Social", slug: "pinterest" },
+    { name: "Temu", weight: 1, domain: "temu.com", color: "#FF6000", desc: "Compras", slug: "temu" },
+    { name: "Shein", weight: 1, domain: "shein.com", color: "#000000", desc: "Compras", slug: "shein" },
+    { name: "Dropbox", weight: 1, domain: "dropbox.com", color: "#0061FF", desc: "Herramientas", slug: "dropbox" },
+    { name: "Shazam", weight: 1, domain: "shazam.com", color: "#0088FF", desc: "Herramientas", slug: "shazam" },
+    { name: "Snapchat", weight: 1, domain: "snapchat.com", color: "#FFFC00", desc: "Social", slug: "snapchat" },
+    { name: "Steam", weight: 1, domain: "steampowered.com", color: "#000000", desc: "Gaming", slug: "steam" },
+    { name: "Epic Games", weight: 1, domain: "epicgames.com", color: "#000000", desc: "Gaming", slug: "epicgames" },
+    { name: "Xbox", weight: 1, domain: "xbox.com", color: "#107C10", desc: "Gaming", slug: "xbox" },
+    { name: "Roblox", weight: 1, domain: "roblox.com", color: "#000000", desc: "Gaming", slug: "roblox" },
+    { name: "Evernote", weight: 1, domain: "evernote.com", color: "#00A82D", desc: "Herramientas", slug: "evernote" }
 ];
 
 let distributedData = { swipe: [], vortex: [], fracture: [] };

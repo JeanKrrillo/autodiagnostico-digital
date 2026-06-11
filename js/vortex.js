@@ -192,7 +192,8 @@ function initVortex() {
         item.style.height = dims.itemSize + 'px';
         item.style.fontSize = Math.max(6.5, dims.itemSize * 0.15) + 'px';
         item.style.padding = Math.max(2, dims.itemSize * 0.1) + 'px';
-        item.innerHTML = `<span>${app.name}</span>`;
+        item.innerHTML = getAppLogoHtml(app, "w-full h-full p-[18%] object-contain");
+        item.title = app.name;
         container.appendChild(item);
 
         // LÓGICA DE ÓRBITAS MULTINIVEL (7 apps por órbita)

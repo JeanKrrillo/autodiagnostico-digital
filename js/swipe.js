@@ -34,18 +34,10 @@ function toggleInfo(event, index) {
 }
 
 function getLogo(app) {
-    const initial = app.name.charAt(0).toUpperCase();
     const color = app.color || "var(--texto-3)";
-    const domain = app.domain || "";
     return `
-        <div class="swipe-app-logo" style="background: linear-gradient(135deg, ${color}cc, ${color});">
-            <span class="absolute text-white font-black text-4xl z-0">${initial}</span>
-            ${domain ? `<img src="https://logo.clearbit.com/${domain}"
-                 alt="${app.name}"
-                 class="absolute inset-0 w-full h-full object-cover z-10 bg-white transition-opacity duration-500"
-                 style="opacity: 0;"
-                 onload="this.style.opacity='1'"
-                 onerror="this.style.display='none';">` : ''}
+        <div class="swipe-app-logo" style="background: linear-gradient(135deg, ${color}cc, ${color}); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; width: 100%; height: 100%;">
+            ${getAppLogoHtml(app, "w-full h-full p-[23%] object-contain")}
         </div>
     `;
 }
