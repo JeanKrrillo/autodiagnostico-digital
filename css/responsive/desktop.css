@@ -1,0 +1,88 @@
+@import "../tokens.css";
+
+/* ============================================================
+   DESKTOP — min-width: 1024px
+   ============================================================ */
+
+@media (min-width: 1024px) {
+    body {
+        padding-top: var(--body-pt-desktop);
+    }
+
+    .header-authority > div {
+        padding: 0 2rem;
+    }
+
+    /* Línea de lectura óptima para párrafos en glass panels amplios */
+    .glass-panel .t-parrafo,
+    .glass-panel p {
+        max-width: 68ch;
+    }
+
+    .stepper-nav {
+        margin-bottom: 1.25rem;
+    }
+
+    /* Swipe guides desplazadas en desktop */
+    .guide-left  { left: -60px; }
+    .guide-right { right: -60px; }
+
+    /* Zonas: la altura la fija el split (.pane-interactive → height:100%).
+       Sin override aquí para no pelear con el layout de tercios. */
+
+    /* Hive: la tabla no necesita scroll en desktop */
+    .overflow-x-auto { overflow-x: visible; }
+    #hive-matrix-body { min-width: unset; }
+
+    /* ── CENTRADO EDITORIAL DESKTOP ───────────────────────────
+       En el split de tercios, las instrucciones se alinean a la
+       izquierda (lo gestiona .pane-instructions en styles.css).
+       Aquí solo el header de fase 3, que no es parte del split. */
+    #step-3 .glass-panel > div.w-full {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    /* Fase 1 intro: centrado para ser congruente con los q-card del quiz */
+    #step-1 .mb-6 {
+        text-align: center !important;
+    }
+}
+
+/* ============================================================
+   TABLET — 769px a 1023px
+   ============================================================ */
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    body {
+        padding-top: var(--body-pt-tablet);
+    }
+
+    /* chrome vertical tablet (cuando el split queda apilado por aspect-ratio) */
+    .split-layout-container {
+        --chrome-v: calc(var(--body-pt-tablet) + 2.5rem + 80px);
+    }
+
+    .stepper-nav {
+        margin-bottom: 1rem;
+        padding: 0 0.5rem;
+    }
+
+    /* Zonas: altura gestionada por el split (.pane-interactive). */
+
+    .vortex-core  { width: 135px; height: 135px; }
+    .vortex-item  { width: 60px; height: 60px; font-size: 0.825rem; }
+    .vortex-halo  { width: 320px; height: 320px; }
+
+    /* Hive: scroll horizontal suave en tablet también */
+    .overflow-x-auto {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* q-card respira en tablet */
+    .q-card {
+        padding: 2rem;
+    }
+}

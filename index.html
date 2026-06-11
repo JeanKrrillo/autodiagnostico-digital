@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#2D3924">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <title>División de Inteligencia Digital - Protocolo P-CRT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800;12..96,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;0,800;0,900;1,400&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="stylesheet" href="css/swipe.css">
+    <link rel="stylesheet" href="css/vortex.css">
+    <link rel="stylesheet" href="css/fracture.css">
+    <link rel="stylesheet" href="css/responsive/desktop.css">
+    <link rel="stylesheet" href="css/responsive/mobile.css">
+</head>
+
+<body class="antialiased">
+
+    <div class="noise-overlay"></div>
+    <div id="reading-bar"></div>
+
+    <header id="header" class="header-authority py-6 transition-all duration-300">
+        <div class="max-w-[1400px] mx-auto px-8 flex items-center justify-between">
+
+            <!-- SECCIÓN IZQUIERDA: Logo y Título -->
+            <div class="flex items-center gap-6">
+                <div class="logo-container flex-shrink-0">
+                    <div class="donut-ring"></div>
+                    <div class="donut-scanner"></div>
+                    <div class="absolute inset-0 flex items-center justify-center z-10">
+                        <span id="header-risk-val" class="t-acompanamiento t-inverse font-black leading-none">5%</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <h1
+                        class="font-tech text-[16px] text-[var(--dorado-premium)] font-bold tracking-[4px] uppercase leading-tight mb-3">
+                        CUESTIONARIO<br>AUTODIAGNÓSTICO DIGITAL
+                    </h1>
+
+                    <div class="flex flex-col gap-1.5">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="form-progress"></div>
+                        </div>
+                        <div class="flex gap-4">
+                            <span class="t-acompanamiento font-tech" style="color: rgba(255,255,255,0.75);">Tiempo
+                                Estimado:
+                                <strong class="text-white">8-10 min</strong></span>
+                            <span class="t-acompanamiento font-tech" style="color: rgba(255,255,255,0.75);">Progreso:
+                                <strong class="t-inverse" id="header-progress-text">0%</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN DERECHA: Alertas y Acuerdo -->
+            <div class="flex flex-col gap-3 items-end">
+                <div class="countdown-emergency">
+                    <span class="t-acompanamiento text-white">Hasta el 1 de julio</span>
+                    <div class="w-px h-3 bg-white/20"></div>
+                    <span id="timer" class="t-acompanamiento text-white whitespace-nowrap">-- DÍAS RESTANTES</span>
+                </div>
+
+                <a href="https://www.gob.mx/cms/uploads/attachment/file/1033903/20251029163147_59737_Acuerdo_P-CRT-EXT-29102025-005.pdf"
+                    target="_blank" class="legal-pill">
+                    ACUERDO P-CRT-EXT-29102025-005
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pt-10 pb-16" id="main-content">
+
+        <!-- STEPPER 2.0 INTERACTIVO -->
+        <div class="stepper-nav">
+            <div class="stepper-line"></div>
+            <div class="stepper-item active" onclick="goToStep(1)" id="nav-item-1">
+                <div class="stepper-dot">1</div>
+                <span class="stepper-label hidden sm:block">Identificación</span>
+            </div>
+            <div class="stepper-item" onclick="goToStep(2)" id="nav-item-2">
+                <div class="stepper-dot">2</div>
+                <span class="stepper-label hidden sm:block">Activos</span>
+            </div>
+            <div class="stepper-item" onclick="goToStep(3)" id="nav-item-3">
+                <div class="stepper-dot">3</div>
+                <span class="stepper-label hidden sm:block">Fuerza Bruta</span>
+            </div>
+            <div class="stepper-item" onclick="goToStep(4)" id="nav-item-4">
+                <div class="stepper-dot">4</div>
+                <span class="stepper-label hidden sm:block">Reporte</span>
+            </div>
+        </div>
+
+        <div id="master-stepper">
+
+            <section id="step-1" class="step-container active">
+                <div>
+                    <div class="mb-6 px-2 text-center">
+                        <span class="t-subtitulo block mb-1">Fase 01 — Quiz de Resiliencia</span>
+                        <h2 class="t-titulo mb-3" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">Quiz de Resiliencia
+                        </h2>
+                        <p class="t-parrafo max-w-2xl mx-auto mb-2">Veamos cómo está tu seguridad digital ahora mismo. No hay
+                            respuestas correctas ni incorrectas.</p>
+                        <p class="t-parrafo max-w-2xl mx-auto">Independientemente de que decidas vincular tu CURP o no, casi
+                            todas nuestras cuentas digitales dependen del número de celular. Este diagnóstico ayuda a
+                            ver tus puntos vulnerables y qué conviene resolver antes del 1 de julio. Son 15 preguntas y
+                            tarda pocos minutos.</p>
+                    </div>
+
+                    <div id="quiz-container" class="relative">
+
+                        <!-- Q1: CALENDARIO -->
+                        <div class="q-card active" id="q1">
+                            <div class="space-y-8">
+                                <div class="text-center px-4">
+                                    <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">01. ¿Cómo vas
+                                        con la fecha del 1 de julio?</h2>
+                                    <p class="t-parrafo mt-2">El 1 de julio las telefónicas están obligadas a suspender
+                                        líneas que no estén registradas y casi todo nuestro acceso digital pasa por ese
+                                        número independientemente de lo que decidamos hacer con él.</p>
+                                </div>
+                                <div class="grid grid-cols-7 gap-1.5 sm:gap-2 max-w-[300px] sm:max-w-[320px] mx-auto p-4 sm:p-5 bg-gradient-to-br from-white to-gray-50 rounded-[28px] shadow-md border border-gray-100/80"
+                                    id="calendar">
+                                    <!-- Generado por JS -->
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(1, 'negativo', 'burn', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No sabía nada de
+                                        esto</button>
+                                    <button onclick="ans(1, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Ya registré mi número
+                                        con mi operadora</button>
+
+                                    <button onclick="ans(1, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
+                                        Sé que existe pero no sé qué hacer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q2: MIRROR SYNC -->
+                        <div class="q-card" id="q2">
+                            <div class="space-y-8">
+                                <div class="text-center px-4">
+                                    <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">02. ¿Usas la
+                                        misma contraseña en más de un servicio?</h2>
+                                    <p class="t-parrafo mt-2">Usar la misma contraseña en más de un lugar es el error
+                                        más común y si alguien descubre una sola, intenta entrar a todo lo demás con
+                                        ella automáticamente.</p>
+                                </div>
+                                <div class="flex justify-center items-center gap-6 py-8">
+                                    <div
+                                        class="mirror-icon w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center shadow-md text-blue-600 text-xl font-black border border-gray-50">
+                                        FB</div>
+                                    <div
+                                        class="mirror-icon w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center shadow-md text-red-600 text-xl font-black border border-gray-50">
+                                        🏦</div>
+                                    <div
+                                        class="mirror-icon w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center shadow-md text-purple-600 text-xl font-black border border-gray-50">
+                                        IG</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(2, 'negativo', 'mirror', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo una o dos que
+                                        uso en varios lugares</button>
+                                    <button onclick="ans(2, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, cada cuenta tiene la
+                                        suya</button>
+
+                                    <button onclick="ans(2, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
+                                        No estoy seguro / No sé
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q3: SMS vs TOTP -->
+                        <div class="q-card" id="q3">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">03. Cuando te
+                                    piden un código de verificación, ¿cómo te llega?</h2>
+                                <p class="t-parrafo mt-2">Cuando un servicio pide confirmar tu identidad con un código
+                                    extra, ese código puede llegar por SMS o generarse en una app. El SMS es cómodo pero
+                                    si alguien clona tu chip, recibe ese código en tu lugar.</p>
+                                <div class="flex justify-center py-6">
+                                    <div
+                                        class="w-48 h-16 bg-[var(--crema-fondo)] rounded-full p-1.5 relative border border-[var(--borde-cristal)] shadow-inner">
+                                        <div id="toggle-knob"
+                                            class="w-13 h-13 bg-[var(--crema-tarjeta)] rounded-full shadow-md flex items-center justify-center text-xl absolute left-1.5 top-1.5 bottom-1.5 aspect-square">
+                                            ✉️</div>
+                                        <div
+                                            class="absolute inset-0 flex items-center justify-around font-black uppercase pointer-events-none t-acompanamiento t-muted">
+                                            <span class="pl-2">SMS</span>
+                                            <span class="pr-2">VAULT</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(3, 'negativo', 'toggle-sms', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Me llega por mensaje de
+                                        texto (SMS)</button>
+                                    <button onclick="ans(3, 'positivo', 'toggle-vault', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Lo genero en una app
+                                        como Google Authenticator o Authy</button>
+
+                                    <button onclick="ans(3, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
+                                        No lo tengo activado o no lo sé
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q4: OUROBOROS -->
+                        <div class="q-card" id="q4">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">04. Si hoy
+                                    perdieras tu correo electrónico, ¿podrías recuperarlo sin usar tu número de celular?
+                                </h2>
+                                <p class="t-parrafo mt-2">Si pierdes acceso a tu correo y para recuperarlo te mandan un
+                                    SMS, pero también perdiste el número, te quedas sin entrar a ninguno de los dos.</p>
+                                <div class="flex justify-center py-4">
+                                    <svg width="180" height="180" viewBox="0 0 100 100" class="overflow-visible">
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="#f3f4f6" stroke-width="3" />
+                                        <circle cx="50" cy="50" r="40" fill="none" stroke="var(--dorado-premium)"
+                                            stroke-width="4" stroke-dasharray="10 6" id="ouro-ring"
+                                            stroke-linecap="round" />
+                                        <text x="50" y="46" font-size="7" text-anchor="middle" font-weight="900"
+                                            fill="var(--texto-3)">MAIL</text>
+                                        <text x="50" y="58" font-size="7" text-anchor="middle" font-weight="900"
+                                            fill="var(--verde-forense)">SIM</text>
+                                    </svg>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(4, 'negativo', 'spin', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, el único método que
+                                        tengo es un SMS</button>
+                                    <button onclick="ans(4, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo un correo
+                                        alternativo o llaves de recuperación</button>
+
+                                    <button onclick="ans(4, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
+                                        No estoy seguro / No sé
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q5: WI-FI HOOK -->
+                        <div class="q-card" id="q5">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">05. Cuando usas
+                                    Wi-Fi público, ¿qué haces normalmente?</h2>
+                                <p class="t-parrafo mt-2">En el Wi-Fi de cafeterías, aeropuertos o centros comerciales,
+                                    cualquier persona conectada a esa misma red puede ver lo que escribes y no se
+                                    necesita hackear nada, solo estar en la misma red.</p>
+                                <div
+                                    class="relative h-40 max-w-[280px] mx-auto flex justify-center items-end overflow-hidden rounded-[32px] bg-[var(--crema-tarjeta)] border border-[var(--borde-cristal)] pb-4 shadow-sm">
+                                    <!-- Anzuelo centrado perfectamente -->
+                                    <div id="wifi-hook"
+                                        class="absolute w-1 h-32 bg-[var(--texto-3)] flex flex-col items-center z-20 left-1/2 -translate-x-1/2"
+                                        style="top: -10rem;">
+                                        <div class="absolute -bottom-6 text-3xl left-1/2 -translate-x-1/2">🪝</div>
+                                    </div>
+                                    <div id="data-box"
+                                        class="w-28 h-12 bg-[var(--crema-fondo)] rounded-xl shadow-md flex items-center justify-center t-acompanamiento z-10 relative border-2 border-transparent text-[var(--verde-forense)]">
+                                        DATOS</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(5, 'negativo', 'hook', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Me conecto sin ninguna
+                                        protección adicional</button>
+                                    <button onclick="ans(5, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Uso VPN o prefiero mis
+                                        datos móviles</button>
+
+                                    <button onclick="ans(5, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
+                                        No uso Wi-Fi público
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q6: VAULT vs LIBRETA -->
+                        <div class="q-card" id="q6">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">06. ¿Cómo guardas
+                                    actualmente tus contraseñas?</h2>
+                                <p class="t-parrafo mt-2">Un gestor de contraseñas es una app que guarda todas tus
+                                    claves bajo una sola contraseña maestra y las opciones gratuitas más conocidas son
+                                    Bitwarden y el llavero de Apple o Android.</p>
+                                <div class="flex justify-center items-center gap-12 py-8">
+                                    <div id="safe-box"
+                                        class="w-24 h-24 bg-[var(--verde-oscuro)] rounded-[2rem] flex items-center justify-center text-4xl shadow-xl border-4 border-[var(--verde-oscuro)]">
+                                        🔐</div>
+                                    <div id="notebook"
+                                        class="w-24 h-24 bg-[var(--crema-tarjeta)] rounded-[2rem] flex items-center justify-center text-4xl shadow-sm border border-[var(--borde-cristal)]">
+                                        📓</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(6, 'positivo', 'safe', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Uso un gestor de
+                                        contraseñas</button>
+                                    <button onclick="ans(6, 'negativo', 'book', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Las memorizo o las anoto
+                                        en papel o en notas del celular</button>
+
+                                    <button onclick="ans(6, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
+                                        El navegador las recuerda por mí
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q7: RADAR -->
+                        <div class="q-card" id="q7">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">07. ¿Alguna vez
+                                    te llegó un código de verificación que no pediste, de WhatsApp, tu correo o tu
+                                    banco?</h2>
+                                <p class="t-parrafo mt-2">Recibir un código de verificación que no pediste, es señal de
+                                    que alguien está intentando entrar a esa cuenta en ese momento.</p>
+                                <div
+                                    class="relative w-52 h-52 mx-auto bg-[var(--crema-tarjeta)] rounded-full shadow-inner p-2 border border-[var(--borde-cristal)]">
+                                    <svg width="100%" height="100%" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="48" fill="none" stroke="var(--borde-cristal)"
+                                            stroke-width="1" />
+                                        <circle cx="50" cy="50" r="30" fill="none" stroke="var(--borde-cristal)"
+                                            stroke-width="1" />
+                                        <circle cx="50" cy="50" r="10" fill="var(--crema-fondo)" />
+                                        <line x1="50" y1="50" x2="50" y2="2" stroke="var(--dorado-premium)"
+                                            stroke-width="1.5" class="radar-circle" stroke-linecap="round" />
+                                    </svg>
+                                    <div id="threat-dots"
+                                        class="absolute inset-0 pointer-events-none rounded-full overflow-hidden"></div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(7, 'negativo', 'dots', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, me ha pasado al
+                                        menos una vez</button>
+                                    <button onclick="ans(7, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, nunca</button>
+                                    <button onclick="ans(7, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-gray-300">
+                                        No lo recuerdo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q8: GLITCH -->
+                        <div class="q-card" id="q8">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">08. ¿Tu celular
+                                    alguna vez perdió servicio de forma inesperada y sin razón clara?</h2>
+                                <p class="t-parrafo mt-2">Perder señal de repente puede ser indicio de SIM Swapping, que
+                                    es cuando alguien convence a tu operadora de transferir tu número a un chip distinto
+                                    y a partir de ahí reciben todos tus SMS en tu lugar.</p>
+                                <div
+                                    class="flex flex-col items-center py-6 bg-[var(--crema-tarjeta)] rounded-[32px] max-w-[280px] mx-auto shadow-sm border border-[var(--borde-cristal)]">
+                                    <div id="signal-bars" class="flex items-end justify-center gap-1.5 h-16 py-4">
+                                        <div class="w-2.5 h-4 bg-[var(--verde-oscuro)] rounded-sm signal-bar"
+                                            data-h="16px"></div>
+                                        <div class="w-2.5 h-8 bg-[var(--verde-oscuro)] rounded-sm signal-bar"
+                                            data-h="32px"></div>
+                                        <div class="w-2.5 h-12 bg-[var(--verde-oscuro)] rounded-sm signal-bar"
+                                            data-h="48px"></div>
+                                        <div class="w-2.5 h-16 bg-[var(--verde-oscuro)] rounded-sm signal-bar"
+                                            data-h="64px"></div>
+                                    </div>
+                                    <h3 id="glitch-target" class="text-xl font-black mt-2 tracking-widest t-muted">
+                                        ESTABLE</h3>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(8, 'negativo', 'glitch', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, y tardó horas o días
+                                        en volver</button>
+                                    <button onclick="ans(8, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, nunca me ha pasado
+                                        eso</button>
+
+                                    <button onclick="ans(8, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-gray-300">
+                                        No estoy seguro / No sé
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q9: FLIP CARD -->
+                        <div class="q-card" id="q9">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">09. ¿Tienes
+                                    cuentas importantes registradas con un número que ya no usas o que cancelaste?</h2>
+                                <p class="t-parrafo mt-2">Cuando se cancela un número, la operadora eventualmente lo
+                                    reasigna a otra persona y si esa persona recibe un SMS de tu banco porque olvidaste
+                                    actualizar tus datos, puede acceder a tu cuenta.</p>
+                                <div class="flex justify-center py-6">
+                                    <div class="flip-card w-64 max-w-full" id="id-card">
+                                        <div class="flip-card-inner">
+                                            <div
+                                                class="flip-card-front bg-[var(--crema-tarjeta)] border border-[var(--borde-cristal)] shadow-md">
+                                                <span class="t-acompanamiento opacity-60 mb-2">PROPIETARIO ACTUAL</span>
+                                                <span class="text-xl font-black text-[var(--verde-forense)]">TU
+                                                    IDENTIDAD</span>
+                                            </div>
+                                            <div
+                                                class="flip-card-back shadow-xl border-2 border-[var(--dorado-premium)]/30">
+                                                <span class="t-acompanamiento t-inverse mb-2">NUEVO ASIGNADO</span>
+                                                <span class="text-xl font-black text-white">DESCONOCIDO</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(9, 'negativo', 'flip', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Posiblemente sí, he
+                                        cambiado de número sin actualizar todo</button>
+                                    <button onclick="ans(9, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, siempre actualizo
+                                        mis datos cuando cambio</button>
+
+                                    <button onclick="ans(9, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-gray-300">
+                                        No sé, nunca lo había pensado
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q10: IMPRESORA -->
+                        <div class="q-card" id="q10">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">10. ¿Tienes
+                                    respaldados los códigos de emergencia de tus cuentas más importantes, fuera de tu
+                                    teléfono?</h2>
+                                <p class="t-parrafo mt-2">Cuando activas la verificación en dos pasos, los servicios te
+                                    ofrecen códigos de emergencia para entrar si pierdes acceso al método normal, y la
+                                    mayoría los ignora sin saber que son el último recurso disponible.</p>
+                                <div
+                                    class="relative w-56 h-40 mx-auto bg-[var(--crema-fondo)] rounded-t-3xl flex flex-col items-center p-5 shadow-inner">
+                                    <div class="w-full h-3 bg-black/10 rounded-full mb-3 shadow-inner"></div>
+                                    <div id="paper-sheet"
+                                        class="w-44 h-0 bg-[var(--crema-tarjeta)] shadow-md overflow-hidden transition-all duration-700 ease-out border-x border-b border-[var(--borde-cristal)] rounded-b-lg">
+                                        <div class="p-3 space-y-2">
+                                            <div class="w-full h-1.5 bg-[var(--crema-fondo)] rounded-full"></div>
+                                            <div class="w-3/4 h-1.5 bg-[var(--crema-fondo)] rounded-full"></div>
+                                            <div class="w-full h-1.5 bg-[var(--crema-fondo)] rounded-full"></div>
+                                            <div class="w-12 h-2.5 bg-[var(--dorado-premium)] mx-auto mt-4 rounded-sm">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(10, 'positivo', 'print', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, los tengo impresos o
+                                        guardados fuera del celular</button>
+                                    <button onclick="ans(10, 'negativo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, y no sabía que
+                                        existían</button>
+
+                                    <button onclick="ans(10, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-gray-300">
+                                        No tengo verificación en dos pasos activada
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q11: SLIDER -->
+                        <div class="q-card" id="q11">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">11. ¿Cuántos
+                                    servicios importantes crees que tienen guardado tu número de celular actual?</h2>
+                                <p class="t-parrafo mt-2">Cuantas más apps tienen registrado tu número, más
+                                    consecuencias tiene perderlo o que lo clonen. Piensa en bancos, redes sociales,
+                                    correos, apps de trabajo, streaming, transporte.</p>
+                                <div
+                                    class="py-10 bg-[var(--crema-tarjeta)] rounded-[32px] max-w-sm mx-auto shadow-sm border border-[var(--borde-cristal)] px-8">
+                                    <span id="app-counter"
+                                        class="text-7xl font-black tabular-nums text-[var(--verde-oscuro)]">0</span>
+                                    <p id="app-range-label" class="t-acompanamiento t-gold mt-2">Exposición baja</p>
+                                    <p class="t-acompanamiento t-muted mt-1">Mueve el slider para estimar. No tiene que
+                                        ser exacto.</p>
+                                    <input type="range" min="0" max="30" value="0" id="app-slider"
+                                        class="w-full mt-8 accent-[var(--dorado-premium)] cursor-pointer"
+                                        oninput="updateAppCounter(this.value)">
+                                </div>
+                                <div class="grid grid-cols-1 gap-3 max-w-sm mx-auto">
+                                    <button onclick="ans(11, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl bg-[var(--verde-oscuro)] text-[var(--dorado-premium)] font-black uppercase border-2 border-transparent hover:border-[var(--dorado-premium)]/50">Confirmar
+                                        Inventario</button>
+
+                                    <button onclick="ans(11, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-gray-300">
+                                        No estoy seguro / No sé
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q12: BOTÓN DE PÁNICO -->
+                        <div class="q-card" id="q12">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">12. ¿Has perdido
+                                    o te han robado el celular en el último año?</h2>
+                                <p class="t-parrafo mt-2">Perder el celular es más que perder el aparato. Si alguien lo
+                                    encuentra con la pantalla desbloqueada, tiene acceso a tus apps, tus SMS y las
+                                    contraseñas guardadas en el navegador.</p>
+                                <div class="flex justify-center py-8">
+                                    <div id="panic-btn"
+                                        class="w-28 h-28 bg-[rgba(139,26,26,0.05)] rounded-full flex items-center justify-center border-[6px] border-[var(--rojo-alerta)] shadow-[0_10px_25px_rgba(139,26,26,0.2)] transition-colors duration-300">
+                                        <span
+                                            class="text-[var(--rojo-alerta)] font-black text-sm uppercase tracking-widest">Robo</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(12, 'negativo', 'panic', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, me pasó
+                                        recientemente</button>
+                                    <button onclick="ans(12, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No en este último
+                                        año</button>
+
+                                    <button onclick="ans(12, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-gray-300">
+                                        No estoy seguro / No sé
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q13: PIN KEYPAD -->
+                        <div class="q-card" id="q13">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">13. ¿Tu chip
+                                    tiene un PIN propio activado, diferente al que usas para desbloquear la pantalla?
+                                </h2>
+                                <p class="t-parrafo mt-2">Tu celular tiene dos bloqueos distintos. Uno desbloquea la
+                                    pantalla y el otro protege el chip físico (la SIM), que viene desactivado por
+                                    defecto en casi todos los equipos. Si alguien saca el chip y lo pone en otro
+                                    teléfono, sin ese PIN tiene acceso inmediato al número.</p>
+
+                                <!-- Indicadores de PIN (4 dígitos) -->
+                                <div class="flex justify-center gap-3 mb-1" id="pin-display">
+                                    <div class="w-3 h-3 rounded-full border border-gray-400 pin-dot bg-transparent"
+                                        id="pin-dot-1"></div>
+                                    <div class="w-3 h-3 rounded-full border border-gray-400 pin-dot bg-transparent"
+                                        id="pin-dot-2"></div>
+                                    <div class="w-3 h-3 rounded-full border border-gray-400 pin-dot bg-transparent"
+                                        id="pin-dot-3"></div>
+                                    <div class="w-3 h-3 rounded-full border border-gray-400 pin-dot bg-transparent"
+                                        id="pin-dot-4"></div>
+                                </div>
+
+                                <div class="max-w-[220px] mx-auto grid grid-cols-3 gap-3 p-5 bg-gray-100 rounded-[32px] shadow-inner"
+                                    id="keypad">
+                                    <!-- Botones del Keypad generados limpiamente -->
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        1</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        2</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        3</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        4</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        5</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        6</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        7</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        8</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        9</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-sm font-black text-gray-400 keypad-key">
+                                        *</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-sm font-black shadow-sm keypad-key">
+                                        0</div>
+                                    <div onclick="pressKey(this)"
+                                        class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-sm font-black text-gray-400 keypad-key">
+                                        #</div>
+                                    <!-- Barra de ruptura de seguridad -->
+                                    <div
+                                        class="col-span-3 h-1.5 bg-gray-300 rounded-full mt-2 relative overflow-hidden">
+                                        <div id="keypad-break"
+                                            class="absolute inset-y-0 left-0 bg-red-500 w-full transition-all duration-[1.5s] ease-out">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(13, 'positivo', 'key-success', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo un PIN del
+                                        chip configurado</button>
+                                    <button onclick="ans(13, 'negativo', 'key-fail', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No lo he configurado,
+                                        pero quiero hacerlo</button>
+
+                                    <button onclick="ans(13, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
+                                        No sabía que eso existía
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q14: GLOBE -->
+                        <div class="q-card" id="q14">
+                            <div class="space-y-8 text-center px-4">
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">14. ¿Estarás
+                                    fuera de México entre junio y julio de este año?</h2>
+                                <p class="t-parrafo mt-2">Si la línea se suspende mientras estás fuera de México,
+                                    recuperar el acceso a las cuentas se complica mucho más que si estuvieras aquí.</p>
+                                <div class="flex justify-center py-6">
+                                    <div
+                                        class="w-40 h-40 globe-rotate relative bg-blue-50 rounded-full shadow-inner p-2 border border-blue-100">
+                                        <svg viewBox="0 0 100 100" class="w-full h-full text-blue-200">
+                                            <circle cx="50" cy="50" r="48" fill="currentColor" />
+                                            <path d="M10,50 Q30,10 50,50 T90,50 M50,10 Q10,30 50,50 T50,90" fill="none"
+                                                stroke="#60a5fa" stroke-width="1.5" opacity="0.5" />
+                                            <path d="M20,50 Q35,20 50,50 T80,50" fill="none" stroke="#3b82f6"
+                                                stroke-width="2.5" />
+                                        </svg>
+                                        <div id="globe-lock"
+                                            class="absolute inset-0 flex items-center justify-center opacity-0 scale-0 transition-all duration-500 z-10 bg-black/10 rounded-full">
+                                            <span class="text-5xl drop-shadow-lg">🚫</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <button onclick="ans(14, 'negativo', 'globe-lock', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo viaje planeado
+                                        en esas fechas</button>
+                                    <button onclick="ans(14, 'positivo', 'none', this)"
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, voy a estar en
+                                        México</button>
+
+                                    <button onclick="ans(14, 'neutro', 'none', this)"
+                                        class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
+                                        No estoy seguro / No sé
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q15: ENCRUCIJADA -->
+                        <div class="q-card" id="q15">
+                            <div class="space-y-12 text-center pt-10 px-4">
+                                <h2 class="t-titulo"
+                                    style="font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 0.5rem;">¿Cómo
+                                    prefieres resolver lo que encontremos?</h2>
+                                <p class="t-parrafo mt-2">Ya tenemos suficiente para armar tu diagnóstico. Antes de
+                                    mostrarlo, dime cómo prefieres trabajar esto.</p>
+                                <div class="flex flex-col md:flex-row gap-4 h-auto md:h-[320px]">
+                                    <div onclick="finalStep(false, this)"
+                                        class="choice-btn flex-1 bg-[var(--crema-tarjeta)] border border-[var(--borde-cristal)] rounded-[40px] p-10 flex flex-col items-center justify-center cursor-pointer group">
+                                        <span class="text-6xl mb-6 group-hover:scale-110 transition-transform">📖</span>
+                                        <h3
+                                            class="font-black uppercase text-sm tracking-widest text-[var(--verde-oscuro)]">
+                                            Camino DIY</h3>
+                                        <p class="t-acompanamiento t-muted mt-3 px-2 text-center">Prefiero aprenderlo y
+                                            hacerlo por mi cuenta con una guía</p>
+                                    </div>
+                                    <div onclick="finalStep(true, this)"
+                                        class="choice-btn flex-1 bg-[var(--verde-oscuro)] text-[var(--dorado-premium)] rounded-[40px] p-10 flex flex-col items-center justify-center cursor-pointer group border-2 border-transparent">
+                                        <span class="text-6xl mb-6 group-hover:scale-110 transition-transform">🤝</span>
+                                        <h3
+                                            class="font-black uppercase text-sm tracking-widest text-[var(--dorado-premium)]">
+                                            Camino DFY</h3>
+                                        <p class="t-acompanamiento t-inverse mt-3 px-2 text-center">Prefiero que alguien
+                                            me acompañe paso a paso en una sesión</p>
+                                    </div>
+                                </div>
+
+                                <div class="pt-8 flex flex-col items-center gap-4">
+                                    <span class="t-acompanamiento t-muted block text-center">Cualquiera de las dos lleva
+                                        al mismo resultado.</span>
+                                    <button id="q15-next-btn" onclick="goToStep(2)"
+                                        class="w-full sm:w-auto bg-[var(--verde-forense)] text-[var(--dorado-premium)] px-12 py-5 rounded-xl font-black uppercase text-sm tracking-[3px] shadow-xl hover:-translate-y-1 transition-transform hidden">
+                                        Siguiente Fase &#8594;
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div> <!-- /.q-card #q15 -->
+                    </div> <!-- /#quiz-container -->
+                </div> <!-- /wrapper div inside step-1 -->
+            </section> <!-- /#step-1 -->
+
+            <!-- FASE 02: INVENTARIO DE ACTIVOS (Swipe Master Pro) -->
+            <section id="step-2" class="step-container relative">
+
+                <div id="dynamic-glow"></div>
+
+
+
+                <!-- GUÍAS PERSISTENTES SUTILES -->
+                <div class="absolute top-24 left-4 lg:left-12 pointer-events-none opacity-20 hidden md:block z-0">
+                    <div class="flex items-center gap-3 t-acompanamiento text-[#10b981]">
+                        <i class="ph-bold ph-arrow-left text-xl"></i> Protegido
+                    </div>
+                </div>
+                <div class="absolute top-24 right-4 lg:right-12 pointer-events-none opacity-20 hidden md:block z-0">
+                    <div class="flex items-center gap-3 t-acompanamiento text-[#f43f5e]">
+                        Vulnerable <i class="ph-bold ph-arrow-right text-xl"></i>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 md:p-10 relative z-20">
+                    <div class="split-layout-container">
+                        <!-- 1/3 — INSTRUCCIONES (condensadas) + ACCIONES -->
+                        <header class="pane-instructions space-y-3">
+                            <div class="flex items-center justify-center lg:justify-start gap-3">
+                                <div
+                                    class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[var(--dorado-premium)] text-[var(--verde-forense)] border border-[var(--dorado-oscuro)] shadow-lg flex-shrink-0">
+                                    <i class="ph-fill ph-shield-check text-xl"></i>
+                                </div>
+                                <h2 class="t-titulo" style="font-size: clamp(1.8rem, 5vw, 3rem); margin: 0;">Swipe</h2>
+                            </div>
+                            <span class="t-subtitulo block">Lo que depende de tu número</span>
+
+                            <p class="t-parrafo">
+                                Para cada app: si perdieras tu número mañana, ¿seguirías pudiendo entrar?
+                                <span class="t-enfasis t-gold mt-2 block">
+                                    ← Desliza a la izquierda si ya no depende de tu número · Desliza a la derecha si aún
+                                    necesitarías un SMS → · Si dudas o la usas, desliza hacia abajo.
+                                </span>
+                            </p>
+
+                            <!-- Barra de progreso -->
+                            <div class="bg-white/60 p-4 rounded-2xl border border-white shadow-sm">
+                                <div class="flex justify-between items-end mb-3 px-1">
+                                    <span id="counter"
+                                        class="mono text-[9px] font-bold text-gray-400 tracking-widest uppercase">ESCANEO: 0
+                                        / 0</span>
+                                    <span id="pct-text" class="mono t-acompanamiento t-gold">0%</span>
+                                </div>
+                                <div class="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden relative">
+                                    <div id="progress-bar"
+                                        class="absolute top-0 left-0 h-full bg-gradient-to-r from-[var(--dorado-premium)] to-[var(--dorado-oscuro)] w-0 transition-all duration-700 rounded-full">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ACCIONES (al pie de la columna de instrucciones) -->
+                            <footer class="pane-footer w-full flex flex-row items-center justify-between gap-3 flex-shrink-0">
+                                <button onclick="goToStep(1)"
+                                    class="bg-gray-200 text-[var(--verde-forense)] px-4 py-2 rounded-xl hover:bg-gray-300 t-acompanamiento">
+                                    ← Atrás
+                                </button>
+                                <button onclick="undoSwipe()" id="btn-undo"
+                                    class="btn-undo flex items-center gap-2 bg-[var(--crema-tarjeta)] text-[var(--verde-forense)] px-4 py-2 rounded-full shadow-md border border-[var(--borde-cristal)] active:scale-95 transition-transform t-acompanamiento">
+                                    <i class="ph ph-arrow-u-up-left text-base"></i>
+                                    Deshacer
+                                </button>
+                            </footer>
+                        </header>
+
+                        <!-- 2/3 — ÁREA DE JUEGO -->
+                        <section class="pane-interactive">
+                            <div class="swipe-zone" id="swipe-zone">
+                                <!-- Guías -->
+                                <div class="swipe-guide guide-left" id="guide-left">
+                                    <i class="ph-fill ph-shield-check text-[#10b981]"></i>
+                                    <span class="text text-[#10b981]">Protegido</span>
+                                </div>
+                                <div class="swipe-guide guide-right" id="guide-right">
+                                    <i class="ph-fill ph-warning-octagon text-[#f43f5e]"></i>
+                                    <span class="text text-[#f43f5e]">Vulnerable</span>
+                                </div>
+
+                                <!-- Contenedor del Stack -->
+                                <div id="stack-container"
+                                    class="relative w-full h-full flex items-center justify-center">
+                                    <!-- Tarjetas dinámicas -->
+                                </div>
+
+                                <!-- Indicador visual de mano -->
+                                <div id="swipe-hint"
+                                    class="absolute bottom-[20px] right-6 text-[#E8B45B] text-3xl opacity-0 swipe-hint z-[110] pointer-events-none">
+                                    <i class="ph-fill ph-hand-pointing"></i>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- VORTEX ANALYSIS (Segunda mitad de Fase 2) -->
+                <div id="vortex-section" class="hidden opacity-0 transition-all duration-1000 mt-10 pb-10"
+                    data-activity="vortex">
+                    <div class="split-layout-container">
+                        <!-- 1/3 — INSTRUCCIONES + HUD + ACCIÓN -->
+                        <div class="pane-instructions space-y-3">
+                            <div class="flex-shrink-0">
+                                <h2 class="t-titulo mb-1" style="font-size: clamp(1.8rem, 5vw, 3rem);">Vortex</h2>
+                                <span class="t-subtitulo t-inverse block mb-2">Lo que gira alrededor de tu número</span>
+                                <span class="t-enfasis t-gold block">
+                                    Haz click en la app que utilices. Si no la conoces o no la usas, no hagas nada. Al
+                                    terminar, pulsa "Análisis".
+                                </span>
+                            </div>
+
+                            <div
+                                class="flex flex-wrap gap-6 justify-between items-center border border-[var(--borde-cristal)] rounded-2xl p-4 bg-[var(--crema-tarjeta)]/50">
+                                <div class="flex gap-8">
+                                    <div>
+                                        <span class="t-acompanamiento t-muted block mb-1">Dependencia del SMS</span>
+                                        <span id="risk-val"
+                                            class="text-2xl font-black mono text-[var(--rojo-alerta)] transition-colors">0%</span>
+                                    </div>
+                                    <div>
+                                        <span class="t-acompanamiento t-muted block mb-1">Servicios en riesgo</span>
+                                        <span id="chain-val"
+                                            class="text-2xl font-black mono text-[var(--verde-forense)]">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button onclick="showFracture()"
+                                class="pane-footer w-full bg-[var(--verde-oscuro)] text-[var(--dorado-premium)] px-8 py-4 rounded-xl hover:-translate-y-1 transition-transform shadow-xl t-acompanamiento text-center">Análisis
+                                →</button>
+                        </div>
+
+                        <!-- 2/3 — VÓRTICE -->
+                        <div class="pane-interactive">
+                            <div class="vortex-zone">
+                                <div class="scanline"></div>
+                                <div class="vortex-halo" id="halo"></div>
+                                <canvas id="vortex-canvas"></canvas>
+
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+                                    id="core-container">
+                                    <div class="vortex-core" id="core">
+                                        <span class="text-4xl mb-2 text-white font-black tracking-tighter">SIM</span>
+                                        <div
+                                            class="w-10 h-1 bg-[#E8B45B] rounded-full animate-pulse shadow-[0_0_20px_#E8B45B]">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="vortex-items-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FASE 2.8: FRACTURA Y FALLA (Nodos) -->
+                <div id="fracture-section" class="hidden opacity-0 transition-all duration-1000 mt-10 pb-10"
+                    data-activity="fracture">
+                    <div class="split-layout-container">
+                        <!-- 1/3 — INSTRUCCIONES + ACCIÓN -->
+                        <div class="pane-instructions space-y-3">
+                            <div class="flex-shrink-0">
+                                <h2 class="t-titulo mb-1" style="font-size: clamp(1.8rem, 5vw, 3rem);">Fracture</h2>
+                                <span class="t-subtitulo t-inverse block mb-2">Qué tan frágil es tu seguridad</span>
+                                <span class="t-enfasis t-gold block">
+                                    Selecciona las apps que utilices. Si no la conoces o no la usas, no hagas nada. Al
+                                    terminar, pulsa "Continuar".
+                                </span>
+                            </div>
+
+                            <button onclick="goToStep(3)"
+                                class="pane-footer w-full bg-[var(--verde-oscuro)] text-[var(--dorado-premium)] px-12 py-5 rounded-xl font-black uppercase text-sm tracking-[3px] shadow-xl hover:-translate-y-1 transition-transform text-center">
+                                Continuar
+                            </button>
+                        </div>
+
+                        <!-- 2/3 — ZONA DE FRACTURA -->
+                        <div class="pane-interactive">
+                            <div class="fracture-zone" id="fracture-container">
+                                <div class="fracture-void"></div>
+                                <div class="fracture-ui-layer mix-blend-difference text-white">
+                                    <div class="fracture-title" id="fracture-title">
+                                        <h3 class="text-2xl md:text-3xl font-black italic tracking-tighter">
+                                            FRACTURE_SCAN</h3>
+                                    </div>
+                                    <div class="text-right" id="fracture-risk">
+                                        <div id="fracture-risk-display"
+                                            class="text-3xl md:text-4xl font-black italic mt-[-5px] font-['JetBrains_Mono']">00%</div>
+                                    </div>
+                                </div>
+
+                                <div id="sms-block"
+                                    class="fracture-core px-10 py-4 text-white font-black tracking-[0.2em] rounded-md text-xl border border-[var(--dorado-premium)]">
+                                    SMS
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FASE 03: SIMULADOR DE FUERZA BRUTA -->
+            <section id="step-3" class="step-container">
+                <div class="glass-panel p-6 md:p-12 mb-8">
+                    <div class="w-full space-y-4 text-center lg:text-left flex-shrink-0 mb-10">
+                        <span class="t-subtitulo block mb-1">Fase 03 — ¿Cuánto tarda alguien en adivinar tu
+                            contraseña?</span>
+                        <h2 class="t-titulo mb-2">Simulador de contraseña</h2>
+                        <p class="t-parrafo max-w-2xl mx-auto lg:mx-0">
+                            Este simulador muestra qué tan rápido se puede descifrar una contraseña dependiendo de la
+                            longitud, mayúsculas, minúsculas, números y símbolos utilizados. Esta tabla muestra los
+                            tiempos estimados y el simulador te deja probar una contraseña parecida a la tuya para ver
+                            dónde cae.
+                            <span class="t-enfasis t-gold mt-3 block">
+                                💡 No necesitas escribir tu contraseña real, prueba una de longitud y tipo similar.
+                                Puedes hacer click en "Generar una contraseña" para saber cuál es una segura.
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+                        <!-- Table matrix wrapper: second on mobile, first on desktop -->
+                        <div class="lg:col-span-3 order-2 lg:order-1">
+                            <!-- Hint de scroll solo visible en móvil -->
+                            <div class="hive-scroll-hint lg:hidden mb-2">
+                                <span></span>
+                            </div>
+
+                            <!-- Ejes Explicativos para Mayor Claridad -->
+                            <div class="flex justify-between items-center mb-2 px-1 t-acompanamiento t-muted">
+                                <span>↕️ Longitud (Caracteres)</span>
+                                <span>Complejidad ↔️</span>
+                            </div>
+                            <div class="overflow-x-auto pb-6">
+                                <div id="hive-matrix-body" class="hive-table min-w-[400px] lg:min-w-[700px] shadow-lg">
+                                    <!-- Generado por JS -->
+                                </div>
+                            </div>
+
+                            <!-- Leyenda de Complejidad (6 Colores) adaptada de fbruta.html -->
+                            <div
+                                class="flex flex-wrap gap-x-4 gap-y-1.5 pt-4 border-t border-[var(--borde-cristal)] mb-6 lg:mb-0 t-acompanamiento t-muted">
+                                <div class="flex items-center gap-1.5"><span
+                                        class="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_6px_rgba(168,85,247,0.4)]"></span>
+                                    Instante</div>
+                                <div class="flex items-center gap-1.5"><span
+                                        class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.4)]"></span>
+                                    Minutos/Horas</div>
+                                <div class="flex items-center gap-1.5"><span
+                                        class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_6px_rgba(249,115,22,0.4)]"></span>
+                                    Días/Semanas</div>
+                                <div class="flex items-center gap-1.5"><span
+                                        class="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_6px_rgba(234,179,8,0.4)]"></span>
+                                    Meses</div>
+                                <div class="flex items-center gap-1.5"><span
+                                        class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.4)]"></span>
+                                    Décadas</div>
+                                <div class="flex items-center gap-1.5"><span
+                                        class="w-2 h-2 rounded-full bg-green-800 shadow-[0_0_6px_rgba(22,101,52,0.4)]"></span>
+                                    Siglos+</div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar wrapper: first on mobile, second on desktop. Sticky behavior is restricted to large screens (lg) -->
+                        <div id="hackeo-sidebar"
+                            class="lg:col-span-1 order-1 lg:order-2 flex flex-col gap-6 lg:sticky lg:top-24">
+                            <div id="hackeo-timer-block"
+                                class="bg-[var(--verde-forense)] rounded-xl text-center border border-[var(--dorado-premium)]/60 relative overflow-hidden"
+                                style="padding:8px 10px;">
+                                <!-- Línea decorativa superior -->
+                                <div
+                                    style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--dorado-premium);opacity:0.3;">
+                                </div>
+
+                                <!-- Label -->
+                                <p
+                                    style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(232,180,91,0.75);margin:4px 0 6px;">
+                                    Cronómetro de Hackeo</p>
+
+                                <!-- Input fila: label + botón generar -->
+                                <div
+                                    style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                                    <span
+                                        style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.08em;">Prueba
+                                        una contraseña</span>
+                                    <button onclick="generarPasswordSegura()"
+                                        style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;font-weight:700;color:var(--dorado-premium);background:rgba(255,255,255,0.05);border:none;border-radius:4px;padding:2px 5px;cursor:pointer;letter-spacing:0.06em;">🔑
+                                        Generar</button>
+                                </div>
+
+                                <!-- Input -->
+                                <div
+                                    style="background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:4px 7px;margin-bottom:7px;">
+                                    <input type="text" id="hive-pass-tester" autocomplete="off"
+                                        placeholder="Escribe aquí..."
+                                        style="width:100%;background:transparent;border:none;outline:none;text-align:center;font-size:0.72rem;color:white;font-family:'JetBrains Mono',monospace;"
+                                        class="placeholder-white/30">
+                                </div>
+
+                                <!-- Display tiempo -->
+                                <p id="hive-time-display"
+                                    style="font-family:'JetBrains Mono',monospace;font-weight:900;font-size:1rem;color:white;margin:0 0 3px;line-height:1.1;">
+                                    --</p>
+
+                                <!-- Badge riesgo -->
+                                <p id="hive-risk-badge"
+                                    style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin:0;">
+                                    - - - </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+                    <button onclick="goToStep(2)"
+                        class="w-full sm:w-auto bg-gray-200 text-[var(--verde-forense)] px-8 py-5 rounded-xl hover:bg-gray-300 t-acompanamiento">←
+                        Atrás</button>
+                    <button onclick="goToStep(4)"
+                        class="w-full sm:w-auto bg-[var(--verde-oscuro)] text-[var(--dorado-premium)] px-8 py-5 rounded-xl hover:-translate-y-1 transition-transform t-acompanamiento">Ver
+                        Reporte →</button>
+                </div>
+            </section>
+
+            <!-- FASE 04: REPORTE DINÁMICO -->
+            <section id="step-4" class="step-container">
+                <div class="mb-4 text-center px-4">
+                    <p class="t-subtitulo">Tu diagnóstico está listo.</p>
+                    <!-- Barra de progreso local: auditoría completada al 100% -->
+                    <div class="max-w-xs mx-auto mt-3">
+                        <div class="flex justify-between items-end mb-1.5 px-1">
+                            <span class="mono text-[9px] font-bold text-gray-400 tracking-widest uppercase">AUDITORÍA</span>
+                            <span class="mono t-acompanamiento t-gold">100%</span>
+                        </div>
+                        <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full w-full bg-gradient-to-r from-[var(--dorado-premium)] to-[var(--dorado-oscuro)] rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="audit-report-print" class="space-y-4 bg-[var(--crema-fondo)]">
+
+                    <!-- Dashboard Final -->
+                    <div
+                        class="glass-panel p-5 md:p-8 border-t-8 border-[var(--verde-forense)] relative overflow-hidden">
+                        <div class="absolute -right-20 -top-20 opacity-5 pointer-events-none">
+                            <svg width="300" height="300" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div class="w-full md:w-2/3">
+                                <h2 class="t-titulo mb-4">Reporte Forense</h2>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span
+                                        class="t-acompanamiento bg-[var(--verde-forense)] text-white px-3 py-1 rounded"
+                                        id="report-meta">ID: --</span>
+                                    <span class="t-acompanamiento" id="report-date">--</span>
+                                </div>
+
+                                <div id="forensic-narrative"
+                                    class="t-parrafo space-y-4 border-l-4 border-[var(--dorado-premium)] pl-5 bg-white/40 p-4 rounded-r-xl text-sm leading-relaxed">
+                                    <!-- Narrativa Dinámica — inyectada por JS -->
+                                </div>
+                            </div>
+                            <div class="w-full md:w-1/3 flex flex-col items-center justify-center">
+                                <div class="relative w-32 h-32 md:w-48 md:h-48">
+                                    <canvas id="riskDonutFinal"></canvas>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                        <span id="final-risk-num"
+                                            class="text-3xl md:text-5xl font-black text-[var(--verde-forense)] mono">0%</span>
+                                    </div>
+                                </div>
+                                <span id="final-risk-tag"
+                                    class="t-acompanamiento mt-4 bg-white px-4 py-2 rounded-full shadow-sm">Analizando...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Puntos de ruptura: eliminado por decisión de diseño -->
+                    <div id="fracture-break-points" class="hidden" aria-hidden="true">
+                        <div id="break-points-list" class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4"></div>
+                        <p id="fracture-dynamic-message" class="t-parrafo text-center"></p>
+                    </div>
+
+                    <!-- Servicios: pricing cards siempre visibles -->
+                    <div class="space-y-3">
+                        <p class="text-center text-[var(--verde-forense)] t-acompanamiento">¿Quieres resolver lo que
+                            encontramos?</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="services-grid">
+
+                            <!-- DIY — Pricing Card -->
+                            <div class="pricing-card glass-panel rounded-2xl overflow-hidden border-2 border-transparent bg-[var(--crema-tarjeta)]/70 flex flex-col"
+                                id="card-diy">
+                                <!-- Cabecera de la card -->
+                                <div class="px-6 pt-6 pb-4 border-b border-[var(--borde-cristal)]">
+                                    <span class="t-acompanamiento t-muted text-xs block mb-2">SERVICIO DIGITAL</span>
+                                    <h4
+                                        class="font-black text-xl uppercase tracking-tight text-[var(--verde-forense)] mb-1">
+                                        Lo hago yo</h4>
+                                    <p class="t-subtitulo t-muted mb-4">Guía de Seguridad Resiliente</p>
+                                    <!-- Precio destacado -->
+                                    <div class="flex items-end gap-2">
+                                        <span
+                                            class="text-4xl font-black text-[var(--verde-forense)] mono leading-none">$49</span>
+                                        <span class="t-acompanamiento t-muted mb-1">pago único</span>
+                                    </div>
+                                </div>
+                                <!-- Features -->
+                                <ul class="px-6 py-4 space-y-2 flex-1">
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-green-600 font-black mt-0.5">✓</span> Protege tus 10 cuentas más
+                                        importantes</li>
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-green-600 font-black mt-0.5">✓</span> Sin conocimientos técnicos
+                                        previos</li>
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-green-600 font-black mt-0.5">✓</span> Desliga SMS de cuentas
+                                        bancarias</li>
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-green-600 font-black mt-0.5">✓</span> Configura verificación por
+                                        app (2FA)</li>
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-green-600 font-black mt-0.5">✓</span> Respaldos seguros de
+                                        acceso</li>
+                                </ul>
+                                <div class="px-6 pb-6">
+                                    <button
+                                        class="w-full bg-[var(--verde-forense)] text-[var(--dorado-premium)] py-3.5 rounded-xl shadow-lg hover:-translate-y-1 transition-all t-acompanamiento font-black">Adquirir
+                                        — $49</button>
+                                </div>
+                            </div>
+
+                            <!-- DFY — Pricing Card (destacada) -->
+                            <div class="pricing-card glass-panel rounded-2xl overflow-hidden border-2 border-[var(--dorado-premium)] bg-[var(--dorado-premium)]/8 flex flex-col relative"
+                                id="card-dfy">
+                                <div class="absolute top-0 left-0 right-0 h-1 bg-[var(--dorado-premium)]"></div>
+                                <div
+                                    class="absolute top-4 right-4 bg-[var(--dorado-premium)] text-[var(--verde-forense)] t-acompanamiento text-xs px-2 py-0.5 rounded font-black">
+                                    RECOMENDADO</div>
+                                <!-- Cabecera -->
+                                <div class="px-6 pt-7 pb-4 border-b border-[var(--dorado-premium)]/30">
+                                    <span class="t-acompanamiento t-muted text-xs block mb-2">ASESORÍA 1-A-1</span>
+                                    <h4
+                                        class="font-black text-xl uppercase tracking-tight text-[var(--verde-forense)] mb-1">
+                                        Done For You</h4>
+                                    <p class="t-subtitulo t-muted mb-4">Sesión personalizada con experto</p>
+                                    <div class="flex items-end gap-2">
+                                        <span
+                                            class="text-4xl font-black text-[var(--verde-forense)] mono leading-none">$299</span>
+                                        <span class="t-acompanamiento t-muted mb-1">sesión única</span>
+                                    </div>
+                                </div>
+                                <!-- Features -->
+                                <ul class="px-6 py-4 space-y-2 flex-1">
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> Todo lo de la
+                                        guía, hecho contigo</li>
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> +70
+                                        aplicaciones cubiertas</li>
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> Cuentas
+                                        configuradas al terminar</li>
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> Reporte
+                                        completo con recomendaciones</li>
+                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
+                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> Sesión
+                                        asíncrona — a tu ritmo</li>
+                                </ul>
+                                <div class="px-6 pb-4">
+                                    <button id="wa-action-btn"
+                                        class="w-full bg-[var(--dorado-premium)] text-[var(--verde-forense)] py-3.5 rounded-xl shadow-lg hover:-translate-y-1 transition-all t-acompanamiento font-black">Agendar
+                                        sesión — $299</button>
+                                </div>
+                                <p class="px-6 pb-4 t-acompanamiento t-muted text-xs text-center">* No incluye el
+                                    trámite de registro de CURP con operadora.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Resultados + acciones: textarea colapsable -->
+                    <details class="glass-panel bg-[var(--crema-tarjeta)]/60"
+                        style="border-radius:16px;overflow:hidden;">
+                        <summary
+                            class="flex items-center justify-between gap-3 px-5 py-4 cursor-pointer list-none select-none">
+                            <span class="t-acompanamiento text-[var(--verde-forense)]">📋 Guardar mis resultados</span>
+                            <span class="t-acompanamiento t-muted text-xs">Ver ▾</span>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-3">
+                            <p class="t-acompanamiento t-muted text-xs text-center">Copia tu diagnóstico para guardarlo
+                                en tus notas</p>
+                            <textarea id="results-copy-area" readonly
+                                class="w-full h-28 p-3 bg-[var(--crema-tarjeta)] border border-[var(--borde-cristal)] rounded-xl font-mono text-xs text-left focus:outline-none resize-none select-all"></textarea>
+                            <button onclick="copyResultsToClipboard()" id="btn-copy-results"
+                                class="w-full bg-[var(--verde-forense)] text-[var(--dorado-premium)] py-3 rounded-xl shadow-lg hover:-translate-y-1 transition-all flex justify-center items-center gap-2 t-acompanamiento text-xs">
+                                Copiar al portapapeles
+                            </button>
+                        </div>
+                    </details>
+
+                    <!-- Acciones secundarias compactas -->
+                    <div
+                        class="report-actions-bar flex flex-wrap gap-2 justify-center pt-2 border-t border-[var(--borde-cristal)]">
+                        <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiYqtfEyOqUAxXsGtAFHXqpG44QFnoECBYQAQ&url=https%3A%2F%2Fciberprotector.com%2Fcomprobador-de-contrase%25C3%25B1as%2F&usg=AOvVaw0f9F-voRMvU4ueSQbRNSKK&opi=89978449"
+                            target="_blank"
+                            class="report-action-chip bg-blue-100 text-blue-800 border border-blue-200 rounded-full px-3 py-1.5 t-acompanamiento text-xs hover:bg-blue-200 transition-colors">
+                            🔍 Validar contraseñas
+                        </a>
+                        <button onclick="resetAudit()"
+                            class="report-action-chip bg-[var(--crema-fondo)] text-[var(--verde-forense)] border border-[var(--borde-cristal)] rounded-full px-3 py-1.5 t-acompanamiento text-xs hover:bg-gray-200 transition-colors">
+                            🔄 Nueva auditoría
+                        </button>
+                    </div>
+
+                    <!-- Apoyo a la investigación -->
+                    <div id="donacion-seccion" class="glass-panel rounded-2xl overflow-hidden">
+                        <!-- Cabecera -->
+                        <div class="bg-[var(--verde-forense)] px-6 py-5 flex items-center gap-4">
+                            <span class="text-3xl">☕</span>
+                            <div>
+                                <h5 class="font-black text-base uppercase tracking-tight text-[var(--dorado-premium)]">
+                                    Apoya la investigación</h5>
+                                <p class="t-acompanamiento text-xs" style="color:rgba(255,255,255,0.65);">Herramienta
+                                    independiente, sin patrocinadores</p>
+                            </div>
+                        </div>
+                        <!-- Cuerpo -->
+                        <div class="px-6 py-5 space-y-4">
+                            <p class="t-parrafo text-sm">Esta herramienta fue desarrollada de forma independiente para
+                                la comunidad. Si el diagnóstico aportó valor a tu seguridad digital, considera dejar una
+                                propina voluntaria.</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- Contacto -->
+                                <div
+                                    class="bg-[var(--crema-fondo)] border border-[var(--borde-cristal)] rounded-xl p-4 space-y-2">
+                                    <p class="t-acompanamiento t-gold text-xs">Contacto directo</p>
+                                    <p class="text-sm font-black text-[var(--verde-forense)]">442 482 0977</p>
+                                    <p class="t-acompanamiento t-muted text-xs">WhatsApp / IG: jean.krrillo</p>
+                                </div>
+                                <!-- CLABE -->
+                                <div
+                                    class="bg-[var(--crema-fondo)] border border-[var(--borde-cristal)] rounded-xl p-4 space-y-2">
+                                    <p class="t-acompanamiento t-gold text-xs">Transferencia BBVA</p>
+                                    <p
+                                        class="mono font-black text-sm text-[var(--verde-forense)] select-all tracking-tighter">
+                                        4152313824553668</p>
+                                    <p class="t-acompanamiento t-muted text-xs">Jean Carrillo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Aviso Importante Banner (Permanente en el pie de página) -->
+        <div class="bg-[var(--dorado-premium)]/5 border-l-4 border-[var(--dorado-premium)] p-6 rounded-r-2xl my-8">
+            <div class="flex gap-4">
+                <span class="text-xl">⚠️</span>
+                <div>
+                    <h5 class="t-subtitulo block mb-1 text-[var(--verde-forense)]">Aviso Importante</h5>
+                    <p class="t-parrafo text-justify">Este servicio solo protege tu seguridad digital; NO ESTÁ ASOCIADO
+                        al registro telefónico, NO PROMUEVE la vinculación de la CURP (Acuerdo P-CRT-EXT-29102025-005) y
+                        tampoco asume las consecuencias de una línea suspendida. Toma precauciones antes del 1 de julio
+                        de 2026.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FAB DONATION (Circular, cambia a visible en la fase 4) -->
+    <div id="fab-apoyo" class="fab-donation" onclick="scrollToDonation()">
+        <span class="text-xl">☕</span> <span class="hidden sm:inline">Apoyo al Proyecto</span>
+    </div>
+
+    <!-- MOTOR DE RIESGO — debe cargar PRIMERO -->
+    <script src="js/engine/ponderacion_riesgo.js"></script>
+    <script src="js/engine/risk-core.js"></script>
+    <!-- Módulos UI (en orden después del motor) -->
+    <script src="js/header.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/swipe.js"></script>
+    <script src="js/vortex.js"></script>
+    <script src="js/fracture.js"></script>
+
+    <!-- Loader Mobile -->
+    <div id="mobile-loader" class="mobile-loader hidden">
+        <div class="loader-spinner"></div>
+        <p class="mt-4 t-acompanamiento text-[var(--verde-forense)]">Cargando autodiagnóstico...</p>
+    </div>
+
+    <!-- Modales -->
+    <script src="js/responsive-utils.js"></script>
+</body>
+
+</html>

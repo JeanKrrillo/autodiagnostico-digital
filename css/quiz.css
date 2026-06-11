@@ -1,0 +1,411 @@
+@import "tokens.css";
+
+/* Contenedor de Tarjetas (Feed Modular) */
+.q-card {
+  display: none;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto clamp(1.5rem, 4vw, 3rem) auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  background: var(--crema-tarjeta);
+  border-radius: 28px;
+  box-shadow: 0 10px 30px rgba(45, 57, 36, 0.04);
+  border: 1px solid rgba(45, 57, 36, 0.05);
+}
+
+.q-card.active {
+  display: block;
+  animation: slideUpReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpReveal {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estado 'Contestado' - Permite interacción */
+.q-card.answered {
+  opacity: 0.5;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.q-card.answered:hover,
+.q-card.answered:focus-within {
+  opacity: 1;
+}
+
+/* Títulos y Subtítulos del Cuestionario */
+.q-card h2 {
+  font-size: clamp(1.2rem, 3.5vw, 1.65rem);
+  color: var(--verde-forense);
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.q-card p.text-gray-500,
+.q-card p.text-xs {
+  color: var(--verde-forense);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 500;
+  text-align: center;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Botones de Opción Centrados y Balanceados */
+.choice-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+  color: var(--verde-forense);
+  background-color: var(--crema-fondo);
+  border: 2px solid rgba(45, 57, 36, 0.18);
+  border-radius: 16px;
+  cursor: pointer;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.choice-btn:hover {
+  background-color: var(--crema-tarjeta);
+  border-color: rgba(232, 180, 91, 0.5);
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 12px 24px -8px rgba(45, 57, 36, 0.12);
+}
+
+.choice-btn:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow: none;
+}
+
+/* Estado Seleccionado (Forense / Activo) */
+.choice-btn.selected {
+  background-color: var(--verde-forense) !important;
+  color: var(--dorado-premium) !important;
+  border-color: var(--dorado-premium) !important;
+  box-shadow: 0 15px 30px -8px rgba(45, 57, 36, 0.25);
+  transform: scale(1.01);
+}
+
+/* Estado Atenuado (Opciones no elegidas) */
+.choice-btn.dimmed {
+  opacity: 0.45;
+  background-color: var(--crema-fondo);
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+/* Botón Neutro ("No estoy seguro / No sé") */
+.q-card .border-dashed {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px dashed rgba(45, 57, 36, 0.2) !important;
+  color: var(--texto-2) !important;
+  font-style: normal !important;
+  margin-top: 0.5rem;
+}
+
+.q-card .border-dashed:hover {
+  background-color: var(--crema-tarjeta);
+  border-color: var(--dorado-oscuro) !important;
+  color: var(--verde-forense) !important;
+}
+
+/* Bloques de Feedback Post-Respuesta */
+.post-ans-feedback {
+  background: linear-gradient(135deg, rgba(232, 180, 91, 0.08) 0%, rgba(232, 180, 91, 0.02) 100%);
+  border: 1px solid rgba(232, 180, 91, 0.3) !important;
+  border-radius: 20px;
+  padding: 1.25rem 1.5rem 2.5rem 1.5rem !important;
+  /* espacio abajo para botón absoluto */
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--verde-forense);
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  position: relative !important;
+  text-align: center;
+}
+
+/* ===== CALENDARIO: estilos premium de los días ===== */
+.calendar-day {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.calendar-day:hover:not(.burned) {
+  background: rgba(232, 180, 91, 0.12) !important;
+  color: var(--verde-forense) !important;
+  transform: scale(1.08);
+  border-color: rgba(232, 180, 91, 0.3);
+  box-shadow: 0 2px 8px rgba(232, 180, 91, 0.15);
+}
+
+.calendar-day.burned {
+  background: var(--verde-oscuro) !important;
+  color: rgba(239, 68, 68, 0.8) !important;
+  opacity: 0.4;
+  filter: blur(0.5px);
+  animation: burn-pulse 2s ease-in-out infinite;
+  transform: scale(0.85);
+  box-shadow: inset 0 0 12px rgba(239, 68, 68, 0.3);
+  border-color: transparent;
+}
+
+@keyframes burn-pulse {
+
+  0%,
+  100% {
+    box-shadow: inset 0 0 8px rgba(239, 68, 68, 0.2);
+  }
+
+  50% {
+    box-shadow: inset 0 0 16px rgba(239, 68, 68, 0.5);
+  }
+}
+
+.mirror-icon {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mirror-icon.synced {
+  filter: drop-shadow(0 0 20px rgba(232, 180, 91, 0.8));
+  transform: scale(1.15);
+  z-index: 10;
+}
+
+.signal-bar {
+  transition: height 0.4s ease;
+}
+
+.glitch-text {
+  animation: glitch 0.3s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 1px);
+  }
+
+  40% {
+    transform: translate(-1px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 1px);
+  }
+
+  80% {
+    transform: translate(1px, -1px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.radar-circle {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: radar-sweep 4s linear infinite;
+}
+
+@keyframes radar-sweep {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.flip-card {
+  perspective: 1000px;
+  height: 160px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: var(--verde-forense);
+  color: var(--dorado-premium);
+}
+
+.globe-rotate {
+  animation: rotateGlobe 24s linear infinite;
+}
+
+@keyframes rotateGlobe {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fix para el Ouroboros SVG */
+#ouro-ring {
+  stroke: var(--dorado-premium);
+}
+
+/* ===== FIX Q11 SLIDER: feedback visual ===== */
+#app-counter {
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+#app-counter.pulse-anim {
+  animation: counter-pulse 0.3s ease;
+}
+
+@keyframes counter-pulse {
+  0% {
+    transform: scale(1);
+    color: var(--verde-oscuro);
+  }
+
+  50% {
+    transform: scale(1.15);
+    color: var(--dorado-premium);
+  }
+
+  100% {
+    transform: scale(1);
+    color: var(--verde-oscuro);
+  }
+}
+
+/* ===== Q13: PIN KEYPAD PREMIUM STYLES ===== */
+#keypad {
+  background: rgba(45, 57, 36, 0.04);
+  border: 1px solid rgba(45, 57, 36, 0.08);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  justify-items: center;
+}
+
+.keypad-key {
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.keypad-key:hover {
+  background: var(--verde-forense) !important;
+  color: var(--dorado-premium) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(45, 57, 36, 0.15);
+}
+
+.keypad-key:active {
+  transform: scale(0.92);
+}
+
+.keypad-key.key-active {
+  background: var(--dorado-premium) !important;
+  color: var(--verde-forense) !important;
+  box-shadow: 0 0 15px var(--dorado-premium) !important;
+}
+
+.pin-dot {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pin-dot.filled {
+  background: var(--verde-forense);
+  border-color: var(--verde-forense);
+  transform: scale(1.15);
+}
+
+.pin-dot.success {
+  background: #10b981 !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+.pin-dot.fail {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+/* Q15: jerarquía interna de los choice cards grandes */
+#q15 .choice-btn h3 {
+  font-size: 0.9rem !important;
+  letter-spacing: 0.12em !important;
+  line-height: 1.3 !important;
+}
+
+#q15 .choice-btn p {
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1.5 !important;
+  text-transform: none !important;
+  color: inherit !important;
+  opacity: 0.75 !important;
+}
+
+/* Q11: slider labels */
+#app-range-label,
+#q11 .text-\[10px\] {
+  font-size: 0.825rem !important;
+  letter-spacing: 0.1em !important;
+}

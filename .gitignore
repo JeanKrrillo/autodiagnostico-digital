@@ -1,0 +1,14 @@
+# Dumps y herramientas locales
+repomix-output.xml
+.repomixignore
+codito.txt
+*.log
+
+# IDEs y configuración local
+.claude/
+.vscode/
+.idea/
+
+# Sistema operativo
+Thumbs.db
+.DS_Store

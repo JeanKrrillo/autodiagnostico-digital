@@ -1,0 +1,51 @@
+:root {
+  /* PALETA PRINCIPAL */
+  --verde-forense: #2D3924;
+  /* Verde táctico oscuro — texto principal, bordes, fondos oscuros */
+  --verde-mutated: #5A6B4E;
+  /* Verde oliva intermedio — uso decorativo y fondos medios */
+  --dorado-premium: #E8B45B;
+  /* Dorado de acento — highlights, badges, estado activo */
+  --dorado-oscuro: #B58328;
+  /* Dorado oscuro — subtítulos, estado hover del dorado */
+  --crema-fondo: #F1EFE7;
+  /* Beige de fondo — background de página */
+  --crema-tarjeta: #FAF8F5;
+  /* Blanco crudo — background de cards y contenedores */
+  --rojo-alerta: #8B1A1A;
+  /* Rojo institucional — alertas, errores, urgencia */
+
+  /* TEXTO SECUNDARIO — derivados de la paleta, nunca grises ajenos */
+  --texto-2: #4A5E40;
+  /* Verde oliva oscuro, ratio ~6:1 sobre crema. Peso mínimo: 500 */
+  --texto-3: #6B7E5F;
+  /* Verde oliva medio, ratio ~4.5:1 sobre crema. Peso mínimo: 700 */
+
+  /* VARIABLES DINÁMICAS DE RIESGO */
+  --risk-accent: #E8B45B;
+  --risk-glow: rgba(232, 180, 91, 0.15);
+  --risk-border: rgba(232, 180, 91, 0.4);
+
+  /* SUPERFICIES */
+  --cristal: rgba(255, 255, 255, 0.88);
+  --borde-cristal: rgba(45, 57, 36, 0.12);
+
+  /* VARIABLES AUXILIARES DE COMPONENTES */
+  --negro-vortex: #0a0e07;
+  /* Fondo negro profundo para el HUD de vortex */
+  --verde-oscuro: #1a2414;
+  /* Verde forense oscuro para estados de calendario/nodos */
+
+  /* COLOR FRACTURA — naranja de acento para la actividad Fracture */
+  --naranja-fractura: #FF8C00;
+  --naranja-fractura-glow: rgba(255, 140, 0, 0.4);
+  --naranja-fractura-border: rgba(255, 140, 0, 0.3);
+
+  /* ESPACIADO DE BODY — fuente de verdad para offset del header fijo */
+  --body-pt-desktop: 130px;
+  --body-pt-tablet: 125px;
+  --body-pt-mobile: 92px;
+  --body-pt-small: 86px;
+  --body-pt-xs: 80px;
+  --stepper-dot-size: 3rem;
+}

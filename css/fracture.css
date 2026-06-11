@@ -1,0 +1,171 @@
+@import "tokens.css";
+
+/* Fracture Activity Styles */
+.fracture-zone {
+    height: 100%;
+    background: var(--crema-fondo); /* Fondo claro original */
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.fracture-void {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0; height: 0;
+    /* Color sólido y profundo */
+    background-color: var(--negro-vortex); 
+    border-radius: 50%;
+    z-index: 5; 
+    pointer-events: none;
+    opacity: 0;
+    /* IMPORTANTE: Sin filtros de blur ni degradados */
+    filter: none; 
+    transition: opacity 0.5s ease;
+}
+
+.fracture-node {
+    position: absolute;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    z-index: 50; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    color: var(--verde-forense);
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    white-space: nowrap;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    user-select: none;
+}
+
+.fracture-node.critical-node {
+    border-width: 2px;
+    border-color: var(--naranja-fractura-border);
+}
+
+.fracture-node:hover {
+    transform: scale(1.1);
+    z-index: 60;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.fracture-node.selected {
+    background: rgba(15, 15, 15, 0.9);
+    color: var(--naranja-fractura);
+    border: 1px solid var(--naranja-fractura);
+    box-shadow: 0 0 20px var(--naranja-fractura-glow);
+}
+
+/* ── GLITCH DEL TEXTO DEL HUD (FRACTURE_SCAN y %) ────────────────
+   Aplicado a #fracture-title / #fracture-risk, que son texto estático
+   (no se posicionan con GSAP), por lo que animar transform es seguro. */
+@keyframes fracture-text-glitch {
+    0%   { transform: translate(0); }
+    2%   { transform: translate(-2px, 1px) skewX(-1deg); }
+    4%   { transform: translate(2px, -1px) skewX(1deg); }
+    6%   { transform: translate(0); }
+    100% { transform: translate(0); }
+}
+#fracture-title.glitch-low,   #fracture-risk.glitch-low   { animation: fracture-text-glitch 4s infinite; }
+#fracture-title.glitch-mid,   #fracture-risk.glitch-mid {
+    animation: fracture-text-glitch 1.5s infinite;
+    text-shadow: 1px 0 var(--naranja-fractura), -1px 0 var(--rojo-alerta);
+}
+#fracture-title.glitch-high,  #fracture-risk.glitch-high {
+    animation: fracture-text-glitch 0.4s infinite;
+    text-shadow: 2px 0 var(--naranja-fractura), -2px 0 var(--rojo-alerta);
+}
+
+/* ── MODO OSCURO REACTIVO ────────────────────────────────────────
+   Cuando el void negro cubre >30% del área, invertir textos y nodos
+   no seleccionados a claro para mantener la legibilidad. */
+.fracture-dark-mode .fracture-ui-layer,
+.fracture-dark-mode .fracture-title h3 {
+    color: rgba(255, 255, 255, 0.88) !important;
+    transition: color 0.5s ease;
+}
+.fracture-dark-mode #fracture-risk-display {
+    color: var(--naranja-fractura) !important;
+}
+.fracture-dark-mode .fracture-node:not(.selected) {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Glitch progresivo de nodos no seleccionados cuando el riesgo es alto (>70%).
+   NO anima transform: los nodos se posicionan con GSAP (x/y/translate) y
+   sobrescribir transform los desplazaría al centro. Usamos solo filter +
+   box-shadow (aberración cromática) + opacidad, que no tocan el layout. */
+@keyframes fractureNodeGlitch {
+    0%, 100% { box-shadow: 1px 0 0 rgba(255,140,0,0.55), -1px 0 0 rgba(0,180,255,0.45); opacity: 1; }
+    33% { box-shadow: -2px 0 0 rgba(255,140,0,0.6), 2px 0 0 rgba(0,180,255,0.5); opacity: 0.85; }
+    66% { box-shadow: 2px 0 0 rgba(255,140,0,0.5), -2px 0 0 rgba(0,180,255,0.55); opacity: 0.92; }
+}
+.fracture-node.node-glitch {
+    animation: fractureNodeGlitch 0.2s infinite steps(2);
+}
+
+.crack-line {
+    position: absolute;
+    height: 1px;
+    background: var(--naranja-fractura);
+    transform-origin: left center;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.6;
+    box-shadow: 0 0 8px var(--naranja-fractura);
+}
+
+.fracture-core {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--naranja-fractura);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: pulse-fracture-core 2s infinite ease-in-out;
+}
+
+@keyframes pulse-fracture-core {
+    0% { box-shadow: 0 0 15px var(--naranja-fractura); }
+    50% { box-shadow: 0 0 40px var(--naranja-fractura); }
+    100% { box-shadow: 0 0 15px var(--naranja-fractura); }
+}
+
+.fracture-ui-layer {
+    position: absolute;
+    top: 12px; left: 16px; right: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    pointer-events: none;
+    z-index: 120;
+    mix-blend-mode: normal !important;
+    color: var(--verde-forense) !important;
+}
+
+/* Acotar el ancho de cada bloque del HUD para que no invada el centro
+   donde están los nodos clicables. */
+.fracture-ui-layer .fracture-title { max-width: 55%; }
+.fracture-ui-layer #fracture-risk { max-width: 40%; }
+
+.fracture-title h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -1px;
+    color: var(--verde-forense) !important;
+}
+
