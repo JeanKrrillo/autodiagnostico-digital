@@ -17,7 +17,7 @@ const RISK_CONFIG = {
   questions: [
     { 
       id: 1, 
-      text: "¿Cómo vas con la fecha del 1 de julio?", 
+      text: "¿Sabes qué sucede el 1 de julio?",
       opciones: {
         positivo: { label: "Ya registré mi número con mi operadora", value: 0 },
         neutro: { label: "Sé que existe pero no sé qué hacer", value: 20 },
@@ -30,30 +30,30 @@ const RISK_CONFIG = {
       opciones: {
         positivo: { label: "No, cada cuenta tiene la suya", value: 0 },
         neutro: { label: "No estoy seguro / No sé", value: 20 },
-        negativo: { label: "Sí, tengo una o dos que uso en varios lugares", value: 40 }
+        negativo: { label: "Sí, repito alguna en varios lugares", value: 40 }
       }
     },
     { 
       id: 3, 
-      text: "Cuando te piden un código de verificación, ¿cómo te llega?", 
+      text: "Cuando una app te pide un código para entrar ¿cómo te llega?",
       opciones: {
-        positivo: { label: "Lo genero en una app como Google Authenticator o Authy", value: 0 },
+        positivo: { label: "Lo genero en una app (Authenticator, Authy)", value: 0 },
         neutro: { label: "No lo tengo activado o no lo sé", value: 20 },
         negativo: { label: "Me llega por mensaje de texto (SMS)", value: 40 }
       }
     },
     { 
       id: 4, 
-      text: "Si hoy perdieras tu correo electrónico, ¿podrías recuperarlo sin usar tu número de celular?", 
+      text: "Si pierdes tu correo ¿podrías recuperarlo sin tu número?",
       opciones: {
-        positivo: { label: "Sí, tengo un correo alternativo o llaves de recuperación", value: 0 },
+        positivo: { label: "Sí, tengo correo alterno o llaves de recuperación", value: 0 },
         neutro: { label: "No estoy seguro / No sé", value: 20 },
         negativo: { label: "No, el único método que tengo es un SMS", value: 40 }
       }
     },
     { 
       id: 5, 
-      text: "Cuando usas Wi-Fi público, ¿qué haces normalmente?", 
+      text: "Cuando usas Wi-Fi público ¿qué haces normalmente?",
       opciones: {
         positivo: { label: "Uso VPN o prefiero mis datos móviles", value: 0 },
         neutro: { label: "No uso Wi-Fi público", value: 0 },
@@ -66,48 +66,48 @@ const RISK_CONFIG = {
       opciones: {
         positivo: { label: "Uso un gestor de contraseñas", value: 0 },
         neutro: { label: "El navegador las recuerda por mí", value: 20 },
-        negativo: { label: "Las memorizo o las anoto en papel o en notas del celular", value: 40 }
+        negativo: { label: "Las memorizo o las anoto en papel o notas", value: 40 }
       }
     },
     { 
       id: 7, 
-      text: "¿Alguna vez te llegó un código de verificación que no pediste, de WhatsApp, tu correo o tu banco?", 
+      text: "¿Alguna vez te llegó un código SMS de verificación que no pediste?",
       opciones: {
         positivo: { label: "No, nunca", value: 0 },
         neutro: { label: "No lo recuerdo", value: 20 },
-        negativo: { label: "Sí, me ha pasado al menos una vez", value: 40 }
+        negativo: { label: "Sí, me ha pasado", value: 40 }
       }
     },
     { 
       id: 8, 
-      text: "¿Tu celular alguna vez perdió servicio de forma inesperada y sin razón clara?", 
+      text: "¿Tu celular ha perdido señal de repente y sin razón?",
       opciones: {
-        positivo: { label: "No, nunca me ha pasado eso", value: 0 },
+        positivo: { label: "No, nunca", value: 0 },
         neutro: { label: "No estoy seguro / No sé", value: 20 },
-        negativo: { label: "Sí, y tardó horas o días en volver", value: 40 }
+        negativo: { label: "Sí, tardó horas o días en volver", value: 40 }
       }
     },
     { 
       id: 9, 
-      text: "¿Tienes cuentas importantes registradas con un número que ya no usas o que cancelaste?", 
+      text: "¿Tienes cuentas registradas con un número que ya no usas?",
       opciones: {
-        positivo: { label: "No, siempre actualizo mis datos cuando cambio", value: 0 },
-        neutro: { label: "No sé, nunca lo había pensado", value: 20 },
-        negativo: { label: "Posiblemente sí, he cambiado de número sin actualizar todo", value: 40 }
+        positivo: { label: "No, siempre actualizo cuando cambio", value: 0 },
+        neutro: { label: "Nunca lo había pensado", value: 20 },
+        negativo: { label: "Posiblemente, he cambiado de número sin actualizar", value: 40 }
       }
     },
     { 
       id: 10, 
-      text: "¿Tienes respaldados los códigos de emergencia de tus cuentas más importantes, fuera de tu teléfono?", 
+      text: "¿Tienes los códigos de emergencia de tus cuentas guardados fuera del celular?",
       opciones: {
-        positivo: { label: "Sí, los tengo impresos o guardados fuera del celular", value: 0 },
+        positivo: { label: "Sí, los tengo guardados fuera del celular", value: 0 },
         neutro: { label: "No tengo verificación en dos pasos activada", value: 20 },
-        negativo: { label: "No, y no sabía que existían", value: 40 }
+        negativo: { label: "No sabía que existían", value: 40 }
       }
     },
     { 
       id: 11, 
-      text: "¿Cuántos servicios importantes crees que tienen guardado tu número de celular actual?", 
+      text: "¿Cuántos servicios tienen guardado tu número de celular?",
       opciones: {
         positivo: { label: "1-5 apps", value: 0 },
         neutro: { label: "6-15 apps", value: 20 },
@@ -125,11 +125,11 @@ const RISK_CONFIG = {
     },
     { 
       id: 13, 
-      text: "¿Tu chip tiene un PIN propio activado, diferente al que usas para desbloquear la pantalla?", 
+      text: "¿Tu chip tiene el PIN activado, diferente al de la pantalla?",
       opciones: {
-        positivo: { label: "Sí, tengo un PIN del chip configurado", value: 0 },
+        positivo: { label: "Sí, lo tengo activado", value: 0 },
         neutro: { label: "No sabía que eso existía", value: 20 },
-        negativo: { label: "No lo he configurado, pero quiero hacerlo", value: 40 }
+        negativo: { label: "No, pero quiero hacerlo", value: 40 }
       }
     },
     { 
@@ -138,16 +138,16 @@ const RISK_CONFIG = {
       opciones: {
         positivo: { label: "No, voy a estar en México", value: 0 },
         neutro: { label: "No estoy seguro / No sé", value: 20 },
-        negativo: { label: "Sí, tengo viaje planeado en esas fechas", value: 40 }
+        negativo: { label: "Sí, voy a viajar en esas fechas", value: 40 }
       }
     },
     { 
       id: 15, 
       text: "¿Cómo prefieres resolver lo que encontremos?", 
       opciones: {
-        positivo: { label: "Prefiero que alguien me acompañe paso a paso en una sesión", value: 0 },
+        positivo: { label: "Con ayuda — Prefiero que alguien me ayude haciéndolo", value: 0 },
         neutro: { label: "No estoy seguro / No sé", value: 20 },
-        negativo: { label: "Prefiero aprenderlo y hacerlo por mi cuenta con una guía", value: 40 }
+        negativo: { label: "Por mi cuenta — Prefiero aprender y hacerlo con una guía", value: 40 }
       }
     }
   ],
@@ -264,54 +264,54 @@ function calculateFinalRisk(userData) {
 
 const POST_RESPONSES = {
   q1: {
-    negativo: "No te preocupes, es normal y con este diagnóstico vamos a aclararlo poco a poco.",
+    negativo: "No te preocupes, es normal, para eso es este diagnóstico.",
     neutro: "Responder este diagnóstico ya es el primer paso 👍",
-    positivo: "Bien. Ahora conviene revisar si las cuentas siguen dependiendo del SMS, porque registrar el número no resuelve eso."
+    positivo: "Bien. Ahora conviene revisar si tus cuentas siguen dependiendo del SMS, porque el registro no resuelve eso."
   },
   q2: {
-    negativo: "No te preocupes, es lo más común y tiene solución.",
-    neutro: "Vale la pena auditar tus cuentas para asegurar que no repitas contraseñas.",
-    positivo: "Muy bien, eso ya es un buen hábito."
+    negativo: "Es lo más común y tiene solución.",
+    neutro: "Vale la pena revisar para que no repitas contraseñas.",
+    positivo: "Eso ya es un buen hábito."
   },
   q3: {
-    negativo: "Es lo más común. Vamos a ver si conviene cambiarlo antes del 1 de julio.",
-    neutro: "No te preocupes, muchas personas no lo saben y lo vamos a revisar.",
-    positivo: "Muy bien, ese método no depende del número y es lo que conviene tener."
+    negativo: "Veremos si conviene cambiarlo antes del 1 de julio.",
+    neutro: "Muchas personas no lo saben.",
+    positivo: "Tendremos que revisar."
   },
   q4: {
-    negativo: "Es lo más común y tiene solución, vamos a revisarlo.",
-    neutro: "Es importante configurar correos alternativos de respaldo.",
-    positivo: "Muy bien, eso es exactamente el respaldo que se necesita."
+    negativo: "Tiene solución y lo vamos a revisar.",
+    neutro: "Conviene configurar un correo alterno de respaldo.",
+    positivo: "Justo el respaldo que se necesita."
   },
   q5: {
-    negativo: "Es lo más normal y es uno de los riesgos más fáciles de evitar.",
-    neutro: "Perfecto, eso lo elimina por completo.",
-    positivo: "Muy bien, eso evita ese tipo de intercepción."
+    negativo: "Es lo más normal, pero es riesgoso.",
+    neutro: "Perfecto, eso disminuye el riesgo.",
+    positivo: "Muy bien, buena precaución."
   },
   q6: {
-    negativo: "Es lo más común. El problema es que lleva a contraseñas simples o repetidas porque nadie puede memorizar 50 claves distintas.",
-    neutro: "Es mejor que nada, aunque si alguien accede a la computadora desbloqueada, podría ver tus claves.",
-    positivo: "Muy bien, genera claves difíciles de adivinar y las recuerda por ti."
+    negativo: "Cuidado, nadie logra memorizar 50 claves distintas.",
+    neutro: "Es mejor que nada, aunque no te descuides.",
+    positivo: "✅ Muy bien, genera claves difíciles de adivinar y las recuerda por ti."
   },
   q7: {
-    negativo: "Ten cuidado, eso confirma que alguien tiene el número y lo está probando.",
-    neutro: "Vale la pena estar más al pendiente de eso porque muchas personas los ignoran pensando que son errores.",
+    negativo: "Alguien intentó entrar. Vale la pena revisar esa cuenta.",
+    neutro: "Mucha gente los ignora. Conviene estar al pendiente.",
     positivo: "Bien, aunque puede cambiar, especialmente después del 1 de julio."
   },
   q8: {
-    negativo: "Puede haber sido un fallo temporal o un intento de robo real. Si en esa época notaste algo raro en tus cuentas, vale la pena revisarlo.",
-    neutro: "Mantente alerta a pérdidas repentinas de señal.",
-    positivo: "Buena señal, aunque no descarta el riesgo."
+    negativo: "Pudo ser un fallo. Si notaste algo raro, revisa.",
+    neutro: "Si pasa alguna vez, ya sabes qué puede significar.",
+    positivo: "Bien. Si pasa alguna vez, ya sabes qué checar."
   },
   q9: {
-    negativo: "Es un riesgo. Nadie avisa cuando el número se reasigna y vale la pena revisar los datos de contacto del banco y del correo.",
-    neutro: "Saber qué número tiene registrado cada cuenta toma pocos minutos y vale la pena revisarlo, si deseas asistencia, me puedes contactar.",
-    positivo: "Muy bien, mantener eso actualizado es una de las cosas más sencillas"
+    negativo: "Nadie avisa cuando reasignan tu número. Revisa tus cuentas principales.",
+    neutro: "Revísalo rápido desde la configuración de cada cuenta.",
+    positivo: "Eso es de lo más sencillo y ya lo tienes."
   },
   q10: {
-    negativo: "No te preocupes, la mayoría está en esa situación.",
-    neutro: "Sin verificación en dos pasos, una contraseña filtrada es suficiente para perder el acceso completo. Es lo primero que conviene activar.",
-    positivo: "Muy bien, un respaldo físico que no depende de señal ni batería es lo que se necesita 👍"
+    negativo: "La mayoría no los conoce. Se generan desde la configuración de cada cuenta.",
+    neutro: "Si tu contraseña se filtra, pierdes el acceso. Conviene activar verificación en dos pasos.",
+    positivo: "✅ Muy bien, es un respaldo que no depende de señal ni batería👍"
   },
   q11: {
     negativo: "Con ese nivel de dependencia, perder el número o que lo clonen afectaría varios servicios a la vez. Vamos a priorizar lo más crítico.",
@@ -319,19 +319,19 @@ const POST_RESPONSES = {
     positivo: "La exposición es manejable y con poco tiempo se puede migrar todo a métodos más seguros."
   },
   q12: {
-    negativo: "Si tenía apps bancarias o redes abiertas, vale la pena revisar si hubo actividad inusual después de eso.",
-    neutro: "Configura el borrado remoto en tu dispositivo por prevención.",
-    positivo: "Tener activado el borrado remoto es una buena precaución por si llega a ocurrir."
+    negativo: "Si tenías apps bancarias o redes abiertas, vale la pena revisar.",
+    neutro: "Tener borrado remoto activado es buena precaución.",
+    positivo: "Tener borrado remoto activado es buena precaución."
   },
   q13: {
-    negativo: "No lo he configurado, pero quiero hacerlo. Si deseas asistencia, me puedes contactar👍",
-    neutro: "No te preocupes, es lo más normal y activarlo toma pocos minutos. Si deseas asistencia, me puedes contactar👍",
-    positivo: "Muy bien, si alguien roba el chip no puede usarlo sin ese código y es una protección que poca gente tiene."
+    negativo: "Se activa desde la configuración del celular en unos minutos.",
+    neutro: "La mayoría no sabe que existe. Activarlo toma pocos minutos.",
+    positivo: "Casi nadie lo tiene activado. Buena protección."
   },
   q14: {
-    negativo: "Eso hace más urgente resolver las vulnerabilidades antes de salir porque estando fuera las opciones se reducen bastante.",
-    neutro: "Si viajas, considera asegurar tus cuentas con métodos offline.",
-    positivo: "Bien, eso da margen para resolver lo necesario con calma."
+    negativo: "Conviene resolver todo antes de salir.",
+    neutro: "Si viajas, conviene tener todo configurado antes de salir.",
+    positivo: "Bien, hay margen para resolverlo con calma."
   },
   q15: {
     negativo: "Cualquiera de las dos opciones lleva al mismo resultado.",
@@ -342,74 +342,74 @@ const POST_RESPONSES = {
 
 const QUIZ_SYNTHESIS = {
   q1: {
-    negativo: "Desconocimiento sobre el registro obligatorio de tu línea ante la operadora.",
-    neutro: "Falta de claridad sobre el registro obligatorio de tu línea telefónica.",
-    positivo: "Registro preventivo de tu número celular ante la operadora telefónica."
+    negativo: "No conocías el registro obligatorio de línea.",
+    neutro: "Conoces el registro pero no has hecho nada al respecto.",
+    positivo: "Tu línea ya está registrada ante la operadora."
   },
   q2: {
-    negativo: "Uso de contraseñas repetidas en múltiples servicios críticos.",
-    neutro: "Falta de certeza en la unicidad de las contraseñas utilizadas.",
-    positivo: "Uso de una contraseña exclusiva y única para cada cuenta."
+    negativo: "Usas la misma contraseña en varias cuentas.",
+    neutro: "No tienes certeza de si repites contraseñas.",
+    positivo: "Cada cuenta tiene su propia contraseña."
   },
   q3: {
-    negativo: "Uso de códigos de verificación por SMS (vulnerable a SIM Swapping).",
-    neutro: "Falta de un método seguro de verificación en dos pasos (2FA).",
-    positivo: "Uso de aplicaciones de autenticación independientes (TOTP) para tus accesos."
+    negativo: "Tus códigos de verificación llegan por SMS.",
+    neutro: "No tienes verificación en dos pasos activada.",
+    positivo: "Usas una app de autenticación para tus códigos."
   },
   q4: {
-    negativo: "Centralización del respaldo de tu correo en la línea celular (SMS).",
-    neutro: "Incertidumbre sobre los métodos de recuperación de tu correo principal.",
-    positivo: "Métodos alternativos de recuperación de correo que no dependen del chip."
+    negativo: "Tu correo solo se recupera por SMS.",
+    neutro: "No sabes cómo se recupera tu correo principal.",
+    positivo: "Tu correo tiene métodos de recuperación que no dependen del chip."
   },
   q5: {
-    negativo: "Conexión desprotegida a redes Wi-Fi públicas de libre acceso.",
-    neutro: "Prevención de riesgos al evitar el uso de redes Wi-Fi públicas.",
-    positivo: "Uso de VPN o datos móviles para proteger tu tráfico en redes públicas."
+    negativo: "Te conectas a Wi-Fi público sin protección.",
+    neutro: "No usas Wi-Fi público.",
+    positivo: "Usas VPN o datos móviles en redes públicas."
   },
   q6: {
-    negativo: "Almacenamiento de claves en papel, notas del celular o memoria física perezosa.",
-    neutro: "Dependencia exclusiva del navegador web para recordar tus contraseñas.",
-    positivo: "Uso de un gestor de contraseñas dedicado para almacenar y encriptar tus claves."
+    negativo: "Guardas contraseñas de memoria, en papel o en notas del celular.",
+    neutro: "El navegador guarda tus contraseñas.",
+    positivo: "Usas un gestor de contraseñas."
   },
   q7: {
-    negativo: "Recepción de códigos de verificación no solicitados (posible intrusión).",
-    neutro: "Posibles solicitudes de códigos no registrados o ignorados.",
-    positivo: "Sin reportes ni recepciones sospechosas de códigos ajenos."
+    negativo: "Has recibido códigos de verificación que no pediste.",
+    neutro: "No recuerdas si te han llegado códigos que no pediste.",
+    positivo: "No te han llegado códigos que no hayas pedido."
   },
   q8: {
-    negativo: "Historial de pérdida sospechosa de señal móvil en tu dispositivo.",
-    neutro: "Incertidumbre ante posibles incidentes previos de caída de señal de red.",
-    positivo: "Línea móvil estable sin pérdidas de servicio injustificadas."
+    negativo: "Tu celular perdió señal de forma inesperada.",
+    neutro: "No sabes si tu celular ha perdido señal de forma inusual.",
+    positivo: "Tu línea no ha presentado pérdidas de señal inusuales."
   },
   q9: {
-    negativo: "Cuentas registradas con números telefónicos antiguos u obsoletos.",
-    neutro: "Posible existencia de cuentas ligadas a números de teléfono que ya no posees.",
-    positivo: "Actualización sistemática de tus datos de contacto en cada servicio."
+    negativo: "Tienes cuentas con un número que ya no usas.",
+    neutro: "No sabes si alguna cuenta tiene un número viejo.",
+    positivo: "Actualizas tus datos de contacto cuando cambias de número."
   },
   q10: {
-    negativo: "Falta de códigos de emergencia respaldados fuera de tus dispositivos.",
-    neutro: "Cuentas expuestas por no tener activada la verificación en dos pasos.",
-    positivo: "Respaldo físico y externo de los códigos de emergencia de tus cuentas."
+    negativo: "No tienes códigos de emergencia guardados fuera del celular.",
+    neutro: "No tienes verificación en dos pasos activada.",
+    positivo: "Tienes códigos de emergencia guardados fuera del celular."
   },
   q11: {
-    negativo: "Exposición crítica: más de 15 aplicaciones vinculadas directamente al SMS.",
-    neutro: "Exposición moderada: entre 6 y 15 aplicaciones vinculadas a tu número celular.",
-    positivo: "Exposición baja: menos de 5 aplicaciones asociadas a tu número telefónico."
+    negativo: "Más de 15 apps dependen de tu número.",
+    neutro: "Entre 6 y 15 apps dependen de tu número.",
+    positivo: "Menos de 5 apps dependen de tu número."
   },
   q12: {
-    negativo: "Incidente de robo o extravío de dispositivo móvil en el último año.",
-    neutro: "Falta de medidas preventivas ante posible pérdida o robo de equipo.",
-    positivo: "Sin incidentes recientes de pérdida o robo de tu dispositivo."
+    negativo: "Perdiste o te robaron el celular recientemente.",
+    neutro: "No tienes medidas configuradas por si pierdes el celular.",
+    positivo: "No has perdido ni te han robado el celular recientemente."
   },
   q13: {
-    negativo: "Falta de configuración de un PIN de seguridad en tu tarjeta SIM física.",
-    neutro: "Desconocimiento sobre la protección por PIN de la tarjeta SIM física.",
-    positivo: "Tarjeta SIM física protegida con un PIN de bloqueo personalizado."
+    negativo: "Tu chip no tiene PIN activado.",
+    neutro: "No sabías que el chip tiene opción de PIN.",
+    positivo: "Tu chip tiene PIN activado."
   },
   q14: {
-    negativo: "Viaje al extranjero planificado durante el periodo crítico de transición de línea.",
-    neutro: "Posible ausencia del país durante fechas clave para la gestión de tu línea.",
-    positivo: "Estancia en el país durante las fechas de transición, asegurando soporte."
+    negativo: "Tienes viaje planificado durante las fechas de transición.",
+    neutro: "No sabes si estarás en México durante las fechas clave.",
+    positivo: "Estarás en México durante las fechas de transición."
   }
 };
 

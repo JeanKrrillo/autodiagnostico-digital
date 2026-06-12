@@ -331,13 +331,13 @@ const RiskEngine = (() => {
         // Sección 1: Nivel de riesgo y su descripción en lenguaje simple.
         let levelDesc = "";
         if (level === 'critical') {
-            levelDesc = "tu seguridad digital es sumamente frágil. La dependencia casi absoluta del SMS y del número celular como llave de acceso expone tus cuentas bancarias, redes y correos a pérdidas irreparables ante cualquier eventualidad de tu chip o línea antes del 1 de julio.";
+            levelDesc = "La mayoría de tus cuentas dependen del SMS. Si tu línea deja de funcionar antes del 1 de julio, pierdes acceso a bancos, correos y redes. Se puede resolver.";
         } else if (level === 'optimal') {
-            levelDesc = "tu seguridad es sólida. Has desacoplado exitosamente gran parte de tus servicios y cuentas críticas de la dependencia exclusiva del chip celular, disminuyendo significativamente tu superficie de exposición.";
+            levelDesc = "Tus cuentas principales ya no dependen exclusivamente del chip. Si algo le pasa a tu número, tu acceso digital sigue funcionando.";
         } else {
-            levelDesc = "tienes vulnerabilidades preventivas importantes. Aunque cuentas con algunas medidas de protección, existen anclajes peligrosos en tu número telefónico que podrían dejarte fuera de tus servicios clave en caso de suspensión o robo de línea.";
+            levelDesc = "Tienes medidas de protección, pero sigues dependiendo de tu número. Si la línea se suspende o se clona, quedan inaccesibles.";
         }
-        let section1 = `<p>Tu nivel de riesgo es <strong>${total}%</strong> y eso significa que ${levelDesc}</p>`;
+        let section1 = `<p>Tu nivel de riesgo es <strong>${total}%</strong>. ${levelDesc}</p>`;
 
         // Sección 2: Puntos de riesgo encontrados (obtenidos dinámicamente de las respuestas negativas/neutras y sus post-respuestas específicas).
         let badPoints = [];
@@ -387,15 +387,15 @@ const RiskEngine = (() => {
             const q13Ans = _state.quiz.answers['q13'];
 
             if (q3Ans === 'negativo') {
-                worstPointText = "la recepción de códigos de verificación por SMS. Conviene migrar a una app de autenticación (TOTP) para no depender del chip telefónico.";
+                worstPointText = "tus códigos llegan por SMS. Cambiarlos a una app deja de depender del chip.";
             } else if (q2Ans === 'negativo') {
-                worstPointText = "el uso de contraseñas duplicadas. Si un servicio se va comprometido, todas tus demás cuentas quedan expuestas.";
+                worstPointText = "usas contraseñas repetidas. Si se filtra una, podrías perder todo. Un gestor lo resuelve.";
             } else if (q10Ans === 'negativo') {
-                worstPointText = "la falta de respaldo de tus códigos de emergencia. Si pierdes el acceso a tu método principal de 2FA, no tendrás forma de recuperar tus cuentas.";
+                worstPointText = "no tienes códigos de emergencia. Si pierdes el método de verificación, son la única forma de entrar.";
             } else if (q13Ans === 'negativo') {
-                worstPointText = "no tener un PIN de SIM configurado. Cualquiera que robe tu chip físico podría usar tu número telefónico en otro dispositivo.";
+                worstPointText = "tu chip no tiene PIN activado. Si alguien lo saca y lo pone en otro teléfono, tiene acceso a tu número.";
             } else {
-                worstPointText = "vigilar preventivamente tus accesos y mantener tu seguridad actualizada.";
+                worstPointText = "mantener tus accesos actualizados y revisar configuraciones de vez en cuando.";
             }
         }
         let section4 = `<p>El punto más importante en tu caso es ${worstPointText}</p>`;
@@ -409,17 +409,17 @@ const RiskEngine = (() => {
                 </div>
                 <hr class="border-gray-200/60">
                 <div class="narrative-section">
-                    <h4 class="font-black text-xs uppercase tracking-widest text-red-500 mb-2">2. Puntos de Vulnerabilidad</h4>
+                    <h4 class="font-black text-xs uppercase tracking-widest text-red-500 mb-2">2. Qué conviene revisar</h4>
                     ${section2}
                 </div>
                 <hr class="border-gray-200/60">
                 <div class="narrative-section">
-                    <h4 class="font-black text-xs uppercase tracking-widest text-green-600 mb-2">3. Hábitos Seguros Cubiertos</h4>
+                    <h4 class="font-black text-xs uppercase tracking-widest text-green-600 mb-2">3. Lo que ya tienes cubierto</h4>
                     ${section3}
                 </div>
                 <hr class="border-gray-200/60">
                 <div class="narrative-section">
-                    <h4 class="font-black text-xs uppercase tracking-widest text-[#E8B45B] mb-2">4. Recomendación Crítica</h4>
+                    <h4 class="font-black text-xs uppercase tracking-widest text-[#E8B45B] mb-2">4. Lo más importante en tu caso</h4>
                     ${section4}
                 </div>
             </div>

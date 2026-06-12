@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
-    <title>División de Inteligencia Digital - Protocolo P-CRT</title>
+    <title>Inteligencia Digital 2026 — Cuestionario de Diagnóstico Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800;12..96,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,700;0,800;0,900;1,400&display=swap"
@@ -52,7 +52,7 @@
                 <div class="flex flex-col">
                     <h1
                         class="font-tech text-[16px] text-[var(--dorado-premium)] font-bold tracking-[4px] uppercase leading-tight mb-3">
-                        CUESTIONARIO<br>AUTODIAGNÓSTICO DIGITAL
+                        CUESTIONARIO<br>DE DIAGNÓSTICO DIGITAL
                     </h1>
 
                     <div class="flex flex-col gap-1.5">
@@ -114,15 +114,12 @@
             <section id="step-1" class="step-container active">
                 <div>
                     <div class="mb-6 px-2 text-center">
-                        <span class="t-subtitulo block mb-1">Fase 01 — Quiz de Resiliencia</span>
-                        <h2 class="t-titulo mb-3" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">Quiz de Resiliencia
+                        <span class="t-subtitulo block mb-1">Fase 01 — Diagnóstico</span>
+                        <h2 class="t-titulo mb-3" style="font-size: clamp(1.8rem, 4vw, 2.5rem);">Diagnóstico
                         </h2>
-                        <p class="t-parrafo max-w-2xl mx-auto mb-2">Veamos cómo está tu seguridad digital ahora mismo. No hay
-                            respuestas correctas ni incorrectas.</p>
-                        <p class="t-parrafo max-w-2xl mx-auto">Independientemente de que decidas vincular tu CURP o no, casi
-                            todas nuestras cuentas digitales dependen del número de celular. Este diagnóstico ayuda a
-                            ver tus puntos vulnerables y qué conviene resolver antes del 1 de julio. Son 15 preguntas y
-                            tarda pocos minutos.</p>
+                        <p class="t-parrafo max-w-2xl mx-auto">Casi todas nuestras cuentas dependen del número de
+                            celular. Este diagnóstico revisa tus puntos vulnerables y qué conviene resolver antes del 1
+                            de julio. No hay respuestas correctas ni incorrectas.</p>
                     </div>
 
                     <div id="quiz-container" class="relative">
@@ -131,11 +128,9 @@
                         <div class="q-card active" id="q1">
                             <div class="space-y-8">
                                 <div class="text-center px-4">
-                                    <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">01. ¿Cómo vas
-                                        con la fecha del 1 de julio?</h2>
-                                    <p class="t-parrafo mt-2">El 1 de julio las telefónicas están obligadas a suspender
-                                        líneas que no estén registradas y casi todo nuestro acceso digital pasa por ese
-                                        número independientemente de lo que decidamos hacer con él.</p>
+                                    <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">01. ¿Sabes qué
+                                        sucede el 1 de julio?</h2>
+                                    <p class="t-parrafo mt-2">El 1 de julio planean suspender líneas no registradas.</p>
                                 </div>
                                 <div class="grid grid-cols-7 gap-1.5 sm:gap-2 max-w-[300px] sm:max-w-[320px] mx-auto p-4 sm:p-5 bg-gradient-to-br from-white to-gray-50 rounded-[28px] shadow-md border border-gray-100/80"
                                     id="calendar">
@@ -163,9 +158,9 @@
                                 <div class="text-center px-4">
                                     <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">02. ¿Usas la
                                         misma contraseña en más de un servicio?</h2>
-                                    <p class="t-parrafo mt-2">Usar la misma contraseña en más de un lugar es el error
-                                        más común y si alguien descubre una sola, intenta entrar a todo lo demás con
-                                        ella automáticamente.</p>
+                                    <p class="t-parrafo mt-2">Casi todas tus cuentas dependen de tu número. Esto revisa
+                                        qué conviene resolver antes del 1 de julio. No hay respuestas correctas ni
+                                        incorrectas.</p>
                                 </div>
                                 <div class="flex justify-center items-center gap-6 py-8">
                                     <div
@@ -180,8 +175,8 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <button onclick="ans(2, 'negativo', 'mirror', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo una o dos que
-                                        uso en varios lugares</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, repito alguna en
+                                        varios lugares</button>
                                     <button onclick="ans(2, 'positivo', 'none', this)"
                                         class="choice-btn p-5 rounded-2xl font-black uppercase">No, cada cuenta tiene la
                                         suya</button>
@@ -197,11 +192,10 @@
                         <!-- Q3: SMS vs TOTP -->
                         <div class="q-card" id="q3">
                             <div class="space-y-8 text-center px-4">
-                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">03. Cuando te
-                                    piden un código de verificación, ¿cómo te llega?</h2>
-                                <p class="t-parrafo mt-2">Cuando un servicio pide confirmar tu identidad con un código
-                                    extra, ese código puede llegar por SMS o generarse en una app. El SMS es cómodo pero
-                                    si alguien clona tu chip, recibe ese código en tu lugar.</p>
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">03. Cuando una app
+                                    te pide un código para entrar ¿cómo te llega?</h2>
+                                <p class="t-parrafo mt-2">Puede llegar por SMS o generarse en una app. El SMS depende de
+                                    tu chip: si lo clonan, reciben tu código.</p>
                                 <div class="flex justify-center py-6">
                                     <div
                                         class="w-48 h-16 bg-[var(--crema-fondo)] rounded-full p-1.5 relative border border-[var(--borde-cristal)] shadow-inner">
@@ -221,7 +215,7 @@
                                         texto (SMS)</button>
                                     <button onclick="ans(3, 'positivo', 'toggle-vault', this)"
                                         class="choice-btn p-5 rounded-2xl font-black uppercase">Lo genero en una app
-                                        como Google Authenticator o Authy</button>
+                                        (Authenticator, Authy)</button>
 
                                     <button onclick="ans(3, 'neutro', 'none', this)"
                                         class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
@@ -234,11 +228,11 @@
                         <!-- Q4: OUROBOROS -->
                         <div class="q-card" id="q4">
                             <div class="space-y-8 text-center px-4">
-                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">04. Si hoy
-                                    perdieras tu correo electrónico, ¿podrías recuperarlo sin usar tu número de celular?
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">04. Si pierdes tu
+                                    correo ¿podrías recuperarlo sin tu número?
                                 </h2>
-                                <p class="t-parrafo mt-2">Si pierdes acceso a tu correo y para recuperarlo te mandan un
-                                    SMS, pero también perdiste el número, te quedas sin entrar a ninguno de los dos.</p>
+                                <p class="t-parrafo mt-2">Si tu correo se recupera por SMS y también pierdes el número,
+                                    te quedas sin los dos.</p>
                                 <div class="flex justify-center py-4">
                                     <svg width="180" height="180" viewBox="0 0 100 100" class="overflow-visible">
                                         <circle cx="50" cy="50" r="40" fill="none" stroke="#f3f4f6" stroke-width="3" />
@@ -256,8 +250,8 @@
                                         class="choice-btn p-5 rounded-2xl font-black uppercase">No, el único método que
                                         tengo es un SMS</button>
                                     <button onclick="ans(4, 'positivo', 'none', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo un correo
-                                        alternativo o llaves de recuperación</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo correo
+                                        alterno o llaves de recuperación</button>
 
                                     <button onclick="ans(4, 'neutro', 'none', this)"
                                         class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
@@ -271,10 +265,9 @@
                         <div class="q-card" id="q5">
                             <div class="space-y-8 text-center px-4">
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">05. Cuando usas
-                                    Wi-Fi público, ¿qué haces normalmente?</h2>
-                                <p class="t-parrafo mt-2">En el Wi-Fi de cafeterías, aeropuertos o centros comerciales,
-                                    cualquier persona conectada a esa misma red puede ver lo que escribes y no se
-                                    necesita hackear nada, solo estar en la misma red.</p>
+                                    Wi-Fi público ¿qué haces normalmente?</h2>
+                                <p class="t-parrafo mt-2">En un Wi-Fi público, cualquier persona conectada podría
+                                    vulnerarte.</p>
                                 <div
                                     class="relative h-40 max-w-[280px] mx-auto flex justify-center items-end overflow-hidden rounded-[32px] bg-[var(--crema-tarjeta)] border border-[var(--borde-cristal)] pb-4 shadow-sm">
                                     <!-- Anzuelo centrado perfectamente -->
@@ -308,9 +301,8 @@
                             <div class="space-y-8 text-center px-4">
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">06. ¿Cómo guardas
                                     actualmente tus contraseñas?</h2>
-                                <p class="t-parrafo mt-2">Un gestor de contraseñas es una app que guarda todas tus
-                                    claves bajo una sola contraseña maestra y las opciones gratuitas más conocidas son
-                                    Bitwarden y el llavero de Apple o Android.</p>
+                                <p class="t-parrafo mt-2">Un gestor de contraseñas guarda todas tus claves de manera
+                                    segura.</p>
                                 <div class="flex justify-center items-center gap-12 py-8">
                                     <div id="safe-box"
                                         class="w-24 h-24 bg-[var(--verde-oscuro)] rounded-[2rem] flex items-center justify-center text-4xl shadow-xl border-4 border-[var(--verde-oscuro)]">
@@ -325,7 +317,7 @@
                                         contraseñas</button>
                                     <button onclick="ans(6, 'negativo', 'book', this)"
                                         class="choice-btn p-5 rounded-2xl font-black uppercase">Las memorizo o las anoto
-                                        en papel o en notas del celular</button>
+                                        en papel o notas</button>
 
                                     <button onclick="ans(6, 'neutro', 'none', this)"
                                         class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
@@ -339,10 +331,9 @@
                         <div class="q-card" id="q7">
                             <div class="space-y-8 text-center px-4">
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">07. ¿Alguna vez
-                                    te llegó un código de verificación que no pediste, de WhatsApp, tu correo o tu
-                                    banco?</h2>
-                                <p class="t-parrafo mt-2">Recibir un código de verificación que no pediste, es señal de
-                                    que alguien está intentando entrar a esa cuenta en ese momento.</p>
+                                    te llegó un código SMS de verificación que no pediste?</h2>
+                                <p class="t-parrafo mt-2">Si te llega un código que no pediste, alguien está intentando
+                                    entrar a esa cuenta.</p>
                                 <div
                                     class="relative w-52 h-52 mx-auto bg-[var(--crema-tarjeta)] rounded-full shadow-inner p-2 border border-[var(--borde-cristal)]">
                                     <svg width="100%" height="100%" viewBox="0 0 100 100">
@@ -359,8 +350,8 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <button onclick="ans(7, 'negativo', 'dots', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, me ha pasado al
-                                        menos una vez</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, me ha
+                                        pasado</button>
                                     <button onclick="ans(7, 'positivo', 'none', this)"
                                         class="choice-btn p-5 rounded-2xl font-black uppercase">No, nunca</button>
                                     <button onclick="ans(7, 'neutro', 'none', this)"
@@ -375,10 +366,9 @@
                         <div class="q-card" id="q8">
                             <div class="space-y-8 text-center px-4">
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">08. ¿Tu celular
-                                    alguna vez perdió servicio de forma inesperada y sin razón clara?</h2>
-                                <p class="t-parrafo mt-2">Perder señal de repente puede ser indicio de SIM Swapping, que
-                                    es cuando alguien convence a tu operadora de transferir tu número a un chip distinto
-                                    y a partir de ahí reciben todos tus SMS en tu lugar.</p>
+                                    ha perdido señal de repente y sin razón?</h2>
+                                <p class="t-parrafo mt-2">Perder señal de repente puede ser SIM Swapping: alguien
+                                    transfiere tu número a otro chip y recibe tus SMS.</p>
                                 <div
                                     class="flex flex-col items-center py-6 bg-[var(--crema-tarjeta)] rounded-[32px] max-w-[280px] mx-auto shadow-sm border border-[var(--borde-cristal)]">
                                     <div id="signal-bars" class="flex items-end justify-center gap-1.5 h-16 py-4">
@@ -396,11 +386,10 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <button onclick="ans(8, 'negativo', 'glitch', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, y tardó horas o días
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tardó horas o días
                                         en volver</button>
                                     <button onclick="ans(8, 'positivo', 'none', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, nunca me ha pasado
-                                        eso</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, nunca</button>
 
                                     <button onclick="ans(8, 'neutro', 'none', this)"
                                         class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-gray-300">
@@ -414,10 +403,9 @@
                         <div class="q-card" id="q9">
                             <div class="space-y-8 text-center px-4">
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">09. ¿Tienes
-                                    cuentas importantes registradas con un número que ya no usas o que cancelaste?</h2>
-                                <p class="t-parrafo mt-2">Cuando se cancela un número, la operadora eventualmente lo
-                                    reasigna a otra persona y si esa persona recibe un SMS de tu banco porque olvidaste
-                                    actualizar tus datos, puede acceder a tu cuenta.</p>
+                                    cuentas registradas con un número que ya no usas?</h2>
+                                <p class="t-parrafo mt-2">Cuando cancelas un número, la operadora lo reasigna a otra
+                                    persona. Si esa persona recibe un SMS de tu banco, puede entrar a tu cuenta.</p>
                                 <div class="flex justify-center py-6">
                                     <div class="flip-card w-64 max-w-full" id="id-card">
                                         <div class="flip-card-inner">
@@ -437,15 +425,15 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <button onclick="ans(9, 'negativo', 'flip', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Posiblemente sí, he
-                                        cambiado de número sin actualizar todo</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Posiblemente, he
+                                        cambiado de número sin actualizar</button>
                                     <button onclick="ans(9, 'positivo', 'none', this)"
                                         class="choice-btn p-5 rounded-2xl font-black uppercase">No, siempre actualizo
-                                        mis datos cuando cambio</button>
+                                        cuando cambio</button>
 
                                     <button onclick="ans(9, 'neutro', 'none', this)"
                                         class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-gray-300">
-                                        No sé, nunca lo había pensado
+                                        Nunca lo había pensado
                                     </button>
                                 </div>
                             </div>
@@ -454,12 +442,10 @@
                         <!-- Q10: IMPRESORA -->
                         <div class="q-card" id="q10">
                             <div class="space-y-8 text-center px-4">
-                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">10. ¿Tienes
-                                    respaldados los códigos de emergencia de tus cuentas más importantes, fuera de tu
-                                    teléfono?</h2>
-                                <p class="t-parrafo mt-2">Cuando activas la verificación en dos pasos, los servicios te
-                                    ofrecen códigos de emergencia para entrar si pierdes acceso al método normal, y la
-                                    mayoría los ignora sin saber que son el último recurso disponible.</p>
+                                <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">10. ¿Tienes los
+                                    códigos de emergencia de tus cuentas guardados fuera del celular?</h2>
+                                <p class="t-parrafo mt-2">Al activar la verificación en dos pasos, te dan códigos de
+                                    emergencia para entrar si pierdes el método normal. Son el último recurso.</p>
                                 <div
                                     class="relative w-56 h-40 mx-auto bg-[var(--crema-fondo)] rounded-t-3xl flex flex-col items-center p-5 shadow-inner">
                                     <div class="w-full h-3 bg-black/10 rounded-full mb-3 shadow-inner"></div>
@@ -476,10 +462,10 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <button onclick="ans(10, 'positivo', 'print', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, los tengo impresos o
-                                        guardados fuera del celular</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, los tengo guardados
+                                        fuera del celular</button>
                                     <button onclick="ans(10, 'negativo', 'none', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, y no sabía que
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No sabía que
                                         existían</button>
 
                                     <button onclick="ans(10, 'neutro', 'none', this)"
@@ -494,17 +480,15 @@
                         <div class="q-card" id="q11">
                             <div class="space-y-8 text-center px-4">
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">11. ¿Cuántos
-                                    servicios importantes crees que tienen guardado tu número de celular actual?</h2>
-                                <p class="t-parrafo mt-2">Cuantas más apps tienen registrado tu número, más
-                                    consecuencias tiene perderlo o que lo clonen. Piensa en bancos, redes sociales,
-                                    correos, apps de trabajo, streaming, transporte.</p>
+                                    servicios tienen guardado tu número de celular?</h2>
+                                <p class="t-parrafo mt-2">Entre más apps dependan de tu número, más se complica. Bancos,
+                                    redes, correos, transporte.</p>
                                 <div
                                     class="py-10 bg-[var(--crema-tarjeta)] rounded-[32px] max-w-sm mx-auto shadow-sm border border-[var(--borde-cristal)] px-8">
                                     <span id="app-counter"
                                         class="text-7xl font-black tabular-nums text-[var(--verde-oscuro)]">0</span>
                                     <p id="app-range-label" class="t-acompanamiento t-gold mt-2">Exposición baja</p>
-                                    <p class="t-acompanamiento t-muted mt-1">Mueve el slider para estimar. No tiene que
-                                        ser exacto.</p>
+                                    <p class="t-acompanamiento t-muted mt-1">Desliza para elegir un estimado.</p>
                                     <input type="range" min="0" max="30" value="0" id="app-slider"
                                         class="w-full mt-8 accent-[var(--dorado-premium)] cursor-pointer"
                                         oninput="updateAppCounter(this.value)">
@@ -527,9 +511,8 @@
                             <div class="space-y-8 text-center px-4">
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">12. ¿Has perdido
                                     o te han robado el celular en el último año?</h2>
-                                <p class="t-parrafo mt-2">Perder el celular es más que perder el aparato. Si alguien lo
-                                    encuentra con la pantalla desbloqueada, tiene acceso a tus apps, tus SMS y las
-                                    contraseñas guardadas en el navegador.</p>
+                                <p class="t-parrafo mt-2">Si alguien lo encuentra desbloqueado, tiene acceso a apps, SMS
+                                    y contraseñas.</p>
                                 <div class="flex justify-center py-8">
                                     <div id="panic-btn"
                                         class="w-28 h-28 bg-[rgba(139,26,26,0.05)] rounded-full flex items-center justify-center border-[6px] border-[var(--rojo-alerta)] shadow-[0_10px_25px_rgba(139,26,26,0.2)] transition-colors duration-300">
@@ -557,12 +540,10 @@
                         <div class="q-card" id="q13">
                             <div class="space-y-8 text-center px-4">
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">13. ¿Tu chip
-                                    tiene un PIN propio activado, diferente al que usas para desbloquear la pantalla?
+                                    tiene el PIN activado, diferente al de la pantalla?
                                 </h2>
-                                <p class="t-parrafo mt-2">Tu celular tiene dos bloqueos distintos. Uno desbloquea la
-                                    pantalla y el otro protege el chip físico (la SIM), que viene desactivado por
-                                    defecto en casi todos los equipos. Si alguien saca el chip y lo pone en otro
-                                    teléfono, sin ese PIN tiene acceso inmediato al número.</p>
+                                <p class="t-parrafo mt-2">Si alguien saca tu chip y lo pone en otro teléfono, sin ese
+                                    PIN, tiene acceso a tu número.</p>
 
                                 <!-- Indicadores de PIN (4 dígitos) -->
                                 <div class="flex justify-center gap-3 mb-1" id="pin-display">
@@ -625,11 +606,11 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <button onclick="ans(13, 'positivo', 'key-success', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo un PIN del
-                                        chip configurado</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, lo tengo
+                                        activado</button>
                                     <button onclick="ans(13, 'negativo', 'key-fail', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No lo he configurado,
-                                        pero quiero hacerlo</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">No, pero quiero
+                                        hacerlo</button>
 
                                     <button onclick="ans(13, 'neutro', 'none', this)"
                                         class="choice-btn p-4 rounded-2xl font-black uppercase italic col-span-1 md:col-span-2 border-dashed border-[var(--borde-cristal)]">
@@ -645,7 +626,7 @@
                                 <h2 class="t-titulo" style="font-size: clamp(1.4rem, 3.5vw, 1.75rem);">14. ¿Estarás
                                     fuera de México entre junio y julio de este año?</h2>
                                 <p class="t-parrafo mt-2">Si la línea se suspende mientras estás fuera de México,
-                                    recuperar el acceso a las cuentas se complica mucho más que si estuvieras aquí.</p>
+                                    recuperar el acceso se complica mucho.</p>
                                 <div class="flex justify-center py-6">
                                     <div
                                         class="w-40 h-40 globe-rotate relative bg-blue-50 rounded-full shadow-inner p-2 border border-blue-100">
@@ -664,8 +645,8 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <button onclick="ans(14, 'negativo', 'globe-lock', this)"
-                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, tengo viaje planeado
-                                        en esas fechas</button>
+                                        class="choice-btn p-5 rounded-2xl font-black uppercase">Sí, voy a viajar en esas
+                                        fechas</button>
                                     <button onclick="ans(14, 'positivo', 'none', this)"
                                         class="choice-btn p-5 rounded-2xl font-black uppercase">No, voy a estar en
                                         México</button>
@@ -684,32 +665,28 @@
                                 <h2 class="t-titulo"
                                     style="font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 0.5rem;">¿Cómo
                                     prefieres resolver lo que encontremos?</h2>
-                                <p class="t-parrafo mt-2">Ya tenemos suficiente para armar tu diagnóstico. Antes de
-                                    mostrarlo, dime cómo prefieres trabajar esto.</p>
                                 <div class="flex flex-col md:flex-row gap-4 h-auto md:h-[320px]">
                                     <div onclick="finalStep(false, this)"
                                         class="choice-btn flex-1 bg-[var(--crema-tarjeta)] border border-[var(--borde-cristal)] rounded-[40px] p-10 flex flex-col items-center justify-center cursor-pointer group">
                                         <span class="text-6xl mb-6 group-hover:scale-110 transition-transform">📖</span>
                                         <h3
                                             class="font-black uppercase text-sm tracking-widest text-[var(--verde-oscuro)]">
-                                            Camino DIY</h3>
-                                        <p class="t-acompanamiento t-muted mt-3 px-2 text-center">Prefiero aprenderlo y
-                                            hacerlo por mi cuenta con una guía</p>
+                                            Por mi cuenta</h3>
+                                        <p class="t-acompanamiento t-muted mt-3 px-2 text-center">Prefiero aprender y
+                                            hacerlo con una guía</p>
                                     </div>
                                     <div onclick="finalStep(true, this)"
                                         class="choice-btn flex-1 bg-[var(--verde-oscuro)] text-[var(--dorado-premium)] rounded-[40px] p-10 flex flex-col items-center justify-center cursor-pointer group border-2 border-transparent">
                                         <span class="text-6xl mb-6 group-hover:scale-110 transition-transform">🤝</span>
                                         <h3
                                             class="font-black uppercase text-sm tracking-widest text-[var(--dorado-premium)]">
-                                            Camino DFY</h3>
+                                            Con ayuda</h3>
                                         <p class="t-acompanamiento t-inverse mt-3 px-2 text-center">Prefiero que alguien
-                                            me acompañe paso a paso en una sesión</p>
+                                            me ayude haciéndolo</p>
                                     </div>
                                 </div>
 
                                 <div class="pt-8 flex flex-col items-center gap-4">
-                                    <span class="t-acompanamiento t-muted block text-center">Cualquiera de las dos lleva
-                                        al mismo resultado.</span>
                                     <button id="q15-next-btn" onclick="goToStep(2)"
                                         class="w-full sm:w-auto bg-[var(--verde-forense)] text-[var(--dorado-premium)] px-12 py-5 rounded-xl font-black uppercase text-sm tracking-[3px] shadow-xl hover:-translate-y-1 transition-transform hidden">
                                         Siguiente Fase &#8594;
@@ -755,10 +732,10 @@
                             <span class="t-subtitulo block">Lo que depende de tu número</span>
 
                             <p class="t-parrafo">
-                                Para cada app: si perdieras tu número mañana, ¿seguirías pudiendo entrar?
+                                Si tu número deja de funcionar ¿tienes otro método de acceso?
                                 <span class="t-enfasis t-gold mt-2 block">
-                                    ← Desliza a la izquierda si ya no depende de tu número · Desliza a la derecha si aún
-                                    necesitarías un SMS → · Si dudas o la usas, desliza hacia abajo.
+                                    ← Desliza a la izquierda si tienes un respaldo · Desliza a la derecha si dependes de
+                                    SMS → · ↓ Desliza hacia abajo si no la usas.
                                 </span>
                             </p>
 
@@ -830,8 +807,8 @@
                                 <h2 class="t-titulo mb-1" style="font-size: clamp(1.8rem, 5vw, 3rem);">Vortex</h2>
                                 <span class="t-subtitulo t-inverse block mb-2">Lo que gira alrededor de tu número</span>
                                 <span class="t-enfasis t-gold block">
-                                    Haz click en la app que utilices. Si no la conoces o no la usas, no hagas nada. Al
-                                    terminar, pulsa "Análisis".
+                                    Toca las apps que usas. Si no la conoces o no la usas, déjala. Al terminar, pulsa
+                                    "Análisis".
                                 </span>
                             </div>
 
@@ -887,10 +864,9 @@
                         <div class="pane-instructions space-y-3">
                             <div class="flex-shrink-0">
                                 <h2 class="t-titulo mb-1" style="font-size: clamp(1.8rem, 5vw, 3rem);">Fracture</h2>
-                                <span class="t-subtitulo t-inverse block mb-2">Qué tan frágil es tu seguridad</span>
+                                <span class="t-subtitulo t-inverse block mb-2">Puntos de quiebre</span>
                                 <span class="t-enfasis t-gold block">
-                                    Selecciona las apps que utilices. Si no la conoces o no la usas, no hagas nada. Al
-                                    terminar, pulsa "Continuar".
+                                    Toca las apps que usas. Ignora las demás. Al terminar, pulsa "Continuar".
                                 </span>
                             </div>
 
@@ -933,13 +909,10 @@
                             contraseña?</span>
                         <h2 class="t-titulo mb-2">Simulador de contraseña</h2>
                         <p class="t-parrafo max-w-2xl mx-auto lg:mx-0">
-                            Este simulador muestra qué tan rápido se puede descifrar una contraseña dependiendo de la
-                            longitud, mayúsculas, minúsculas, números y símbolos utilizados. Esta tabla muestra los
-                            tiempos estimados y el simulador te deja probar una contraseña parecida a la tuya para ver
-                            dónde cae.
+                            Mira cuánto tarda en descifrarse una contraseña según su longitud y complejidad. Prueba una
+                            para ver dónde cae.
                             <span class="t-enfasis t-gold mt-3 block">
-                                💡 No necesitas escribir tu contraseña real, prueba una de longitud y tipo similar.
-                                Puedes hacer click en "Generar una contraseña" para saber cuál es una segura.
+                                💡 No uses tu contraseña real. Toca "Generar" para ver cómo es una segura.
                             </span>
                         </p>
                     </div>
@@ -1107,102 +1080,133 @@
                         <p id="fracture-dynamic-message" class="t-parrafo text-center"></p>
                     </div>
 
-                    <!-- Servicios: pricing cards siempre visibles -->
-                    <div class="space-y-3">
+                    <!-- Servicios: configurador en 2 pasos -->
+                    <div class="space-y-4" id="services-section">
                         <p class="text-center text-[var(--verde-forense)] t-acompanamiento">¿Quieres resolver lo que
                             encontramos?</p>
 
+                        <!-- PASO 1: Base obligatoria -->
+                        <div class="text-center">
+                            <h4 class="font-black text-sm uppercase tracking-widest text-[var(--verde-forense)]">PASO
+                                1: Selecciona tu base (obligatorio)</h4>
+                            <p class="t-acompanamiento t-muted text-xs mt-1">Elige una de tus dos modalidades
+                                principales</p>
+                        </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="services-grid">
 
-                            <!-- DIY — Pricing Card -->
-                            <div class="pricing-card glass-panel rounded-2xl overflow-hidden border-2 border-transparent bg-[var(--crema-tarjeta)]/70 flex flex-col"
+                            <!-- BASE: Lo hago yo -->
+                            <div onclick="selectBase('diy')"
+                                class="pricing-card glass-panel rounded-2xl overflow-hidden border-2 border-transparent bg-[var(--crema-tarjeta)]/70 flex flex-col cursor-pointer transition-all"
                                 id="card-diy">
-                                <!-- Cabecera de la card -->
                                 <div class="px-6 pt-6 pb-4 border-b border-[var(--borde-cristal)]">
                                     <span class="t-acompanamiento t-muted text-xs block mb-2">SERVICIO DIGITAL</span>
                                     <h4
                                         class="font-black text-xl uppercase tracking-tight text-[var(--verde-forense)] mb-1">
                                         Lo hago yo</h4>
-                                    <p class="t-subtitulo t-muted mb-4">Guía de Seguridad Resiliente</p>
-                                    <!-- Precio destacado -->
+                                    <p class="t-subtitulo t-muted mb-4">Guía de seguridad digital</p>
                                     <div class="flex items-end gap-2">
                                         <span
                                             class="text-4xl font-black text-[var(--verde-forense)] mono leading-none">$49</span>
                                         <span class="t-acompanamiento t-muted mb-1">pago único</span>
                                     </div>
                                 </div>
-                                <!-- Features -->
-                                <ul class="px-6 py-4 space-y-2 flex-1">
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-green-600 font-black mt-0.5">✓</span> Protege tus 10 cuentas más
-                                        importantes</li>
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-green-600 font-black mt-0.5">✓</span> Sin conocimientos técnicos
-                                        previos</li>
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-green-600 font-black mt-0.5">✓</span> Desliga SMS de cuentas
-                                        bancarias</li>
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-green-600 font-black mt-0.5">✓</span> Configura verificación por
-                                        app (2FA)</li>
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-green-600 font-black mt-0.5">✓</span> Respaldos seguros de
-                                        acceso</li>
-                                </ul>
+                                <p class="px-6 py-4 t-parrafo text-sm flex-1">Te entrego el manual paso a paso con la
+                                    metodología exacta para migrar tus factores de autenticación por tu cuenta.</p>
                                 <div class="px-6 pb-6">
-                                    <button
-                                        class="w-full bg-[var(--verde-forense)] text-[var(--dorado-premium)] py-3.5 rounded-xl shadow-lg hover:-translate-y-1 transition-all t-acompanamiento font-black">Adquirir
-                                        — $49</button>
+                                    <span id="card-diy-check"
+                                        class="block w-full text-center border-2 border-[var(--verde-forense)]/30 text-[var(--verde-forense)] py-3 rounded-xl t-acompanamiento font-black">Seleccionar</span>
                                 </div>
                             </div>
 
-                            <!-- DFY — Pricing Card (destacada) -->
-                            <div class="pricing-card glass-panel rounded-2xl overflow-hidden border-2 border-[var(--dorado-premium)] bg-[var(--dorado-premium)]/8 flex flex-col relative"
+                            <!-- BASE: Hecho contigo -->
+                            <div onclick="selectBase('dfy')"
+                                class="pricing-card glass-panel rounded-2xl overflow-hidden border-2 border-transparent bg-[var(--dorado-premium)]/8 flex flex-col relative cursor-pointer transition-all"
                                 id="card-dfy">
                                 <div class="absolute top-0 left-0 right-0 h-1 bg-[var(--dorado-premium)]"></div>
-                                <div
-                                    class="absolute top-4 right-4 bg-[var(--dorado-premium)] text-[var(--verde-forense)] t-acompanamiento text-xs px-2 py-0.5 rounded font-black">
+                                <div id="card-dfy-badge"
+                                    class="absolute top-4 right-4 bg-[var(--dorado-premium)] text-[var(--verde-forense)] t-acompanamiento text-xs px-2 py-0.5 rounded font-black hidden">
                                     RECOMENDADO</div>
-                                <!-- Cabecera -->
                                 <div class="px-6 pt-7 pb-4 border-b border-[var(--dorado-premium)]/30">
                                     <span class="t-acompanamiento t-muted text-xs block mb-2">ASESORÍA 1-A-1</span>
                                     <h4
                                         class="font-black text-xl uppercase tracking-tight text-[var(--verde-forense)] mb-1">
-                                        Done For You</h4>
-                                    <p class="t-subtitulo t-muted mb-4">Sesión personalizada con experto</p>
+                                        Hecho contigo</h4>
+                                    <p class="t-subtitulo t-muted mb-4">Sesión personalizada</p>
                                     <div class="flex items-end gap-2">
                                         <span
-                                            class="text-4xl font-black text-[var(--verde-forense)] mono leading-none">$299</span>
+                                            class="text-4xl font-black text-[var(--verde-forense)] mono leading-none">$199</span>
                                         <span class="t-acompanamiento t-muted mb-1">sesión única</span>
                                     </div>
                                 </div>
-                                <!-- Features -->
-                                <ul class="px-6 py-4 space-y-2 flex-1">
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> Todo lo de la
-                                        guía, hecho contigo</li>
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> +70
-                                        aplicaciones cubiertas</li>
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> Cuentas
-                                        configuradas al terminar</li>
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> Reporte
-                                        completo con recomendaciones</li>
-                                    <li class="flex items-start gap-2 t-parrafo text-sm"><span
-                                            class="text-[var(--dorado-oscuro)] font-black mt-0.5">✓</span> Sesión
-                                        asíncrona — a tu ritmo</li>
-                                </ul>
-                                <div class="px-6 pb-4">
-                                    <button id="wa-action-btn"
-                                        class="w-full bg-[var(--dorado-premium)] text-[var(--verde-forense)] py-3.5 rounded-xl shadow-lg hover:-translate-y-1 transition-all t-acompanamiento font-black">Agendar
-                                        sesión — $299</button>
+                                <div class="px-6 py-4 flex-1">
+                                    <p class="t-parrafo text-sm">Agenda una sesión privada conmigo para auditar tu
+                                        entorno, detectar aplicaciones vulnerables y resolver dudas.</p>
+                                    <p class="t-acompanamiento t-muted text-xs uppercase mt-3">* No incluye el trámite
+                                        de registro de CURP con operadora.</p>
                                 </div>
-                                <p class="px-6 pb-4 t-acompanamiento t-muted text-xs text-center">* No incluye el
-                                    trámite de registro de CURP con operadora.</p>
+                                <div class="px-6 pb-6">
+                                    <span id="card-dfy-check"
+                                        class="block w-full text-center border-2 border-[var(--dorado-premium)]/40 text-[var(--verde-forense)] py-3 rounded-xl t-acompanamiento font-black">Seleccionar</span>
+                                </div>
                             </div>
+                        </div>
 
+                        <!-- PASO 2: Opcionales -->
+                        <div class="text-center pt-2">
+                            <h4 class="font-black text-sm uppercase tracking-widest text-[var(--verde-forense)]">PASO
+                                2: Selecciones opcionales</h4>
+                            <p class="t-acompanamiento t-muted text-xs mt-1">Personaliza tu nivel de protección o
+                                solicita precio especial</p>
+                        </div>
+
+                        <div class="space-y-3 max-w-2xl mx-auto" id="services-addons">
+                            <label id="addon-esencial-row"
+                                class="flex items-start gap-3 glass-panel bg-[var(--crema-tarjeta)]/70 rounded-xl p-4 cursor-pointer opacity-40 transition-opacity">
+                                <input type="checkbox" id="addon-esencial" onchange="toggleAddon('esencial', this)"
+                                    disabled class="mt-1 accent-[var(--dorado-premium)] w-4 h-4 flex-shrink-0">
+                                <span class="t-parrafo text-sm">
+                                    <strong>🛠️ Modo DFY Esencial (+ $80)</strong> — Lo hago por ti. Olvídate de la
+                                    configuración técnica; me encargo personalmente de asegurar y migrar tus
+                                    <strong>10 selecciones principales</strong>.
+                                    <em class="t-acompanamiento t-muted block mt-1">Habilitado solo si seleccionaste "Lo
+                                        hago yo". Total: $129</em>
+                                </span>
+                            </label>
+                            <label id="addon-alldfy-row"
+                                class="flex items-start gap-3 glass-panel bg-[var(--crema-tarjeta)]/70 rounded-xl p-4 cursor-pointer opacity-40 transition-opacity">
+                                <input type="checkbox" id="addon-alldfy" onchange="toggleAddon('alldfy', this)" disabled
+                                    class="mt-1 accent-[var(--dorado-premium)] w-4 h-4 flex-shrink-0">
+                                <span class="t-parrafo text-sm">
+                                    <strong>🚀 Activar Modo ALL DFY (+ $100)</strong> — Done For You completamente.
+                                    Además de contestar tus preguntas, configuro <strong>absolutamente todas las
+                                        aplicaciones</strong> que solicites o que encontremos con el diagnóstico
+                                    personalizado.
+                                    <em class="t-acompanamiento t-muted block mt-1">Habilitado solo si seleccionaste
+                                        "Hecho contigo". Total: $299</em>
+                                </span>
+                            </label>
+                            <label id="addon-amigo-row"
+                                class="flex items-start gap-3 glass-panel bg-[var(--crema-tarjeta)]/70 rounded-xl p-4 cursor-pointer transition-opacity">
+                                <input type="checkbox" id="addon-amigo" onchange="toggleAddon('amigo', this)"
+                                    class="mt-1 accent-[var(--dorado-premium)] w-4 h-4 flex-shrink-0">
+                                <span class="t-parrafo text-sm">
+                                    <strong>🤝 Aplicar "Descuento Amigo" (Precio Especial)</strong> — Selecciona esta
+                                    casilla si nos conocemos directamente o vienes recomendado por alguien de confianza
+                                    para ajustar tu tarifa en el chat.
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- CTA WhatsApp -->
+                        <div class="max-w-2xl mx-auto pt-2 space-y-2">
+                            <p id="wa-total" class="t-acompanamiento text-center text-[var(--verde-forense)]">Selecciona
+                                tu base para continuar</p>
+                            <button id="wa-action-btn" onclick="openWhatsApp()" disabled
+                                class="w-full bg-[var(--dorado-premium)] text-[var(--verde-forense)] py-4 rounded-xl shadow-lg hover:-translate-y-1 transition-all t-acompanamiento font-black disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0">
+                                📱 Solicitar Servicio por WhatsApp</button>
+                            <p class="t-acompanamiento t-muted text-xs text-center">Al enviar, se adjuntan los datos de
+                                tu diagnóstico.</p>
                         </div>
                     </div>
 
@@ -1232,7 +1236,7 @@
                         <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiYqtfEyOqUAxXsGtAFHXqpG44QFnoECBYQAQ&url=https%3A%2F%2Fciberprotector.com%2Fcomprobador-de-contrase%25C3%25B1as%2F&usg=AOvVaw0f9F-voRMvU4ueSQbRNSKK&opi=89978449"
                             target="_blank"
                             class="report-action-chip bg-blue-100 text-blue-800 border border-blue-200 rounded-full px-3 py-1.5 t-acompanamiento text-xs hover:bg-blue-200 transition-colors">
-                            🔍 Validar contraseñas
+                            🔍 Comprueba tu seguridad (en ciberprotector)
                         </a>
                         <button onclick="resetAudit()"
                             class="report-action-chip bg-[var(--crema-fondo)] text-[var(--verde-forense)] border border-[var(--borde-cristal)] rounded-full px-3 py-1.5 t-acompanamiento text-xs hover:bg-gray-200 transition-colors">
@@ -1289,10 +1293,10 @@
                 <span class="text-xl">⚠️</span>
                 <div>
                     <h5 class="t-subtitulo block mb-1 text-[var(--verde-forense)]">Aviso Importante</h5>
-                    <p class="t-parrafo text-justify">Este servicio solo protege tu seguridad digital; NO ESTÁ ASOCIADO
-                        al registro telefónico, NO PROMUEVE la vinculación de la CURP (Acuerdo P-CRT-EXT-29102025-005) y
-                        tampoco asume las consecuencias de una línea suspendida. Toma precauciones antes del 1 de julio
-                        de 2026.</p>
+                    <p class="t-parrafo text-justify">Este servicio protege tu seguridad digital, NO está asociado al
+                        registro telefónico, NO promueve la vinculación de la CURP (Acuerdo P-CRT-EXT-29102025-005) y NO
+                        asume consecuencias de una línea suspendida. Toma precauciones antes del 1 de julio de
+                        2026.</p>
                 </div>
             </div>
         </div>

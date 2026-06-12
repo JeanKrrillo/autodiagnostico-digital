@@ -546,9 +546,6 @@ function generateFinalReport() {
     const num = document.getElementById('final-risk-num');
     const tag = document.getElementById('final-risk-tag');
     const narEl = document.getElementById('forensic-narrative');
-    const waBtn = document.getElementById('wa-action-btn');
-    const cardDiy = document.getElementById('card-diy');
-    const cardDfy = document.getElementById('card-dfy');
 
     const color = RiskEngine.getColorForRisk(score);
     num.innerText = score + '%';
@@ -565,20 +562,13 @@ function generateFinalReport() {
     // Narrativa dinámica desde el motor (incluye X%, N activos, horas)
     let fullText = `<p>${narrative}</p>`;
 
-    // DFY vs DIY
-    const WA_NUMBER = '524424820977'; // México: 52 + número local
+    // Perfil DFY: destacar la asesoría y preseleccionarla como base
     if (isDFY) {
         fullText += `<hr class="my-4 border-[#E8B45B]/30"><p class="font-bold">Hemos destacado el servicio de <strong>Asesoría 1-a-1</strong>: la complejidad de tu perfil requiere asistencia experta para migrar ${hours} horas estimadas de configuración antes del 1 de julio.</p>`;
-        cardDfy.style.transform = 'scale(1.05)';
-        cardDfy.style.zIndex = '10';
-        cardDfy.style.boxShadow = '0 20px 40px rgba(232, 180, 91, 0.3)';
-        cardDiy.style.opacity = '0.6';
-        waBtn.onclick = () => window.open(`https://wa.me/${WA_NUMBER}?text=Hola, terminé mi auditoría P-CRT (ID: ${auditID}) con un riesgo de ${score}%. Quiero la Asesoría DFY de $299.`);
-    } else {
-        cardDfy.style.transform = 'scale(1)';
-        cardDiy.style.opacity = '1';
-        waBtn.onclick = () => window.open(`https://wa.me/${WA_NUMBER}?text=Hola, mi riesgo es de ${score}% (ID: ${auditID}). Quiero la Guía de Seguridad de $49.`);
     }
+    const dfyBadge = document.getElementById('card-dfy-badge');
+    if (dfyBadge) dfyBadge.classList.toggle('hidden', !isDFY);
+    selectBase(isDFY ? 'dfy' : 'diy');
 
     narEl.innerHTML = fullText;
 
@@ -611,72 +601,23 @@ function generateFinalReport() {
         options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: { enabled: false } }, animation: { animateScale: true } }
     });
 
-    // --- GENERAR TEXTO PARA COPIADO AL PORTAPAPELES ---
-    let plainText = `============================================================
-REPORTE DE AUDITORÍA FORENSE DE SEGURIDAD DIGITAL
-PROTOCOLO P-CRT (ID: ${auditID})
-Fecha de Auditoría: ${date}
-============================================================
+    // --- REPORTE EN TEXTO PLANO (portapapeles y WhatsApp) ---
+    // Secciones separadas por línea en blanco para que sea legible sin formato.
+    const levelDescPlain = state.level === 'critical'
+        ? 'La mayoría de tus cuentas dependen del SMS. Si tu línea deja de funcionar antes del 1 de julio, pierdes acceso a bancos, correos y redes. Se puede resolver.'
+        : (state.level === 'optimal'
+            ? 'Tus cuentas principales ya no dependen exclusivamente del chip. Si algo le pasa a tu número, tu acceso digital sigue funcionando.'
+            : 'Tienes medidas de protección, pero sigues dependiendo de tu número. Si la línea se suspende o se clona, quedan inaccesibles.');
 
-1. EVALUACIÓN DE RIESGO
-------------------------------------------------------------
-Nivel de Riesgo Global: ${score}%
-Estado: ${level}
-Descripción: ${state.level === 'critical'
-            ? 'tu seguridad digital es sumamente frágil. La dependencia casi absoluta del SMS y del número celular como llave de acceso expone tus cuentas bancarias, redes y correos a pérdidas irreparables ante cualquier eventualidad de tu chip o línea antes del 1 de julio.'
-            : (state.level === 'optimal'
-                ? 'tu seguridad es sólida. Has desacoplado exitosamente gran parte de tus servicios y cuentas críticas de la dependencia exclusiva del chip celular, disminuyendo significativamente tu superficie de exposición.'
-                : 'tienes vulnerabilidades preventivas importantes. Aunque cuentas con algunas medidas de protección, existen anclajes peligrosos en tu número telefónico que podrían dejarte fuera de tus servicios clave en caso de suspensión o robo de línea.')}
-
-2. PUNTOS DE RIESGO ENCONTRADOS
-------------------------------------------------------------
-`;
-
-    let badPointsCount = 0;
+    const badList = [], goodList = [];
     if (typeof RISK_CONFIG !== 'undefined' && typeof QUIZ_SYNTHESIS !== 'undefined') {
         RISK_CONFIG.questions.forEach(q => {
             if (q.id === 15) return;
             const ansKey = forensicAnswers['q' + q.id];
-            if (ansKey && QUIZ_SYNTHESIS['q' + q.id]) {
-                const synthText = QUIZ_SYNTHESIS['q' + q.id][ansKey];
-                if (synthText) {
-                    if (ansKey === 'negativo' || ansKey === 'neutro') {
-                        badPointsCount++;
-                        plainText += `- [VULNERABILIDAD] ${synthText}\n`;
-                    }
-                }
-            }
+            const synthText = (ansKey && QUIZ_SYNTHESIS['q' + q.id]) ? QUIZ_SYNTHESIS['q' + q.id][ansKey] : null;
+            if (!synthText) return;
+            (ansKey === 'positivo' ? goodList : badList).push(synthText);
         });
-    }
-    if (badPointsCount === 0) {
-        plainText += "No se encontraron puntos de riesgo críticos en tu cuestionario básico.\n\n";
-    } else {
-        plainText += "\n";
-    }
-
-    plainText += `3. HÁBITOS SEGUROS CUBIERTOS
-------------------------------------------------------------
-`;
-    let goodPointsCount = 0;
-    if (typeof RISK_CONFIG !== 'undefined' && typeof QUIZ_SYNTHESIS !== 'undefined') {
-        RISK_CONFIG.questions.forEach(q => {
-            if (q.id === 15) return;
-            const ansKey = forensicAnswers['q' + q.id];
-            if (ansKey && QUIZ_SYNTHESIS['q' + q.id]) {
-                const synthText = QUIZ_SYNTHESIS['q' + q.id][ansKey];
-                if (synthText) {
-                    if (ansKey === 'positivo') {
-                        goodPointsCount++;
-                        plainText += `- [HÁBITO SEGURO] ${synthText}\n`;
-                    }
-                }
-            }
-        });
-    }
-    if (goodPointsCount === 0) {
-        plainText += "No se registraron hábitos preventivos cubiertos en esta evaluación.\n\n";
-    } else {
-        plainText += "\n";
     }
 
     let worstPointStr = "";
@@ -688,40 +629,107 @@ Descripción: ${state.level === 'critical'
         const q10Ans = forensicAnswers['q10'];
         const q13Ans = forensicAnswers['q13'];
 
-        if (q3Ans === 'negativo') worstPointStr = "La recepción de códigos de verificación por SMS. Conviene migrar a una app de autenticación (TOTP) para no depender del chip telefónico.";
-        else if (q2Ans === 'negativo') worstPointStr = "El uso de contraseñas duplicadas. Si un servicio se ve comprometido, todas tus demás cuentas quedan expuestas.";
-        else if (q10Ans === 'negativo') worstPointStr = "La falta de respaldo de tus códigos de emergencia. Si pierdes el acceso a tu método principal de 2FA, no tendrás forma de recuperar tus cuentas.";
-        else if (q13Ans === 'negativo') worstPointStr = "No tener un PIN de SIM configurado. Cualquiera que robe tu chip físico podría usar tu número telefónico en otro dispositivo.";
-        else worstPointStr = "Vigilar preventivamente tus accesos y mantener tu seguridad actualizada.";
+        if (q3Ans === 'negativo') worstPointStr = "Tus códigos llegan por SMS. Cambiarlos a una app deja de depender del chip.";
+        else if (q2Ans === 'negativo') worstPointStr = "Usas contraseñas repetidas. Si se filtra una, podrías perder todo. Un gestor lo resuelve.";
+        else if (q10Ans === 'negativo') worstPointStr = "No tienes códigos de emergencia. Si pierdes el método de verificación, son la única forma de entrar.";
+        else if (q13Ans === 'negativo') worstPointStr = "Tu chip no tiene PIN activado. Si alguien lo saca y lo pone en otro teléfono, tiene acceso a tu número.";
+        else worstPointStr = "Mantener tus accesos actualizados y revisar configuraciones de vez en cuando.";
     }
 
-    plainText += `4. RECOMENDACIÓN CRÍTICA
-------------------------------------------------------------
-${worstPointStr}
+    const assetLines = (topApps && topApps.length > 0)
+        ? topApps.map(app => `- ${app.name} (Impacto: ${app.weight * 5}% - ${app.desc})`).join('\n')
+        : 'No se detectaron aplicaciones vulnerables.';
 
-5. ACTIVOS EN RIESGO DE DEPENDENCIA (Fase 2)
-------------------------------------------------------------
-`;
-    if (topApps && topApps.length > 0) {
-        topApps.forEach(app => {
-            plainText += `- ${app.name} (Impacto: ${app.weight * 5}% - ${app.desc})\n`;
-        });
-    } else {
-        plainText += "No se detectaron aplicaciones vulnerables.\n";
-    }
+    const SEP = '========================================';
+    const plainText = [
+        SEP,
+        `REPORTE DE AUDITORÍA FORENSE DE SEGURIDAD DIGITAL\nPROTOCOLO P-CRT (ID: ${auditID})\nFecha de Auditoría: ${date}`,
+        `EVALUACIÓN DE RIESGO\n\nNivel de Riesgo Global: ${score}%\nEstado: ${level}\nDescripción: ${levelDescPlain}`,
+        `QUÉ CONVIENE REVISAR\n\n${badList.length ? badList.map(t => `[VULNERABILIDAD] ${t}`).join('\n') : 'No se encontraron puntos de riesgo críticos en tu cuestionario básico.'}`,
+        `LO QUE YA TIENES CUBIERTO\n\n${goodList.length ? goodList.map(t => `[HÁBITO SEGURO] ${t}`).join('\n') : 'No se registraron hábitos preventivos cubiertos en esta evaluación.'}`,
+        `LO MÁS IMPORTANTE EN TU CASO\n\n${worstPointStr}`,
+        `ACTIVOS EN RIESGO DE DEPENDENCIA (Fase 2)\n\n${assetLines}`,
+        SEP,
+        `AVISO IMPORTANTE:\nEste servicio protege tu seguridad digital, NO está asociado al registro telefónico, NO promueve la vinculación de la CURP y NO asume consecuencias de una línea suspendida. Toma precauciones antes del 1 de julio de 2026.`,
+        SEP
+    ].join('\n\n');
 
-    plainText += `
-============================================================
-* AVISO IMPORTANTE: Este servicio solo protege tu seguridad digital; 
-NO ESTÁ ASOCIADO al registro telefónico, NO PROMUEVE la 
-vinculación de la CURP y tampoco asume las consecuencias de una 
-línea suspendida. Toma precauciones antes del 1 de julio de 2026.
-============================================================`;
-
+    reportPlainText = plainText;
     const copyArea = document.getElementById('results-copy-area');
     if (copyArea) {
         copyArea.value = plainText;
     }
+}
+
+// --- FASE 4: SELECTOR DE SERVICIOS + WHATSAPP ---
+const WA_NUMBER = '524424820977'; // México: 52 + número local
+const WA_MSGS = {
+    'diy': `Hola. Me interesa el servicio digital 'Lo hago yo" (Guía de seguridad digital) por $49. ¿Me compartes los detalles para el pago?`,
+    'diy+extra': `Hola. Quiero el plan "Lo hago yo" y agregar el "Modo DFY Esencial" para que configures mis 10 cuentas principales por un total de $129. ¿Cómo nos coordinamos?`,
+    'diy+amigo': `Qué onda. Vi el servicio digital "Lo hago yo'" de la guía de seguridad, pero marqué la opción de Descuento Amigo. ¿Cómo nos arreglamos?`,
+    'diy+extra+amigo': `Qué onda. Me interesa la Guía de seguridad con el "Modo DFY Esencial" para mis 10 cuentas, pero apliqué el Descuento Amigo. ¿En cuánto me lo dejas?`,
+    'dfy': `Hola. Me interesa la Asesoría 1-a-1 "Hecho contigo" (Sesión personalizada) por $199 para revisar y configurar mis aplicaciones vulnerables. ¿Qué horarios tienes disponibles?`,
+    'dfy+extra': `Hola. Quiero el servicio completo "Hecho contigo" + el "Modo ALL DFY" por $299 para agendar la sesión personalizada y que asegures todas mis aplicaciones. ¿Cómo iniciamos?`,
+    'dfy+amigo': `Qué onda. Me interesa la sesión personalizada "Hecho contigo" para auditar mis aplicaciones, pero apliqué el Descuento Amigo. ¿Qué precio me manejas?`,
+    'dfy+extra+amigo': `Qué onda. Quiero el servicio premium de Asesoría + "Modo ALL DFY" para asegurar todas mis cuentas, pero marqué la casilla de Descuento Amigo. ¿Cuál sería mi precio especial?`
+};
+
+let svcBase = null;     // 'diy' | 'dfy'
+let svcExtra = false;   // DFY Esencial (diy) o ALL DFY (dfy)
+let svcAmigo = false;   // Descuento Amigo
+let reportPlainText = '';
+
+function selectBase(base) {
+    if (svcBase === base) return;
+    svcBase = base;
+    svcExtra = false;
+    updateServiceUI();
+}
+
+function toggleAddon(key, el) {
+    if (key === 'amigo') svcAmigo = el.checked;
+    else svcExtra = el.checked;
+    updateServiceUI();
+}
+
+function updateServiceUI() {
+    const isDiy = svcBase === 'diy', isDfy = svcBase === 'dfy';
+
+    [['card-diy', isDiy], ['card-dfy', isDfy]].forEach(([id, on]) => {
+        const card = document.getElementById(id);
+        const check = document.getElementById(id + '-check');
+        if (!card) return;
+        card.style.borderColor = on ? 'var(--dorado-premium)' : 'transparent';
+        card.style.boxShadow = on ? '0 12px 30px rgba(232,180,91,0.25)' : '';
+        if (check) check.innerText = on ? '✓ Seleccionado' : 'Seleccionar';
+    });
+
+    // Habilitar el opcional que corresponde a la base elegida
+    [['esencial', isDiy], ['alldfy', isDfy]].forEach(([key, enabled]) => {
+        const box = document.getElementById('addon-' + key);
+        const row = document.getElementById('addon-' + key + '-row');
+        if (!box) return;
+        box.disabled = !enabled;
+        if (!enabled) box.checked = false;
+        else box.checked = svcExtra;
+        if (row) row.style.opacity = enabled ? '1' : '0.4';
+    });
+
+    const totalEl = document.getElementById('wa-total');
+    const waBtn = document.getElementById('wa-action-btn');
+    if (waBtn) waBtn.disabled = !svcBase;
+    if (totalEl) {
+        if (!svcBase) totalEl.innerText = 'Selecciona tu base para continuar';
+        else if (svcAmigo) totalEl.innerText = 'Total: precio especial — lo ajustamos en el chat';
+        else totalEl.innerText = `Total: $${(isDiy ? 49 : 199) + (svcExtra ? (isDiy ? 80 : 100) : 0)}`;
+    }
+}
+
+function openWhatsApp() {
+    if (!svcBase) return;
+    const key = svcBase + (svcExtra ? '+extra' : '') + (svcAmigo ? '+amigo' : '');
+    const msg = `${WA_MSGS[key]} Estos son los datos de mi diagnóstico:\n\n${reportPlainText}`;
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`);
 }
 
 /**
@@ -731,6 +739,10 @@ function resetAudit() {
     RiskEngine.resetAll();
     forensicAnswers = {};
     needsDFY = false;
+    svcBase = null; svcExtra = false; svcAmigo = false; reportPlainText = '';
+    const amigoBox = document.getElementById('addon-amigo');
+    if (amigoBox) amigoBox.checked = false;
+    updateServiceUI();
 
     if (finalChart) { finalChart.destroy(); finalChart = null; }
 
