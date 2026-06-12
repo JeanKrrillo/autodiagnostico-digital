@@ -1,3 +1,4 @@
+
 let currentVortexApps = [];
 let vortexRisk = 0;
 let currentChains = 0;
@@ -156,18 +157,19 @@ function initVortex() {
     const container = document.getElementById('vortex-items-container');
     let dims = getVortexDimensions();
 
-    // Scale orbits dynamically if they exceed the container width
+    // Escala bidireccional: el radio externo siempre llena el contenedor real
+    // usando min(ancho, alto) — crece en pantallas largas (sin aire muerto) y
+    // se contrae en compactas (sin recorte). Cap 1.5× e iconos 40–72px para
+    // mantener tap targets usables sin órbitas grotescas.
     const containerWidth = vWidth || (container ? container.clientWidth : 0) || window.innerWidth;
-    const maxSafeWidth = containerWidth - dims.itemSize - 16; // 8px padding on each side
-    const maxSafeRadius = maxSafeWidth / 2;
-    if (dims.outR > maxSafeRadius) {
-        const scaleFactor = maxSafeRadius / dims.outR;
-        dims.orbitRadius *= scaleFactor;
-        dims.midR *= scaleFactor;
-        dims.outR *= scaleFactor;
-        dims.coreSize *= scaleFactor;
-        dims.itemSize *= scaleFactor;
-    }
+    const containerHeight = vHeight || (container ? container.clientHeight : 0) || containerWidth;
+    const maxSafeRadius = (Math.min(containerWidth, containerHeight) - dims.itemSize - 16) / 2;
+    const scaleFactor = Math.min(1.5, maxSafeRadius / dims.outR);
+    dims.orbitRadius *= scaleFactor;
+    dims.midR *= scaleFactor;
+    dims.outR *= scaleFactor;
+    dims.coreSize *= scaleFactor;
+    dims.itemSize = Math.max(40, Math.min(dims.itemSize * scaleFactor, 72));
 
     const coreEl = document.getElementById('core');
     if (coreEl) {
@@ -192,7 +194,9 @@ function initVortex() {
         item.style.height = dims.itemSize + 'px';
         item.style.fontSize = Math.max(6.5, dims.itemSize * 0.15) + 'px';
         item.style.padding = Math.max(2, dims.itemSize * 0.1) + 'px';
-        item.innerHTML = getAppLogoHtml(app, "w-full h-full p-[18%] object-contain");
+        // Etiqueta con el nombre bajo el icono (visible solo en móvil vía CSS)
+        item.innerHTML = getAppLogoHtml(app, "w-full h-full p-[18%] object-contain")
+            + `<span class="vortex-item-label mobile-only">${app.name}</span>`;
         item.title = app.name;
         container.appendChild(item);
 

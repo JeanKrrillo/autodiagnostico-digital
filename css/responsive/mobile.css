@@ -14,14 +14,20 @@
         --stepper-altura: 60px;
     }
 
-    /* chrome vertical móvil: usa body-pt-mobile real */
+    /* chrome vertical móvil: usa body-pt-mobile real y variable vh */
     .split-layout-container {
         --chrome-v: calc(var(--body-pt-mobile) + 0.75rem + var(--stepper-altura, 60px));
-        /* En vertical NO usamos tercios rígidos: las instrucciones toman lo
-           que necesitan (auto) y la actividad el resto (1fr). Así el título
-           nunca se recorta y se aprovecha todo el alto disponible. */
+        --split-h: calc(var(--vh, 1vh) * 100 - var(--chrome-v));
+        height: var(--split-h);
         grid-template-rows: auto 1fr;
     }
+
+    #step-2 .glass-panel>.split-layout-container {
+        --split-h: calc(var(--vh, 1vh) * 100 - var(--chrome-v) - 2rem);
+        height: var(--split-h);
+    }
+
+
 
     /* El panel de instrucciones fluye desde arriba (no centrado) para que el
        título quede siempre visible; sin overflow:hidden que lo recorte. */
@@ -49,6 +55,7 @@
     html {
         overflow-x: hidden;
     }
+
     body {
         font-size: 0.9375rem;
         padding-top: var(--body-pt-mobile);
@@ -61,7 +68,9 @@
 
     /* Cualquier hijo absolute que desborde su relativo queda
        contenido; no genera scrollbar horizontal global */
-    main, section, .step-container {
+    main,
+    section,
+    .step-container {
         overflow-x: hidden;
     }
 
@@ -77,8 +86,8 @@
     }
 
     /* Contenedor: fila única, sin wrap, anula px-8 de Tailwind */
-    .header-authority > div,
-    .header-authority > div.px-8 {
+    .header-authority>div,
+    .header-authority>div.px-8 {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
@@ -105,7 +114,7 @@
     }
 
     /* ZONA 1+2: div izquierdo (dona + texto) — anula gap-6 de Tailwind */
-    .header-authority > div > div:first-child {
+    .header-authority>div>div:first-child {
         flex: 1 !important;
         min-width: 0 !important;
         display: flex !important;
@@ -116,7 +125,7 @@
     }
 
     /* ZONA 2: bloque texto (hijo inmediato no-logo dentro del primer div) */
-    .header-authority > div > div:first-child > div:not(.logo-container) {
+    .header-authority>div>div:first-child>div:not(.logo-container) {
         flex: 1 !important;
         min-width: 0 !important;
         display: flex !important;
@@ -158,8 +167,8 @@
     }
 
     /* ZONA 3: badges — columna alineada a la derecha, anula gap-3 y items-end */
-    .header-authority > div > div:last-child,
-    .header-authority > div > div.items-end {
+    .header-authority>div>div:last-child,
+    .header-authority>div>div.items-end {
         flex-shrink: 0 !important;
         display: flex !important;
         flex-direction: column !important;
@@ -236,7 +245,7 @@
     }
 
     /* Reducir el space-y-8 interno que es 2rem — demasiado en 375px */
-    .q-card .space-y-8 > * + * {
+    .q-card .space-y-8>*+* {
         margin-top: 1rem;
     }
 
@@ -266,24 +275,61 @@
         line-height: 1.45;
     }
 
-    .flip-card { height: 135px; }
+    .flip-card {
+        height: 135px;
+    }
+
     .flip-card-front,
     .flip-card-back {
         padding: 1rem !important;
     }
 
     /* ── Q9: FLIP CARD — reducir espaciado vertical ────────────── */
-    #q9 .space-y-8 { gap: 0.75rem !important; }
-    #q9 .space-y-8 > * + * { margin-top: 0.75rem !important; }
-    #q9 .py-6 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
-    #q9 .flip-card { width: 100% !important; max-width: 260px; }
+    #q9 .space-y-8 {
+        gap: 0.75rem !important;
+    }
+
+    #q9 .space-y-8>*+* {
+        margin-top: 0.75rem !important;
+    }
+
+    #q9 .py-6 {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    #q9 .flip-card {
+        width: 100% !important;
+        max-width: 260px;
+    }
 
     /* ── Q13: PIN KEYPAD — reducir espaciado y tamaños ────────── */
-    #q13 .space-y-8 { gap: 0.5rem !important; }
-    #q13 .space-y-8 > * + * { margin-top: 0.5rem !important; }
-    #q13 #pin-display { margin-bottom: 0.25rem !important; }
-    #q13 #keypad { display: grid !important; padding: 0.5rem !important; gap: 0.4rem !important; max-width: 170px !important; border-radius: 24px !important; }
-    #q13 .keypad-key { width: 2.25rem !important; height: 2.25rem !important; border-radius: 8px !important; font-size: 0.75rem !important; }
+    #q13 .space-y-8 {
+        gap: 0.5rem !important;
+    }
+
+    #q13 .space-y-8>*+* {
+        margin-top: 0.5rem !important;
+    }
+
+    #q13 #pin-display {
+        margin-bottom: 0.25rem !important;
+    }
+
+    #q13 #keypad {
+        display: grid !important;
+        padding: 0.5rem !important;
+        gap: 0.4rem !important;
+        max-width: 170px !important;
+        border-radius: 24px !important;
+    }
+
+    #q13 .keypad-key {
+        width: 2.25rem !important;
+        height: 2.25rem !important;
+        border-radius: 8px !important;
+        font-size: 0.75rem !important;
+    }
 
     #calendar {
         padding: 12px !important;
@@ -292,11 +338,13 @@
         margin: 0 auto !important;
         border-radius: 24px !important;
     }
+
     #cal-month-label {
         max-width: 280px !important;
         margin: 0 auto 8px auto !important;
         padding: 0 4px !important;
     }
+
     /* Celdas del calendario perfectamente cuadradas en móvil */
     .calendar-day {
         font-size: 9px !important;
@@ -310,7 +358,9 @@
 
     /* Animaciones de quiz: reducir motion en móvil */
     @media (prefers-reduced-motion: no-preference) {
-        .q-card.active { animation-duration: 0.3s; }
+        .q-card.active {
+            animation-duration: 0.3s;
+        }
     }
 
     /* ── HIVE MATRIX — COMPACTA CON TEXTO ──────────────────────
@@ -378,15 +428,17 @@
         text-align: center;
     }
 
-    .hive-scroll-hint { display: none; }
+    .hive-scroll-hint {
+        display: none;
+    }
 
-    /* ── ESCALA TIPOGRÁFICA MOBILE ───────────────────────────── */
-    /* Títulos de fase */
+    /* ── ESCALA TIPOGRÁFICA MOBILE OPTIMIZADA POR ALTURA ───────────────────────────── */
+    /* Títulos de fase con compresión elástica basada en altura (vh) */
     #step-2 header h2,
     #vortex-section h2,
     #fracture-section h2,
     #step-3 .glass-panel h2 {
-        font-size: clamp(1.75rem, 8vw, 2.5rem);
+        font-size: clamp(1.4rem, 5vh, 2.2rem) !important;
         letter-spacing: -0.03em;
         line-height: 1.1;
     }
@@ -443,9 +495,9 @@
 
     /* Fase 2–4: párrafos con la misma regla */
     #step-2 header p,
-    #vortex-section > div:first-child p,
-    #fracture-section > div:first-child p,
-    #step-3 .glass-panel > div > p,
+    #vortex-section>div:first-child p,
+    #fracture-section>div:first-child p,
+    #step-3 .glass-panel>div>p,
     #step-4 p {
         font-size: 0.9rem;
         max-width: 100%;
@@ -488,18 +540,114 @@
     }
 
     /* ── SWIPE ───────────────────────────────────────────────── */
+    /* Sin caps de px: el alto lo gobierna el split (100dvh − chrome) y el
+       ancho deriva del aspect-ratio. El min() solo evita tarjetas absurdas
+       en tablets angostas. overflow visible preserva sombras y guías. */
     .swipe-zone {
-        max-width: 290px;
-        min-height: 340px; /* evita colapso cuando aspect-ratio no es soportado */
+        width: auto !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        aspect-ratio: 3 / 4 !important;
+        min-height: unset !important;
+        max-width: min(92vw, 340px) !important;
         overflow: visible !important;
+        margin: 0 auto !important;
     }
-    .swipe-app-logo { width: 68px; height: 68px; border-radius: 20px; }
-    .swipe-label   { font-size: 0.825rem; padding: 4px 8px; letter-spacing: 2px; }
-    .swipe-guide   { opacity: 0.35 !important; }
+
+    .swipe-card {
+        padding: clamp(0.75rem, 2vh, 1.5rem) !important;
+        border-radius: 24px !important;
+    }
+
+    .swipe-card h3 {
+        font-size: clamp(1.1rem, 3.5vh, 1.40rem) !important;
+        line-height: 1.1 !important;
+        margin-top: clamp(0.25rem, 1vh, 0.75rem) !important;
+    }
+
+    .swipe-card p {
+        font-size: clamp(0.65rem, 2vh, 0.8rem) !important;
+        margin-top: clamp(0.1rem, 0.5vh, 0.4rem) !important;
+    }
+
+    .swipe-card .swipe-app-logo {
+        width: clamp(50px, 10vh, 80px) !important;
+        height: clamp(50px, 10vh, 80px) !important;
+        margin-bottom: clamp(0.5rem, 1.5vh, 1.25rem) !important;
+        border-radius: clamp(12px, 2vh, 20px) !important;
+    }
+
+    .swipe-label {
+        font-size: 0.825rem;
+        padding: 4px 8px;
+        letter-spacing: 2px;
+    }
+
+    .swipe-guide {
+        opacity: 0.35 !important;
+    }
+
+    /* Compresión visual para Step 2 (Swipe Instructions & progress card) en móvil */
+    #step-2 .pane-instructions.space-y-3>*+* {
+        margin-top: 6px !important;
+    }
+
+    #step-2 .pane-instructions .shield-icon-container {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+    }
+
+    #step-2 .pane-instructions .shield-icon-container i {
+        font-size: 1rem !important;
+    }
+
+    #step-2 .pane-instructions h2.t-titulo {
+        font-size: 1.5rem !important;
+    }
+
+    #step-2 .pane-instructions p.t-parrafo {
+        font-size: 0.825rem !important;
+        line-height: 1.35 !important;
+    }
+
+    #step-2 .pane-instructions span.t-enfasis {
+        font-size: 0.72rem !important;
+        margin-top: 4px !important;
+    }
+
+    .progress-card-swipe {
+        padding: 8px 12px !important;
+        border-radius: 14px !important;
+    }
+
+    .progress-card-swipe .mb-3 {
+        margin-bottom: 6px !important;
+    }
+
+    .progress-card-swipe .h-2\.5 {
+        height: 6px !important;
+    }
+
+    #step-2 .pane-footer {
+        margin-top: 4px !important;
+    }
+
+    #step-2 .pane-footer button {
+        padding-top: 6px !important;
+        padding-bottom: 6px !important;
+        font-size: 0.75rem !important;
+        border-radius: 10px !important;
+    }
 
     /* Guías reposicionadas a los lados fuera de la tarjeta */
-    .guide-left  { left: -32px !important; }
-    .guide-right { right: -32px !important; }
+    .guide-left {
+        left: -32px !important;
+    }
+
+    .guide-right {
+        right: -32px !important;
+    }
 
     /* Bug 2: tarjeta "Auditoría Terminada" — stack vertical en lugar de grid de 2 columnas */
     #stack-container .grid-cols-2 {
@@ -507,9 +655,11 @@
         flex-direction: column !important;
         gap: 0.5rem !important;
     }
-    #stack-container .grid-cols-2 > div {
+
+    #stack-container .grid-cols-2>div {
         width: 100% !important;
     }
+
     /* Reducir tracking de .t-acompanamiento dentro de la swipe-zone para evitar desborde */
     .swipe-zone .t-acompanamiento,
     #stack-container .t-acompanamiento {
@@ -519,7 +669,7 @@
 
     /* Dentro del split, las zonas llenan su panel (2/3) sin forzar
        min-height — eso garantiza cero scroll también en vertical. */
-    .pane-interactive > .fracture-zone {
+    .pane-interactive>.fracture-zone {
         min-height: 0;
         height: 100%;
         width: 100%;
@@ -528,7 +678,7 @@
     /* Vortex cuadrado también en móvil. En vertical apilado el panel suele
        ser casi cuadrado; mantener aspect-ratio 1/1 evita el recorte vertical
        y deja la zona contenida tanto en alto como en ancho. */
-    .pane-interactive > .vortex-zone {
+    .pane-interactive>.vortex-zone {
         min-height: 0;
         height: 100%;
         aspect-ratio: 1 / 1;
@@ -537,33 +687,41 @@
     }
 
     /* ── VORTEX ──────────────────────────────────────────────── */
+    /* La altura la dicta .pane-interactive > .vortex-zone (100% del panel,
+       cuadrada): cero alturas fijas que dejen aire muerto o desborden. */
     .vortex-zone {
-        height: min(480px, 90vw);
-        min-height: 340px;
-        width: 100%;
         border-radius: 32px;
-        overflow: hidden;
     }
 
-    .vortex-core  { width: 115px; height: 115px; }
-    .vortex-item  {
+    .vortex-core {
+        width: 115px;
+        height: 115px;
+    }
+
+    .vortex-item {
         width: 54px;
         height: 54px;
         font-size: 0.825rem;
         border-radius: 14px;
         padding: 6px;
     }
-    .vortex-halo  { width: 280px; height: 280px; }
+
+    .vortex-halo {
+        width: 280px;
+        height: 280px;
+    }
 
     /* HUD del vortex: ahora vive en .pane-instructions (gestionado por el split) */
 
     /* ── FRACTURE ────────────────────────────────────────────── */
+    /* Altura gobernada por el split. max-width preserva la densidad de la
+       nube en pantallas anchas (plegables tipo Fold abiertos). */
     .fracture-zone {
-        height: clamp(400px, 110vw, 560px);
-        min-height: 340px;
-        width: 100%;
         border-radius: 32px;
-        overflow: hidden;
+    }
+
+    .pane-interactive>.fracture-zone {
+        max-width: 560px;
     }
 
     #fracture-risk-display {
@@ -597,7 +755,9 @@
         color: var(--texto-2) !important;
     }
 
-    #fracture-risk-display { color: var(--naranja-fractura) !important; }
+    #fracture-risk-display {
+        color: var(--naranja-fractura) !important;
+    }
 
     .fracture-node {
         min-height: 36px;
@@ -625,16 +785,18 @@
     #audit-report-print {
         gap: 0.75rem !important;
     }
-    #audit-report-print > .space-y-4 > * + *,
-    #audit-report-print.space-y-4 > * + * {
+
+    #audit-report-print>.space-y-4>*+*,
+    #audit-report-print.space-y-4>*+* {
         margin-top: 0.75rem !important;
     }
+
     #audit-report-print .glass-panel {
         padding: 1rem !important;
     }
 
     /* Dashboard panel: reordenar para que dona sea primero en móvil */
-    #audit-report-print .glass-panel > div.flex {
+    #audit-report-print .glass-panel>div.flex {
         flex-direction: column-reverse !important;
         align-items: center !important;
         gap: 1rem !important;
@@ -663,7 +825,9 @@
         height: 120px !important;
     }
 
-    #final-risk-num { font-size: 2rem !important; }
+    #final-risk-num {
+        font-size: 2rem !important;
+    }
 
     /* Título del reporte */
     #audit-report-print h2.t-titulo {
@@ -672,7 +836,8 @@
     }
 
     /* Metadatos ID y fecha: una fila compacta */
-    #report-meta, #report-date {
+    #report-meta,
+    #report-date {
         font-size: 0.62rem !important;
     }
 
@@ -683,13 +848,15 @@
     }
 
     /* Pricing cards en móvil: compactar padding */
-    .pricing-card > div:first-child {
+    .pricing-card>div:first-child {
         padding: 14px 16px 12px !important;
     }
+
     .pricing-card ul {
         padding: 10px 16px !important;
     }
-    .pricing-card > div:last-child:not(ul) {
+
+    .pricing-card>div:last-child:not(ul) {
         padding: 0 16px 14px !important;
     }
 
@@ -698,6 +865,7 @@
         gap: 8px !important;
         padding-top: 12px !important;
     }
+
     .report-action-chip {
         font-size: 0.72rem !important;
         padding: 6px 12px !important;
@@ -708,36 +876,129 @@
 
     /* Reducir heading interno de la zona fracture (FRACTURE_SCAN) */
     .fracture-title h3 {
-        font-size: clamp(1.4rem, 7vw, 2.2rem) !important;
+        font-size: clamp(1.1rem, 5vw, 1.4rem) !important;
     }
 
     /* Vortex / Fracture: subtítulo dorado tracking-[2px] en móvil */
     #vortex-section span[class*="tracking-[2px]"],
     #fracture-section span[class*="tracking-[2px]"] {
-        font-size: 0.825rem !important;
-        letter-spacing: 0.15em !important;
-        margin-top: 0.4rem !important;
+        font-size: 0.72rem !important;
+        letter-spacing: 0.1em !important;
+        margin-top: 0.2rem !important;
     }
 
     /* Reducir el margen externo mt-10/pb-10 de las secciones de Fase 2 en
        móvil para que la actividad no quede con tanto aire alrededor. */
     #vortex-section,
     #fracture-section {
-        margin-top: 1rem !important;
-        padding-bottom: 1rem !important;
+        margin-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
     }
 
-    /* Botón continuar de fracture: full-width en móvil (vive en .pane-footer) */
-    #fracture-section .pane-footer {
-        font-size: 0.825rem;
-        padding: 1rem;
-        letter-spacing: 2px;
+    #vortex-section .pane-instructions,
+    #fracture-section .pane-instructions {
+        gap: 0.2rem !important;
+    }
+
+    /* Compresión de bloques de título y parrafos en Vortex y Fracture */
+    #vortex-title-block,
+    #fracture-title-block {
+        text-align: center !important;
+    }
+
+    #vortex-title-block h2.t-titulo,
+    #fracture-title-block h2.t-titulo {
+        font-size: 1.35rem !important;
+        margin-bottom: 1px !important;
+    }
+
+    #vortex-title-block span.t-subtitulo,
+    #fracture-title-block span.t-subtitulo {
+        font-size: 0.72rem !important;
+        margin-bottom: 1px !important;
+        letter-spacing: 0.08em !important;
+    }
+
+    #vortex-title-block span.t-enfasis,
+    #fracture-title-block span.t-enfasis {
+        font-size: 0.72rem !important;
+        line-height: 1.25 !important;
+        margin-top: 1px !important;
+        text-transform: none !important;
+        /* Desactivar screaming uppercase para que sea legible y premium */
+    }
+
+    /* Compresión del HUD de Vortex: todo en una sola línea compacta con badges */
+    #vortex-hud {
+        padding: 4px 6px !important;
+        border-radius: 10px !important;
+        margin-top: 2px !important;
+        margin-bottom: 2px !important;
+        justify-content: center !important;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    #vortex-hud .flex.gap-8 {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        gap: 6px !important;
+    }
+
+    #vortex-hud .flex.gap-8>div {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: rgba(255, 255, 255, 0.45) !important;
+        border: 1px solid var(--borde-cristal) !important;
+        padding: 4px 8px !important;
+        border-radius: 8px !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02) !important;
+    }
+
+    #vortex-hud .flex.gap-8 span {
+        font-size: 0.65rem !important;
+        margin-bottom: 0 !important;
+        white-space: nowrap !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    #vortex-hud .flex.gap-8 span:not([id]) {
+        color: var(--texto-2) !important;
+    }
+
+    #vortex-hud .flex.gap-8 span[id] {
+        font-size: 0.95rem !important;
+        font-weight: 900 !important;
+    }
+
+    /* Botones de análisis y continuar muy pequeños y centrados */
+    #btn-vortex-analysis,
+    #btn-fracture-continue {
+        width: auto !important;
+        max-width: 160px !important;
+        align-self: center !important;
+        padding: 5px 14px !important;
+        font-size: 0.72rem !important;
+        border-radius: 8px !important;
+        margin-top: 2px !important;
+        margin-bottom: 8px !important;
+        /* Más margen abajo para separar del canvas */
+        letter-spacing: 0.5px !important;
+        font-weight: bold !important;
+        text-transform: uppercase !important;
     }
 
     /* Swipe footer: los botones atrás/deshacer en móvil */
     #step-2 .pane-footer {
         gap: 8px;
     }
+
     #step-2 .pane-footer button {
         flex: 1;
         justify-content: center;
@@ -782,7 +1043,7 @@
     }
 
     /* El grid en móvil (order-1) queda arriba de la tabla — reducir espacio inferior */
-    #hackeo-sidebar + div {
+    #hackeo-sidebar+div {
         margin-top: 0;
     }
 }
@@ -801,12 +1062,21 @@
 
     .split-layout-container {
         --chrome-v: calc(var(--body-pt-small) + 0.75rem + 56px);
+        --split-h: calc(var(--vh, 1vh) * 100 - var(--chrome-v));
+        height: var(--split-h);
     }
 
-    /* ── HEADER ≤480px ───────────────────────────── */
-    .logo-container { width: 52px !important; height: 52px !important; }
 
-    #timer { font-size: 0.6rem; }
+
+    /* ── HEADER ≤480px ───────────────────────────── */
+    .logo-container {
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    #timer {
+        font-size: 0.6rem;
+    }
 
     .countdown-emergency {
         gap: 3px;
@@ -821,7 +1091,9 @@
     }
 
     /* ── STEPPER ─────────────────────────────────────────────── */
-    .stepper-line { top: 1rem; }
+    .stepper-line {
+        top: 1rem;
+    }
 
     .stepper-dot {
         width: 2rem;
@@ -844,7 +1116,9 @@
     }
 
     /* ── QUIZ ────────────────────────────────────────────────── */
-    .q-card h2  { font-size: clamp(1rem, 5vw, 1.25rem); }
+    .q-card h2 {
+        font-size: clamp(1rem, 5vw, 1.25rem);
+    }
 
     .choice-btn {
         padding: 11px 13px;
@@ -852,30 +1126,72 @@
         letter-spacing: 0.04em;
     }
 
-    .flip-card  { height: 125px; }
+    .flip-card {
+        height: 125px;
+    }
 
     /* ── HIVE MATRIX ≤480px ──────────────────────────────────── */
-    .hive-table { grid-template-columns: 18px repeat(6, 1fr); gap: 2px; }
-    .hive-header { font-size: 0.46rem; min-height: 24px; }
-    .hive-cell { font-size: 0.46rem !important; min-height: 20px; height: 20px; }
-    .hive-row-label { font-size: 0.46rem; min-height: 20px; height: 20px; }
+    .hive-table {
+        grid-template-columns: 18px repeat(6, 1fr);
+        gap: 2px;
+    }
+
+    .hive-header {
+        font-size: 0.46rem;
+        min-height: 24px;
+    }
+
+    .hive-cell {
+        font-size: 0.46rem !important;
+        min-height: 20px;
+        height: 20px;
+    }
+
+    .hive-row-label {
+        font-size: 0.46rem;
+        min-height: 20px;
+        height: 20px;
+    }
 
     /* ── SWIPE ───────────────────────────────────────────────── */
-    .swipe-zone     { max-width: 270px; min-height: 320px; }
-    .swipe-app-logo { width: 58px; height: 58px; border-radius: 16px; }
-    .swipe-label    { font-size: 0.825rem; padding: 3px 6px; }
+    .swipe-app-logo {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+    }
+
+    .swipe-label {
+        font-size: 0.825rem;
+        padding: 3px 6px;
+    }
 
     /* ── VORTEX ──────────────────────────────────────────────── */
-    .vortex-zone  { height: min(400px, 90vw); min-height: 300px; width: 100%; }
-    .vortex-core  { width: 95px; height: 95px; }
-    .vortex-item  { width: 46px; height: 46px; font-size: 0.8rem; padding: 4px; }
-    .vortex-halo  { width: 220px; height: 220px; }
+    .vortex-core {
+        width: 95px;
+        height: 95px;
+    }
+
+    .vortex-item {
+        width: 46px;
+        height: 46px;
+        font-size: 0.8rem;
+        padding: 4px;
+    }
+
+    .vortex-halo {
+        width: 220px;
+        height: 220px;
+    }
 
     /* ── FRACTURE ────────────────────────────────────────────── */
 
-    .fracture-ui-layer .fracture-title h3 { font-size: 0.85rem; }
+    .fracture-ui-layer .fracture-title h3 {
+        font-size: 0.85rem;
+    }
 
-    #fracture-risk-display { font-size: 1.1rem; }
+    #fracture-risk-display {
+        font-size: 1.1rem;
+    }
 
     #vortex-section h2,
     #fracture-section h2,
@@ -916,17 +1232,28 @@
 
 @media (max-width: 375px) {
 
-    body { padding-top: var(--body-pt-xs); }
+    body {
+        padding-top: var(--body-pt-xs);
+    }
 
     /* ≤375px el stepper-label se oculta → stepper más bajo */
     .split-layout-container {
         --chrome-v: calc(var(--body-pt-xs) + 0.75rem + 42px);
+        --split-h: calc(var(--vh, 1vh) * 100 - var(--chrome-v));
+        height: var(--split-h);
     }
 
-    /* Dona proporcional en iPhone SE */
-    .logo-container { width: 46px !important; height: 46px !important; }
 
-    .stepper-line { top: 0.925rem; }
+
+    /* Dona proporcional en iPhone SE */
+    .logo-container {
+        width: 46px !important;
+        height: 46px !important;
+    }
+
+    .stepper-line {
+        top: 0.925rem;
+    }
 
     .stepper-dot {
         width: 1.85rem;
@@ -934,34 +1261,77 @@
         font-size: 0.78rem;
     }
 
-    .stepper-label { display: none; }
+    .stepper-label {
+        display: none;
+    }
 
-    .choice-btn { font-size: 0.82rem; }
+    .choice-btn {
+        font-size: 0.82rem;
+    }
 
     .header-authority h1 {
         font-size: 0.62rem !important;
         letter-spacing: 0.5px !important;
     }
 
-    .countdown-emergency { font-size: 0.52rem !important; padding: 2px 5px !important; }
-    .legal-pill           { font-size: 0.5rem !important;  padding: 2px 5px !important; }
+    .countdown-emergency {
+        font-size: 0.52rem !important;
+        padding: 2px 5px !important;
+    }
+
+    .legal-pill {
+        font-size: 0.5rem !important;
+        padding: 2px 5px !important;
+    }
 
     /* Hive ≤375px — mínimo legible de 0.6rem */
-    .hive-table  { grid-template-columns: 20px repeat(6, 1fr); min-width: unset; }
-    .hive-header { font-size: 0.6rem; min-height: 22px; }
-    .hive-cell   { font-size: 0.6rem; min-height: 22px; height: 22px; }
-    .hive-row-label { font-size: 0.56rem; min-height: 22px; height: 22px; }
+    .hive-table {
+        grid-template-columns: 20px repeat(6, 1fr);
+        min-width: unset;
+    }
 
-    .swipe-zone     { max-width: 250px; min-height: 300px; }
-    .swipe-app-logo { width: 50px; height: 50px; }
+    .hive-header {
+        font-size: 0.6rem;
+        min-height: 22px;
+    }
 
-    .vortex-zone  { height: min(360px, 90vw); min-height: 260px; width: 100%; }
-    .vortex-core  { width: 78px; height: 78px; }
-    .vortex-item  { width: 38px; height: 38px; font-size: 0.75rem; }
-    .vortex-halo  { width: 175px; height: 175px; }
+    .hive-cell {
+        font-size: 0.6rem;
+        min-height: 22px;
+        height: 22px;
+    }
+
+    .hive-row-label {
+        font-size: 0.56rem;
+        min-height: 22px;
+        height: 22px;
+    }
+
+    .swipe-app-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .vortex-core {
+        width: 78px;
+        height: 78px;
+    }
+
+    .vortex-item {
+        width: 38px;
+        height: 38px;
+        font-size: 0.75rem;
+    }
+
+    .vortex-halo {
+        width: 175px;
+        height: 175px;
+    }
 
     /* Reducir padding de q-card al mínimo cómodo */
-    .q-card { padding: 14px; }
+    .q-card {
+        padding: 14px;
+    }
 }
 
 
@@ -971,19 +1341,44 @@
    ============================================================ */
 
 @media (max-height: 480px) {
-    .is-mobile.landscape .vortex-zone   { height: 280px; min-height: unset !important; }
-    .is-mobile.landscape .fracture-zone { height: 280px; min-height: unset !important; }
-    .is-mobile.landscape .swipe-zone    { min-height: 200px; aspect-ratio: 4 / 3; }
-    .is-mobile.landscape .stepper-nav   { margin-bottom: 0.75rem; }
+
+    /* En landscape el split sigue gobernando: 100% del panel disponible,
+       nunca alturas fijas que desborden el viewport corto. La tarjeta de
+       swipe limita su alto agresivamente vía aspect-ratio 4/3. */
+    .is-mobile.landscape .vortex-zone {
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        width: auto;
+        min-height: unset !important;
+    }
+
+    .is-mobile.landscape .fracture-zone {
+        height: 100%;
+        min-height: unset !important;
+    }
+
+    .is-mobile.landscape .swipe-zone {
+        height: 100%;
+        min-height: unset;
+        aspect-ratio: 4 / 3;
+        width: auto;
+    }
+
+    .is-mobile.landscape .stepper-nav {
+        margin-bottom: 0.75rem;
+    }
 }
 
 /* ── PRICING CARDS — estilos globales ───────────────────────── */
-.pricing-card ul li { list-style: none; }
+.pricing-card ul li {
+    list-style: none;
+}
 
 /* Details/summary colapsables — solo para textarea de resultados */
 @media (max-width: 768px) {
+
     /* Chevron de los detalles colapsables */
-    details[open] > summary span:last-child {
+    details[open]>summary span:last-child {
         transform: rotate(180deg);
         display: inline-block;
     }
@@ -994,12 +1389,15 @@
     #donacion-seccion .text-2xl {
         font-size: clamp(1rem, 5vw, 1.4rem);
     }
+
     .q-card #app-slider {
         max-width: 100%;
     }
+
     .q-card .max-w-sm {
         max-width: 100%;
     }
+
     /* Párrafos con class text-justify heredan la regla global de justificado */
     #step-2 p.text-justify,
     #vortex-section p.text-justify,
@@ -1008,11 +1406,384 @@
     #step-4 p.text-justify {
         text-align: justify;
     }
+
     /* Prevenir overflow de palabras largas en cualquier sección */
     .step-container,
     .glass-panel,
     .q-card {
         overflow-wrap: break-word;
         word-break: break-word;
+    }
+}
+
+/* ============================================================
+   FASE 2 — REDISEÑO ESTRUCTURAL MÓVIL (Swipe / Vortex / Fracture)
+   Solo ≤768px. Desktop conserva el layout de tercios intacto.
+   ============================================================ */
+
+/* Elementos exclusivos de móvil: ocultos por defecto (desktop) */
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* ── M1 · SWIPE ──────────────────────────────────────────
+       Fila 1: SWIPE + contador discreto "n / total"
+       Fila 2: tres líneas-botón (dirección + significado)
+       Base:   tarjeta protagonista + deshacer sutil abajo-izq. */
+    #step-2 .glass-panel .pane-instructions {
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto auto;
+        align-items: center;
+        gap: 6px 10px;
+        overflow: visible;
+    }
+
+    #step-2 .glass-panel .pane-instructions.space-y-3>*+* {
+        margin-top: 0 !important;
+    }
+
+    /* Línea superior de control: indicador SWIPE en la esquina izquierda */
+    #step-2 .glass-panel .pane-instructions>div:first-child {
+        grid-row: 1;
+        grid-column: 1;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        justify-content: flex-start !important;
+    }
+
+    #step-2 .glass-panel .pane-instructions h2.t-titulo {
+        font-size: 0.95rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        margin: 0 !important;
+    }
+
+    #step-2 .glass-panel .pane-instructions .shield-icon-container {
+        width: 24px !important;
+        height: 24px !important;
+        border-radius: 6px !important;
+    }
+
+    #step-2 .glass-panel .pane-instructions .shield-icon-container i {
+        font-size: 0.8rem !important;
+    }
+
+    /* Contador discreto arriba a la derecha: solo "n / total", gris claro */
+    .progress-card-swipe {
+        grid-row: 1;
+        grid-column: 2;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        min-width: 0;
+        justify-self: end;
+    }
+
+    .progress-card-swipe .mb-3 {
+        margin-bottom: 0 !important;
+        justify-content: flex-end !important;
+        padding: 0 !important;
+    }
+
+    .progress-card-swipe .h-2\.5,
+    #pct-text {
+        display: none !important;
+    }
+
+    #counter {
+        color: #b3b8ad !important;
+        font-size: 0.7rem !important;
+        letter-spacing: 0.04em !important;
+    }
+
+    /* Instrucción breve sobre las líneas-botón */
+    #step-2 .glass-panel .pane-instructions p.t-parrafo {
+        grid-row: 2;
+        grid-column: 1 / -1;
+        margin: 0 !important;
+        font-size: 0.78rem !important;
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--texto-2);
+        text-align: left;
+    }
+
+    /* Tres líneas-botón: flecha como ícono decorativo + significado al lado.
+       SÍ son clicables: clasifican la tarjeta superior. */
+    #swipe-instr-buttons {
+        grid-row: 3;
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .swipe-instr-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 5px 10px;
+        border-radius: 9px;
+        border: 1px solid transparent;
+        background: rgba(255, 255, 255, 0.45);
+        font-size: 0.72rem;
+        font-weight: 600;
+        line-height: 1.25;
+        text-align: left;
+        color: var(--texto-2);
+    }
+
+    .swipe-instr-btn i {
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+
+    .swipe-instr-btn small {
+        font-weight: 500;
+        opacity: 0.75;
+    }
+
+    .swipe-instr-btn:active {
+        transform: scale(0.98);
+    }
+
+    .swipe-instr-btn.dir-right i {
+        color: #f43f5e;
+    }
+
+    .swipe-instr-btn.dir-left i {
+        color: #10b981;
+    }
+
+    .swipe-instr-btn.dir-down i {
+        color: #94a3b8;
+    }
+
+    /* El footer desktop (Atrás/Deshacer) sale del flujo móvil */
+    #step-2 .glass-panel .pane-footer {
+        display: none !important;
+    }
+
+    /* Sin sellos encimados ni guías laterales: el fondo coloreado basta */
+    .swipe-card .swipe-label {
+        display: none !important;
+    }
+
+    .swipe-guide {
+        display: none !important;
+    }
+
+    /* Deshacer: solo el ícono ↩ en gris tenue, esquina inferior IZQUIERDA
+       (no tapa la mano); hereda .btn-undo/.active (visible con historial) */
+    #btn-undo-mobile {
+        display: inline-flex;
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        z-index: 120;
+        padding: 6px;
+        background: none;
+        border: none;
+        box-shadow: none;
+        color: #a8aea1;
+        font-size: 1.1rem;
+        line-height: 1;
+    }
+
+    /* Espacio claro entre las actividades de la Fase 2 */
+    #vortex-section,
+    #fracture-section {
+        margin-top: 3rem !important;
+    }
+
+    /* ── M2 · VORTEX ─────────────────────────────────────────
+       VORTEX grande + subtítulo regular + instrucciones body
+       Centro: actividad prioritaria · Base: CONTINUAR dorado */
+    #vortex-section .split-layout-container {
+        grid-template-rows: auto 1fr auto;
+    }
+
+    /* Título protagonista + subtítulo en peso regular, dos líneas jerárquicas */
+    #vortex-title-block {
+        display: block !important;
+        text-align: left !important;
+    }
+
+    #vortex-section #vortex-title-block h2.t-titulo {
+        font-size: 1.5rem !important;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.1;
+        margin: 0 !important;
+        text-align: left;
+    }
+
+    #vortex-title-block span.t-subtitulo {
+        display: block;
+        margin: 2px 0 0 !important;
+        font-size: 0.8rem !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.02em !important;
+        text-transform: none !important;
+        color: var(--texto-3) !important;
+        text-align: left;
+    }
+
+    /* Instrucciones: mismo estilo enfático dorado de desktop (t-enfasis t-gold);
+       el título VORTEX conserva el protagonismo por tamaño y peso */
+    #vortex-instr-bar {
+        display: block !important;
+        background: none;
+        border: none;
+        padding: 6px 0 0;
+    }
+
+    #vortex-instr-bar span.t-enfasis {
+        display: block !important;
+        margin: 0 !important;
+        font-size: 0.8rem !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.05em !important;
+        text-transform: uppercase !important;
+        color: var(--dorado-oscuro) !important;
+        line-height: 1.4 !important;
+        text-align: left;
+    }
+
+    /* HUD desktop y datos % / # fuera del flujo móvil: saturan la vista */
+    #vortex-hud {
+        display: none !important;
+    }
+
+    #btn-vortex-analysis {
+        display: none !important;
+    }
+
+    /* Etiqueta con el nombre de la app bajo cada icono del vórtice */
+    .vortex-item .vortex-item-label {
+        display: block;
+        position: absolute;
+        top: calc(100% + 2px);
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.5rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: rgba(255, 255, 255, 0.85);
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    /* Acción única inferior: CONTINUAR ancho, elegante y centralizado */
+    #vortex-toolbar {
+        display: flex;
+        justify-content: center;
+        padding-top: 2px;
+    }
+
+    #btn-vortex-analysis-mobile {
+        width: 100%;
+        background: var(--verde-oscuro);
+        color: var(--dorado-premium);
+        border-radius: 10px;
+        font-weight: 900;
+        font-size: 0.78rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 10px 0;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ── M3 · FRACTURE ───────────────────────────────────────
+       FRACTURE grande + subtítulo regular + instrucciones body
+       Centro: cloud organizada de fichas · Base: CONTINUAR */
+    #fracture-section .split-layout-container {
+        grid-template-rows: auto 1fr auto;
+    }
+
+    /* Título protagonista + subtítulo regular, misma jerarquía que Vortex */
+    #fracture-title-block {
+        display: block !important;
+        text-align: left !important;
+    }
+
+    #fracture-section #fracture-title-block h2.t-titulo {
+        font-size: 1.5rem !important;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.1;
+        margin: 0 !important;
+        text-align: left;
+    }
+
+    #fracture-title-block span.t-subtitulo {
+        display: block;
+        margin: 2px 0 0 !important;
+        font-size: 0.8rem !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.02em !important;
+        text-transform: none !important;
+        color: var(--texto-3) !important;
+        text-align: left;
+    }
+
+    /* Instrucciones: mismo estilo enfático dorado de desktop (t-enfasis t-gold) */
+    #fracture-instr-bar {
+        display: block !important;
+        background: none;
+        border: none;
+        padding: 6px 0 0;
+    }
+
+    #fracture-instr-bar span.t-enfasis {
+        display: block !important;
+        margin: 0 !important;
+        font-size: 0.8rem !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.05em !important;
+        text-transform: uppercase !important;
+        color: var(--dorado-oscuro) !important;
+        line-height: 1.4 !important;
+        text-align: left;
+    }
+
+    /* Fracture visual: visible en móvil (SMS center + floating apps + void + cracks) */
+
+    /* Fichas: bordes redondeados consistentes; selección con borde dorado */
+    .fracture-node {
+        border-radius: 10px !important;
+    }
+
+
+    #btn-fracture-continue {
+        display: none !important;
+    }
+
+    /* Acción única inferior: CONTINUAR ancho y centralizado */
+    #fracture-bottom-bar {
+        display: flex;
+        justify-content: center;
+        padding-top: 2px;
+    }
+
+    #btn-fracture-continue-mobile {
+        width: 100%;
+        padding: 10px 0;
+        border-radius: 10px;
+        background: var(--verde-oscuro);
+        color: var(--dorado-premium);
+        font-weight: 900;
+        font-size: 0.78rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     }
 }

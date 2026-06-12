@@ -470,6 +470,8 @@ function goToStep(s) {
         initStack();
     }
 
+
+
     // Actualizar Stepper Nav
     document.querySelectorAll('.stepper-item').forEach((d, i) => {
         const stepNum = i + 1;

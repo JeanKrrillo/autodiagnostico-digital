@@ -1,3 +1,4 @@
+
 /**
  * P-CRT Fracture Scan Logic
  * Adapted from standalone fractura.html
@@ -56,7 +57,7 @@ function initFracture() {
                 <div id="fracture-risk-display" class="text-3xl md:text-4xl font-black italic mt-[-5px] font-['JetBrains_Mono']">00%</div>
             </div>
         </div>
-        <div id="sms-block" class="fracture-core ${smsPadding} ${smsText} text-white font-black tracking-[0.2em] rounded-md border border-orange-300">
+        <div id="sms-block" class="fracture-core ${smsPadding} ${smsText} text-white font-black tracking-[0.2em] rounded-md border border-[var(--dorado-premium)] bg-black/40 shadow-[0_0_15px_rgba(232,180,91,0.2)]">
             SMS
         </div>
     `;
@@ -108,14 +109,35 @@ function initFracture() {
         return phaseShift[2];
     }
 
-    currentFractureApps.sort(() => Math.random() - 0.5).forEach((app, index) => {
+    currentFractureApps.sort(() => Math.random() - 0.5);
+
+    const nodesData = [];
+
+    // ── SEMILLA DE POSICIÓN POR NODO ──
+    // Móvil: cuadrícula jitterizada (semisimétrica/semiordenada) que cubre todo
+    // el ancho y alto del lienzo, con la celda central reservada al bloque SMS.
+    // Desktop: órbitas concéntricas (intacto).
+    const cols = w >= 560 ? 5 : 3;
+    let rows = Math.ceil((n + 1) / cols);
+    if (rows % 2 === 0) rows++; // filas impares: existe celda central exacta
+    const mH = 8, mV = 44;      // márgenes: aire lateral / HUD superior
+    const cellW = (w - mH * 2) / cols;
+    const cellH = (h - mV * 2) / rows;
+    const centerCell = Math.floor(rows / 2) * cols + Math.floor(cols / 2);
+    let cell = 0;
+
+    // Crear cada nodo en el DOM ANTES de calcular posiciones, para medir su
+    // tamaño REAL (icono 20px + gap + padding + min-height de CSS). Las
+    // estimaciones por longitud de texto subestimaban y producían solapamientos.
+    currentFractureApps.forEach((app, index) => {
         const node = document.createElement('div');
         node.className = 'fracture-node';
         node.style.position = 'absolute';
         node.style.left = '50%';
         node.style.top = '50%';
+        node.style.visibility = 'hidden';
         if (app.weight === 5) node.classList.add('critical-node');
-        
+
         const logoHtml = getAppLogoHtml(app, "w-full h-full p-[15%] object-contain");
         node.innerHTML = `
             <div class="flex items-center gap-1.5">
@@ -125,56 +147,135 @@ function initFracture() {
                 <span>${app.name}</span>
             </div>
         `;
-        
+
         node.style.fontSize = nodeSizes.fontSize;
         node.style.padding = nodeSizes.padding;
         fractureContainer.appendChild(node);
+
+        // Fallback a la estimación si el contenedor está oculto (offsetWidth 0)
+        const appNodeWidth = node.offsetWidth || app.name.length * (isMob ? 6 : 8) + (isMob ? 42 : 60);
+        const appNodeHeight = node.offsetHeight || (isMob ? 36 : 40);
+
+        let finalX, finalY;
+
+        if (isMob) {
+            if (cell === centerCell) cell++; // celda central reservada al SMS
+            const gr = Math.floor(cell / cols), gc = cell % cols;
+            cell++;
+            // Jitter CONFINADO a la celda: el nodo (con su tamaño real medido
+            // y el vaivén idle de ±3px) nunca invade celdas vecinas → cero
+            // solapamientos por construcción, sin depender de la repulsión.
+            const freeX = Math.max(0, cellW / 2 - appNodeWidth / 2 - 6);
+            const freeY = Math.max(0, cellH / 2 - appNodeHeight / 2 - 6);
+            finalX = (gc + 0.5) * cellW - (cellW * cols) / 2 + (Math.random() * 2 - 1) * freeX;
+            finalY = (gr + 0.5) * cellH - (cellH * rows) / 2 + (Math.random() * 2 - 1) * freeY;
+        } else {
+            const r = getRingRadius(index);
+            const ringIdx = getRingIndex(index);
+            const ringSz = getRingSize(index);
+            const phase = getRingPhase(index);
+            const angle = (ringIdx / Math.max(ringSz, 1)) * Math.PI * 2 + phase;
+            finalX = Math.cos(angle) * r;
+            finalY = Math.sin(angle) * r;
+        }
+
+        // Desktop: evitar solapamiento inicial con el bloque central SMS.
+        // En móvil no aplica: la celda central de la cuadrícula ya lo protege
+        // y este empuje sacaría al nodo de su celda (re-creando solapamientos).
+        if (!isMob) {
+            const forbiddenHalfW = 75 + appNodeWidth / 2 + 10;
+            const forbiddenHalfH = 25 + appNodeHeight / 2 + 10;
+
+            if (Math.abs(finalX) < forbiddenHalfW && Math.abs(finalY) < forbiddenHalfH) {
+                const scaleX = forbiddenHalfW / Math.abs(finalX || 0.001);
+                const scaleY = forbiddenHalfH / Math.abs(finalY || 0.001);
+                if (scaleX < scaleY) {
+                    finalX = (finalX >= 0 ? 1 : -1) * forbiddenHalfW;
+                } else {
+                    finalY = (finalY >= 0 ? 1 : -1) * forbiddenHalfH;
+                }
+            }
+        }
+
+        nodesData.push({
+            app,
+            index,
+            el: node,
+            x: finalX,
+            y: finalY,
+            w: appNodeWidth,
+            h: appNodeHeight
+        });
+    });
+
+    // Simulación de repulsión SOLO en desktop (órbitas). En móvil la cuadrícula
+    // de celdas confinadas ya garantiza cero solapamientos; la repulsión y sus
+    // clamps por iteración podían volver a encimar nodos en lienzos estrechos.
+    if (!isMob) {
+        for (let step = 0; step < 50; step++) {
+            for (let i = 0; i < nodesData.length; i++) {
+                for (let j = i + 1; j < nodesData.length; j++) {
+                    const n1 = nodesData[i];
+                    const n2 = nodesData[j];
+
+                    const dx = n2.x - n1.x;
+                    const dy = n2.y - n1.y;
+
+                    // Margen de separación: cubre el vaivén flotante idle (±3px
+                    // por nodo = hasta 6px de acercamiento entre dos vecinos)
+                    const minDistX = (n1.w + n2.w) / 2 + 14;
+                    const minDistY = (n1.h + n2.h) / 2 + 14;
+
+                    if (Math.abs(dx) < minDistX && Math.abs(dy) < minDistY) {
+                        const overlapX = minDistX - Math.abs(dx);
+                        const overlapY = minDistY - Math.abs(dy);
+
+                        // Empujar en el eje de menor superposición
+                        if (overlapX < overlapY) {
+                            const pushX = (overlapX / 2) * (dx > 0 ? 1 : -1);
+                            n1.x -= pushX;
+                            n2.x += pushX;
+                        } else {
+                            const pushY = (overlapY / 2) * (dy > 0 ? 1 : -1);
+                            n1.y -= pushY;
+                            n2.y += pushY;
+                        }
+                    }
+                }
+            }
+
+            // Restringir a los límites del contenedor en cada iteración
+            nodesData.forEach(nd => {
+                const limitX = w / 2 - nd.w / 2 - 16;
+                const limitY = usableH / 2 - nd.h / 2 - 16;
+                nd.x = Math.max(-limitX, Math.min(limitX, nd.x));
+                nd.y = Math.max(-limitY, Math.min(limitY, nd.y));
+
+                // Zona prohibida del bloque SMS central: re-aplicada en cada
+                // iteración porque la repulsión puede empujar nodos al centro
+                const fbW = 75 + nd.w / 2 + 10;
+                const fbH = 25 + nd.h / 2 + 10;
+                if (Math.abs(nd.x) < fbW && Math.abs(nd.y) < fbH) {
+                    const oX = fbW - Math.abs(nd.x);
+                    const oY = fbH - Math.abs(nd.y);
+                    if (oX < oY) {
+                        nd.x = (nd.x >= 0 ? 1 : -1) * fbW;
+                    } else {
+                        nd.y = (nd.y >= 0 ? 1 : -1) * fbH;
+                    }
+                }
+            });
+        }
+    }
+
+    // Posicionar y animar los nodos ya creados, libres de colisión
+    nodesData.forEach(({ app, index, el: node, x: finalX, y: finalY }) => {
+        node.style.visibility = '';
 
         if (preservedSelections.has(app.name)) {
             node.classList.add('selected');
             fractureSelectedCount++;
         }
-
-        // Posición angular determinista en su anillo
-        const r = getRingRadius(index);
-        const ringIdx = getRingIndex(index);
-        const ringSz = getRingSize(index);
-        const phase = getRingPhase(index);
-        const angle = (ringIdx / Math.max(ringSz, 1)) * Math.PI * 2 + phase;
-
-        let finalX = Math.cos(angle) * r;
-        let finalY = Math.sin(angle) * r;
-
-        // ESTRATEGIA: Evitar que los nodos en móvil se solapen con el bloque SMS central rectangular
-        if (isMob) {
-            const nodeTextLength = app.name.length;
-            const approxNodeWidth = nodeTextLength * 6 + 16; // Aprox 8px por font + padding
-            const approxNodeHeight = 28;
-
-            const smsHalfW = 45; // Ancho estimado del bloque SMS en móvil (90px total)
-            const smsHalfH = 18; // Alto estimado del bloque SMS en móvil (36px total)
-
-            const forbiddenHalfW = smsHalfW + approxNodeWidth / 2 + 6;
-            const forbiddenHalfH = smsHalfH + approxNodeHeight / 2 + 6;
-
-            if (Math.abs(finalX) < forbiddenHalfW && Math.abs(finalY) < forbiddenHalfH) {
-                const scaleX = forbiddenHalfW / Math.abs(finalX || 0.001);
-                const scaleY = forbiddenHalfH / Math.abs(finalY || 0.001);
-                const pushFactor = Math.min(scaleX, scaleY);
-                finalX *= pushFactor;
-                finalY *= pushFactor;
-            }
-        }
-
-        // CONTROL DE DESBORDE: Mantener nodos dentro de los límites visibles del contenedor (D-04, M-06)
-        const nodeTextLen = app.name.length;
-        const appNodeWidth = nodeTextLen * (isMob ? 6 : 8) + (isMob ? 16 : 32);
-        const appNodeHeight = isMob ? 28 : 36;
-        const limitX = w / 2 - appNodeWidth / 2 - 16;
-        const limitY = usableH / 2 - appNodeHeight / 2 - 16;
-
-        finalX = Math.max(-limitX, Math.min(limitX, finalX));
-        finalY = Math.max(-limitY + (isMob ? 10 : 0), Math.min(limitY, finalY));
 
         // Animar entrada: aparece en su posición orbital desde escala 0 (igual que vortex)
         gsap.set(node, { x: finalX, y: finalY, xPercent: -50, yPercent: -50, scale: 0, opacity: 0 });
@@ -324,6 +425,42 @@ function updateFractureHUD() {
     applyHudGlitch(riskIntensity);
 
     applyFractureDistortion(risk / 100);
+
+    // Ajustar intensidad de brillo rojo en el SMS block central
+    const smsBlock = document.getElementById('sms-block');
+    if (smsBlock) {
+        const count = fractureSelectedApps.length;
+        if (count > 0) {
+            const glowRadius = 15 + count * 8;
+            const opacity = 0.3 + count * 0.12;
+            smsBlock.style.boxShadow = `0 0 ${glowRadius}px rgba(239, 68, 68, ${opacity}), inset 0 0 10px rgba(239, 68, 68, 0.5)`;
+            smsBlock.style.borderColor = '#ef4444';
+            smsBlock.style.textShadow = `0 0 ${5 + count * 2}px rgba(239, 68, 68, 0.8)`;
+        } else {
+            smsBlock.style.boxShadow = '';
+            smsBlock.style.borderColor = '';
+            smsBlock.style.textShadow = '';
+        }
+    }
+
+    // Generar barras rojas de glitch "fractura" en el fondo
+    document.querySelectorAll('.fracture-glitch-bar').forEach(el => el.remove());
+    const count = fractureSelectedApps.length;
+    if (count > 0 && fractureContainer) {
+        for (let k = 0; k < count * 2; k++) {
+            const bar = document.createElement('div');
+            bar.className = 'fracture-glitch-bar flicker-bar';
+            bar.style.position = 'absolute';
+            bar.style.backgroundColor = 'rgba(239, 68, 68, 0.85)';
+            bar.style.height = (Math.random() * 4 + 1) + 'px';
+            bar.style.width = (Math.random() * 120 + 40) + 'px';
+            bar.style.top = (Math.random() * 90 + 5) + '%';
+            bar.style.left = (Math.random() * 80 + 10) + '%';
+            bar.style.pointerEvents = 'none';
+            bar.style.zIndex = '4';
+            fractureContainer.appendChild(bar);
+        }
+    }
 }
 
 // Glitch progresivo SOLO en el texto del HUD (FRACTURE_SCAN y %), que es
@@ -384,16 +521,29 @@ function finishFracture() {
 
 function showFracture() {
     const section = document.getElementById('fracture-section');
-    section.classList.remove('hidden');
 
-    // Offset por el header fijo + 16px de aire, para que el título "Fracture"
-    // no quede tapado tras el header.
+    // Matar cualquier tween previo para evitar conflictos
+    gsap.killTweensOf(section);
+    gsap.killTweensOf(window);
+
+    section.classList.remove('hidden');
+    gsap.set(section, { opacity: 0 });
+
+    // Offset por el header fijo + 16px de aire
     const headerH = document.querySelector('.header-authority')?.offsetHeight || 80;
     const targetY = section.getBoundingClientRect().top + window.pageYOffset - headerH - 16;
-    gsap.to(window, { scrollTo: { y: targetY }, duration: 1.5, ease: "power3.inOut" });
+
+    // Scroll y fade-in en paralelo, SOLO opacity (sin transform): no hay
+    // conflicto con CSS (transition-all eliminado) ni espacio en blanco al
+    // llegar — la sección ya está apareciendo mientras se desplaza.
+    gsap.to(window, { scrollTo: { y: targetY }, duration: 1.0, ease: "power3.inOut" });
     gsap.to(section, {
-        opacity: 1, y: 0, duration: 1, delay: 0.5, onComplete: () => {
-            // rAF garantiza que el browser aplicó el layout antes de leer getBoundingClientRect
+        opacity: 1,
+        duration: 0.8,
+        delay: 0.25,
+        ease: "power2.out",
+        onComplete: () => {
+            // rAF garantiza que el browser aplicó el layout antes de medir nodos
             requestAnimationFrame(() => initFracture());
         }
     });

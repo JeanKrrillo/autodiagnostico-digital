@@ -560,11 +560,8 @@ button[onclick*="showFracture"] {
    --split-h = altura real disponible (viewport − header − stepper).
    ============================================================ */
 .split-layout-container {
-    /* --chrome-v = todo lo que consume alto antes del split:
-       header fijo + padding-top de #main-content (pt-10 = 2.5rem) +
-       stepper-nav + padding del glass-panel. Valores por breakpoint abajo. */
-    --chrome-v: calc(var(--body-pt-mobile) + 2.5rem + var(--stepper-altura, 86px));
-    --split-h: calc(100dvh - var(--chrome-v));
+    --chrome-v: calc(var(--body-pt-desktop) + 2.5rem + var(--stepper-altura, 86px));
+    --split-h: calc(var(--vh, 1vh) * 100 - var(--chrome-v));
     display: grid;
     width: 100%;
     height: var(--split-h);
@@ -590,11 +587,11 @@ button[onclick*="showFracture"] {
 /* El swipe va dentro de un .glass-panel con padding propio: descontarlo
    del alto del split para que no desborde (vortex/fracture no lo tienen). */
 #step-2 .glass-panel > .split-layout-container {
-    --split-h: calc(100dvh - var(--chrome-v) - 3rem);
+    --split-h: calc(var(--vh, 1vh) * 100 - var(--chrome-v) - 3rem);
 }
 @media (min-aspect-ratio: 1/1) and (min-width: 800px) {
     #step-2 .glass-panel > .split-layout-container {
-        --split-h: calc(100dvh - var(--chrome-v) - 5rem);
+        --split-h: calc(var(--vh, 1vh) * 100 - var(--chrome-v) - 5rem);
     }
 }
 
@@ -645,12 +642,15 @@ button[onclick*="showFracture"] {
     max-height: 100%;
 }
 
-/* La swipe-zone conserva su aspect-ratio (3/4): no se estira, se ajusta
-   al alto disponible manteniendo proporción y queda centrada por el panel. */
+/* La swipe-zone conserva su aspect-ratio (3/4): se ajusta al alto
+   disponible manteniendo proporción (como en móvil) y se detiene en el
+   tamaño original de desktop (360×480). El tope de alto evita el choque
+   height:100% vs max-width:360px que estiraba la tarjeta en pantallas
+   altas rompiendo el ratio. */
 .pane-interactive > .swipe-zone {
     height: 100%;
     width: auto;
-    max-height: 100%;
+    max-height: min(100%, 480px);
 }
 
 /* HORIZONTAL: solo cuando el viewport es apaisado y hay ancho real.

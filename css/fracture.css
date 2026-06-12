@@ -116,13 +116,25 @@
 
 .crack-line {
     position: absolute;
-    height: 1px;
-    background: var(--naranja-fractura);
+    height: 2px;
+    border-top: 2px dashed #ef4444; /* Línea roja punteada */
     transform-origin: left center;
     pointer-events: none;
     z-index: 10;
-    opacity: 0.6;
-    box-shadow: 0 0 8px var(--naranja-fractura);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 4px #ef4444);
+}
+
+@keyframes glitch-bar-flicker {
+    0%, 100% { transform: scaleX(1) translateX(0); opacity: 0.8; }
+    20% { transform: scaleX(1.2) translateX(-4px); opacity: 0.4; }
+    40% { transform: scaleX(0.9) translateX(4px); opacity: 0.9; }
+    60% { transform: scaleX(1.1) translateX(-2px); opacity: 0.3; }
+    80% { transform: scaleX(1.4) translateX(2px); opacity: 0.7; }
+}
+
+.flicker-bar {
+    animation: glitch-bar-flicker 0.25s infinite steps(2);
 }
 
 .fracture-core {

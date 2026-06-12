@@ -6,16 +6,33 @@ let swipedHistory = [];
 let hintTimeout = null;
 let swipeLock = false; // Nuevo flag para evitar eventos simultáneos
 
+// Mapeo de dirección física y semántica consistente en móvil y desktop:
+// ← izquierda = respaldada (protegida) · → derecha = aún depende de SMS.
+function isMobileSwipe() {
+    return window.matchMedia('(max-width: 768px)').matches;
+}
+function semanticDir(physical) {
+    return physical;
+}
+
+// Sincroniza el estado de los botones Deshacer (desktop #btn-undo y móvil #btn-undo-mobile)
+function setUndoActive(on) {
+    document.querySelectorAll('#btn-undo, #btn-undo-mobile')
+        .forEach(b => b.classList.toggle('active', on));
+}
+
 function getSwipedVulnerableApps() {
     // Retorna los objetos de la data que hayan sido swipeados a la derecha (vulnerables)
     return swipedHistory.filter(h => h.direction === 1).map(h => DATA[h.index]);
 }
 
 function closeOnboarding() {
-    if(typeof gsap !== 'undefined') {
-        gsap.to('#onboarding', { opacity: 0, duration: 0.5, onComplete: () => {
-            document.getElementById('onboarding').style.display = 'none';
-        }});
+    if (typeof gsap !== 'undefined') {
+        gsap.to('#onboarding', {
+            opacity: 0, duration: 0.5, onComplete: () => {
+                document.getElementById('onboarding').style.display = 'none';
+            }
+        });
     } else {
         document.getElementById('onboarding').style.display = 'none';
     }
@@ -63,10 +80,10 @@ function initStack() {
     container.innerHTML = '';
     swipedHistory = [];
     currentIndex = 0;
-    document.getElementById('btn-undo').classList.remove('active');
+    setUndoActive(false);
 
     const vSec = document.getElementById('vortex-section');
-    if(vSec) {
+    if (vSec) {
         vSec.classList.add('hidden');
         vSec.style.opacity = '0';
     }
@@ -77,7 +94,7 @@ function initStack() {
     // Generar partículas de fondo
     const step2 = document.getElementById('step-2');
     if (step2 && !document.querySelector('.bg-particle')) {
-        for(let i=0; i<15; i++) {
+        for (let i = 0; i < 15; i++) {
             let p = document.createElement('div');
             p.className = 'bg-particle';
             p.style.left = Math.random() * 100 + '%';
@@ -112,7 +129,7 @@ function initStack() {
 }
 
 function updateStackVisuals(isInit = false) {
-    if(typeof gsap === 'undefined') return;
+    if (typeof gsap === 'undefined') return;
     for (let i = currentIndex; i < DATA.length; i++) {
         const card = document.getElementById(`card-${i}`);
         if (card) {
@@ -146,7 +163,7 @@ function updateStackVisuals(isInit = false) {
 
 // ===== REPARACIÓN CRÍTICA: resetHintTimeout limpia correctamente =====
 function resetHintTimeout() {
-    if(typeof gsap === 'undefined') return;
+    if (typeof gsap === 'undefined') return;
     clearTimeout(hintTimeout);
 
     // Forzar re-aparición de la mano
@@ -164,7 +181,7 @@ function resetHintTimeout() {
 
 function makeTopCardDraggable() {
     if (currentIndex >= DATA.length) return showCompletion();
-    if(typeof Draggable === 'undefined') return;
+    if (typeof Draggable === 'undefined') return;
 
     const card = document.getElementById(`card-${currentIndex}`);
     if (!card) return;
@@ -172,11 +189,10 @@ function makeTopCardDraggable() {
 
     const scanLine = card.querySelector('.scan-line');
     gsap.set(scanLine, { opacity: 0.6, top: '0%' });
-    if(scanAnimation) scanAnimation.kill();
+    if (scanAnimation) scanAnimation.kill();
     scanAnimation = gsap.to(scanLine, { top: '100%', duration: 2, repeat: -1, yoyo: true, ease: "none" });
 
-    if(swipedHistory.length > 0) document.getElementById('btn-undo').classList.add('active');
-    else document.getElementById('btn-undo').classList.remove('active');
+    setUndoActive(swipedHistory.length > 0);
 
     const existingDraggable = Draggable.get(card);
     if (existingDraggable) {
@@ -195,7 +211,7 @@ function makeTopCardDraggable() {
                 duration: 0.3
             });
         },
-        onDrag: function() {
+        onDrag: function () {
             const x = this.x;
             const y = this.y;
             const progress = Math.min(Math.abs(x) / 100, 1);
@@ -213,24 +229,31 @@ function makeTopCardDraggable() {
                 lRisk.style.opacity = 0; lSafe.style.opacity = 0;
             } else {
                 lNone.style.opacity = 0;
-                if (x > 0) {
-                    lRisk.style.opacity = progress; lSafe.style.opacity = 0;
-                    glow.style.background = 'radial-gradient(circle at center, rgba(244,63,94,0.9) 0%, rgba(244,63,94,0.4) 40%, transparent 80%)';
-                } else {
-                    lSafe.style.opacity = progress; lRisk.style.opacity = 0;
-                    glow.style.background = 'radial-gradient(circle at center, rgba(16,185,129,0.9) 0%, rgba(16,185,129,0.4) 40%, transparent 80%)';
-                }
+                // El color confirma el SIGNIFICADO del lado, no el lado físico
+                const sem = semanticDir(x > 0 ? 1 : -1);
+                const label = sem === 1 ? lRisk : lSafe;
+                const other = sem === 1 ? lSafe : lRisk;
+                label.style.opacity = progress; other.style.opacity = 0;
+                glow.style.background = sem === 1
+                    ? 'radial-gradient(circle at center, rgba(244,63,94,0.9) 0%, rgba(244,63,94,0.4) 40%, transparent 80%)'
+                    : 'radial-gradient(circle at center, rgba(16,185,129,0.9) 0%, rgba(16,185,129,0.4) 40%, transparent 80%)';
                 glow.style.opacity = progress;
             }
         },
-        onDragEnd: function() {
+        onDragEnd: function () {
             document.getElementById('dynamic-glow').style.opacity = 0;
-            if (this.y > 150) {
+            // Umbrales relativos al tamaño REAL de la zona (leídos al soltar,
+            // no al crear): la tarjeta escala con el viewport fluido y la
+            // distancia de descarte escala con ella.
+            const zone = card.closest('.swipe-zone');
+            const thX = Math.max(60, (zone?.clientWidth || 320) * 0.30);
+            const thY = Math.max(90, (zone?.clientHeight || 420) * 0.35);
+            if (this.y > thY) {
                 handleAction(card, 0); // No la uso
-            } else if (this.x > 100) {
-                handleAction(card, 1);
-            } else if (this.x < -100) {
-                handleAction(card, -1);
+            } else if (this.x > thX) {
+                handleAction(card, semanticDir(1), 1);
+            } else if (this.x < -thX) {
+                handleAction(card, semanticDir(-1), -1);
             } else {
                 gsap.to(this.target, {
                     x: 0, y: 0, rotationZ: 0,
@@ -244,20 +267,22 @@ function makeTopCardDraggable() {
     });
 }
 
-function handleAction(card, direction) {
+// direction = significado (−1 respaldada · 1 depende de SMS · 0 no uso);
+// physical = lado físico de salida de la tarjeta (en móvil pueden diferir).
+function handleAction(card, direction, physical = direction) {
     // NUEVO: bloquear si ya hay una animación en curso
     if (swipeLock) return;
     swipeLock = true;
 
-    swipedHistory.push({ index: currentIndex, direction: direction });
-    if(scanAnimation) scanAnimation.kill();
-    if(typeof Draggable !== 'undefined') Draggable.get(card).disable();
+    swipedHistory.push({ index: currentIndex, direction: direction, physical: physical });
+    if (scanAnimation) scanAnimation.kill();
+    if (typeof Draggable !== 'undefined') Draggable.get(card).disable();
 
-    if(typeof gsap !== 'undefined') {
+    if (typeof gsap !== 'undefined') {
         gsap.to(card, {
-            x: direction === 0 ? 0 : direction * window.innerWidth,
-            y: direction === 0 ? window.innerHeight : 0,
-            rotationZ: direction === 0 ? 0 : direction * 40,
+            x: physical === 0 ? 0 : physical * window.innerWidth,
+            y: physical === 0 ? window.innerHeight : 0,
+            rotationZ: physical === 0 ? 0 : physical * 40,
             opacity: 0,
             duration: 0.4,
             onComplete: () => {
@@ -296,14 +321,15 @@ function undoSwipe() {
     currentIndex--;
     const card = document.getElementById(`card-${currentIndex}`);
     card.style.display = 'flex';
-    if(typeof Draggable !== 'undefined') Draggable.get(card).enable();
+    if (typeof Draggable !== 'undefined') Draggable.get(card).enable();
 
-    if(typeof gsap !== 'undefined') {
-        gsap.fromTo(card, { x: last.direction * 500, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.5, ease: "back.out(1.2)",
-              onComplete: () => {
-                  swipeLock = false;
-              }
+    if (typeof gsap !== 'undefined') {
+        gsap.fromTo(card, { x: (last.physical ?? last.direction) * 500, opacity: 0 },
+            {
+                x: 0, opacity: 1, duration: 0.5, ease: "back.out(1.2)",
+                onComplete: () => {
+                    swipeLock = false;
+                }
             });
     }
     updateUI();
@@ -315,8 +341,12 @@ function undoSwipe() {
 function updateUI() {
     const pct = (currentIndex / DATA.length) * 100;
     const counter = document.getElementById('counter');
-    if (counter) counter.innerText = `ESCANEO: ${Math.min(currentIndex + 1, DATA.length)} / ${DATA.length}`;
-    if(typeof gsap !== 'undefined') {
+    if (counter) {
+        const pos = `${Math.min(currentIndex + 1, DATA.length)} / ${DATA.length}`;
+        // Móvil: solo números, discreto. Desktop conserva su etiqueta.
+        counter.innerText = isMobileSwipe() ? pos : `ESCANEO: ${pos}`;
+    }
+    if (typeof gsap !== 'undefined') {
         gsap.to('#pct-text', { innerHTML: Math.round(pct) + '%', snap: "innerHTML" });
     }
     const pb = document.getElementById('progress-bar');
@@ -324,7 +354,7 @@ function updateUI() {
 }
 
 function showCompletion() {
-    if(typeof confetti !== 'undefined') {
+    if (typeof confetti !== 'undefined') {
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#E8B45B', '#10b981', '#f43f5e'] });
     }
 
@@ -337,6 +367,9 @@ function showCompletion() {
     const pane = swipeZone?.closest('.pane-interactive');
     const footer = swipeZone?.closest('.split-layout-container')?.querySelector('.pane-footer');
     if (!pane) return;
+
+    // Apagar el Deshacer (desktop y móvil): ya no hay nada que revertir visible
+    setUndoActive(false);
 
     if (footer) {
         if (typeof gsap !== 'undefined') {
@@ -429,6 +462,17 @@ function flashSwipeFeedback(card, direction) {
     setTimeout(() => { glow.style.opacity = 0; }, 300);
 }
 
+// Líneas-botón de instrucción (móvil): clasifican la tarjeta superior.
+// direction = significado (−1 respaldada · 1 depende de SMS · 0 no uso);
+// el lado físico de salida se deriva para coincidir con la flecha mostrada.
+function triggerSwipe(direction) {
+    if (swipeLock || currentIndex >= DATA.length) return;
+    const card = document.getElementById(`card-${currentIndex}`);
+    if (!card) return;
+    flashSwipeFeedback(card, direction);
+    handleAction(card, direction, direction);
+}
+
 // Control por teclado para desktop — respeta swipeLock
 document.addEventListener('keydown', (e) => {
     // Solo actuar si estamos en el paso 2 y hay una tarjeta activa
@@ -439,10 +483,10 @@ document.addEventListener('keydown', (e) => {
     if (!topCard) return;
 
     let direction;
-    switch(e.key) {
-        case 'ArrowLeft':  direction = -1; break;
-        case 'ArrowRight': direction = 1;  break;
-        case 'ArrowDown':  direction = 0;  break;
+    switch (e.key) {
+        case 'ArrowLeft': direction = -1; break;
+        case 'ArrowRight': direction = 1; break;
+        case 'ArrowDown': direction = 0; break;
         default: return;
     }
 
