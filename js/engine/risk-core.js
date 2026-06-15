@@ -294,6 +294,15 @@ const RiskEngine = (() => {
             .sort((a, b) => b.weight - a.weight)
             .slice(0, 3);
 
+        // — Apps que el usuario marcó que SÍ usa (vulnerables + protegidas) —
+        const usedApps = appStatus
+            .filter(a => a.status !== 'no_uso')
+            .map(a => {
+                const meta = typeof MASTER_APPS !== 'undefined' ? MASTER_APPS.find(m => m.name === a.name) : null;
+                return { name: a.name, status: a.status, weight: meta ? meta.weight : 0, desc: meta ? meta.desc : '' };
+            })
+            .sort((x, y) => y.weight - x.weight);
+
         // — Horas de recuperación estimadas (1h por app vinculada a SMS × peso) —
         const recoveryHours = Math.ceil(
             allSelected.reduce((acc, app) => acc + _safeNum(app.weight, 'recovery'), 0) * 0.8
@@ -310,6 +319,7 @@ const RiskEngine = (() => {
             level,
             riskColor,
             topBreakpoints,
+            usedApps,
             recoveryHours,
             narrative: _buildNarrative(total, level, topBreakpoints, recoveryHours),
         };
@@ -593,6 +603,7 @@ const RiskEngine = (() => {
     function getNeedsDFY() { return _state.meta.needsDFY; }
     function getSpof() { return _state.meta.spofDetected; }
     function getTopApps() { return _state.output.topBreakpoints; }
+    function getUsedApps() { return _state.output.usedApps || []; }
     function getNarrative() { return _state.output.narrative; }
     function getRecoveryHours() { return _state.output.recoveryHours; }
 
@@ -613,6 +624,7 @@ const RiskEngine = (() => {
         getNeedsDFY,
         getSpof,
         getTopApps,
+        getUsedApps,
         getNarrative,
         getRecoveryHours,
         getColorForRisk,

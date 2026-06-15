@@ -638,19 +638,26 @@ function generateFinalReport() {
         else worstPointStr = "Mantener tus accesos actualizados y revisar configuraciones de vez en cuando.";
     }
 
-    const assetLines = (topApps && topApps.length > 0)
-        ? topApps.map(app => `- ${app.name} (Impacto: ${app.weight * 5}% - ${app.desc})`).join('\n')
-        : 'No se detectaron aplicaciones vulnerables.';
+    // Color por vulnerabilidad: protegida=verde; vulnerable escala por peso (5=rojo, 4=naranja, ≤3=amarillo).
+    const appDot = app => app.status !== 'vulnerable' ? '🟢' : (app.weight >= 5 ? '🔴' : app.weight >= 4 ? '🟠' : '🟡');
+    const usedApps = [...RiskEngine.getUsedApps()].sort((a, b) => {
+        const va = a.status === 'vulnerable' ? 0 : 1;
+        const vb = b.status === 'vulnerable' ? 0 : 1;
+        return va !== vb ? va - vb : b.weight - a.weight;
+    });
+    const appsBlock = usedApps.length
+        ? usedApps.map(app => `${app.name} ${appDot(app)}`).join('\n')
+        : 'No se seleccionaron aplicaciones en uso.';
 
-    const SEP = '========================================';
+    const SEP = '====================================';
     const plainText = [
         SEP,
         `REPORTE DE AUDITORÍA FORENSE DE SEGURIDAD DIGITAL\nPROTOCOLO P-CRT (ID: ${auditID})\nFecha de Auditoría: ${date}`,
         `EVALUACIÓN DE RIESGO\n\nNivel de Riesgo Global: ${score}%\nEstado: ${level}\nDescripción: ${levelDescPlain}`,
-        `QUÉ CONVIENE REVISAR\n\n${badList.length ? badList.map(t => `[VULNERABILIDAD] ${t}`).join('\n') : 'No se encontraron puntos de riesgo críticos en tu cuestionario básico.'}`,
-        `LO QUE YA TIENES CUBIERTO\n\n${goodList.length ? goodList.map(t => `[HÁBITO SEGURO] ${t}`).join('\n') : 'No se registraron hábitos preventivos cubiertos en esta evaluación.'}`,
+        `QUÉ CONVIENE REVISAR\n\n${badList.length ? badList.map(t => `🔴 ${t}`).join('\n') : 'No se encontraron puntos de riesgo críticos en tu cuestionario básico.'}`,
+        `LO QUE YA TIENES CUBIERTO\n\n${goodList.length ? goodList.map(t => `🟢 ${t}`).join('\n') : 'No se registraron hábitos preventivos cubiertos en esta evaluación.'}`,
         `LO MÁS IMPORTANTE EN TU CASO\n\n${worstPointStr}`,
-        `ACTIVOS EN RIESGO DE DEPENDENCIA (Fase 2)\n\n${assetLines}`,
+        `APLICACIONES A CUBRIR (de mayor a menor prioridad)\n🔴 Crítica · 🟠 Alta · 🟡 Media · 🟢 Protegida\n\n${appsBlock}`,
         SEP,
         `AVISO IMPORTANTE:\nEste servicio protege tu seguridad digital, NO está asociado al registro telefónico, NO promueve la vinculación de la CURP y NO asume consecuencias de una línea suspendida. Toma precauciones antes del 1 de julio de 2026.`,
         SEP
