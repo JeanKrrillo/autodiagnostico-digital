@@ -158,15 +158,16 @@ const RISK_CONFIG = {
     criticas: {
       peso: 5,
       list: [
-        "WhatsApp", "Apple ID", "Google/Gmail", "Microsoft/Outlook", "Bitwarden", 
-        "BBVA", "Santander", "Banorte", "HSBC", "Nu Bank", "Binance", "Bitso", 
-        "PayPal", "Revolut", "Samsung Account", "Signal", "Mercado Pago"
+        // Nombres alineados con MASTER_APPS (app.js) para que el match por includes() no falle.
+        "WhatsApp", "Apple", "Google", "Microsoft", "Outlook", "Bitwarden",
+        "BBVA", "Santander", "Banorte", "HSBC", "Nu", "Binance", "Bitso",
+        "PayPal", "Revolut", "Samsung", "Signal"
       ]
     },
     moderadas: {
       peso: 3,
       list: [
-        "Instagram", "TikTok", "Facebook", "LinkedIn", "Telegram", "X (Twitter)", 
+        "Instagram", "TikTok", "Facebook", "LinkedIn", "Telegram", "X",
         "Amazon", "Mercado Libre", "Uber", "ChatGPT", "Claude", "Yahoo!", 
         "Rappi", "DiDi", "Zoom", "Reddit", "Discord", "Adobe", "Canva", 
         "Figma", "Notion", "Airbnb", "Aeroméxico", "Volaris", "Walmart", 

@@ -59,6 +59,7 @@ const RiskEngine = (() => {
         assets: {
             swipe: {
                 vulnerableApps: [], // Array de objetos app
+                protectedApps: [],  // Apps que el usuario respalda (swipe ←)
                 noUsoApps: [],      // Array de apps descartadas
                 rawScore: 0,
                 normalized: 0,
@@ -187,9 +188,8 @@ const RiskEngine = (() => {
         // — SWIPE —
         if (data.swipe) {
             _state.assets.swipe.vulnerableApps = data.swipe.vulnerableApps || [];
-            if (data.swipe.noUsoApps) {
-                _state.assets.swipe.noUsoApps = data.swipe.noUsoApps;
-            }
+            if (data.swipe.protectedApps) _state.assets.swipe.protectedApps = data.swipe.protectedApps;
+            if (data.swipe.noUsoApps) _state.assets.swipe.noUsoApps = data.swipe.noUsoApps;
         }
 
         // — VORTEX —
@@ -250,16 +250,18 @@ const RiskEngine = (() => {
             value: _state.quiz.answers[key]
         }));
 
-        let appStatus = [];
-        if (typeof MASTER_APPS !== 'undefined') {
-            appStatus = MASTER_APPS.map(app => {
-                if (_state.assets.swipe.noUsoApps && _state.assets.swipe.noUsoApps.some(u => u.name === app.name)) {
-                    return { name: app.name, status: 'no_uso' };
-                }
-                const isVulnerable = unique.some(u => u.name === app.name);
-                return { name: app.name, status: isVulnerable ? 'vulnerable' : 'protegida' };
-            });
-        }
+        // Solo apps que el usuario marcó explícitamente. Las que nunca tocó
+        // (mostradas en otra fase o no interactuadas) NO entran al reporte.
+        const appStatus = [];
+        const seenStatus = new Set();
+        const pushStatus = (app, status) => {
+            if (!app || seenStatus.has(app.name)) return;
+            seenStatus.add(app.name);
+            appStatus.push({ name: app.name, status });
+        };
+        unique.forEach(a => pushStatus(a, 'vulnerable'));
+        (_state.assets.swipe.protectedApps || []).forEach(a => pushStatus(a, 'protegida'));
+        (_state.assets.swipe.noUsoApps || []).forEach(a => pushStatus(a, 'no_uso'));
 
         // Mapear color de Hive a key de RISK_CONFIG
         let passwordTime = 'milenios';

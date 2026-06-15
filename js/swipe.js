@@ -301,10 +301,12 @@ function handleAction(card, direction, physical = direction) {
                         name: DATA[h.index].name,
                         status: h.direction === 1 ? 'vulnerable' : (h.direction === -1 ? 'protegida' : 'no_uso')
                     }));
+                    const byStatus = s => appStatus.filter(a => a.status === s).map(a => DATA.find(d => d.name === a.name));
                     RiskEngine.setAssetsPhase({
                         swipe: {
-                            vulnerableApps: appStatus.filter(a => a.status === 'vulnerable').map(a => DATA.find(d => d.name === a.name)),
-                            noUsoApps: appStatus.filter(a => a.status === 'no_uso').map(a => DATA.find(d => d.name === a.name))
+                            vulnerableApps: byStatus('vulnerable'),
+                            protectedApps: byStatus('protegida'),
+                            noUsoApps: byStatus('no_uso')
                         }
                     });
                 }
