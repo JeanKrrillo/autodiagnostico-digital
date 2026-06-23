@@ -674,9 +674,9 @@ function generateFinalReport() {
 // --- FASE 4: SELECTOR DE SERVICIOS + WHATSAPP ---
 const WA_NUMBER = '524424820977'; // México: 52 + número local
 const WA_MSGS = {
-    'diy': `Hola. Me interesa el servicio digital 'Lo hago yo" (Guía de seguridad digital) por $49. ¿Me compartes los detalles para el pago?`,
+    'diy': `Hola. Me interesa el servicio digital "Lo hago yo" (Guía de seguridad digital) por $49. ¿Me compartes los detalles para el pago?`,
     'diy+extra': `Hola. Quiero el plan "Lo hago yo" y agregar el "Modo DFY Esencial" para que configures mis 10 cuentas principales por un total de $129. ¿Cómo nos coordinamos?`,
-    'diy+amigo': `Qué onda. Vi el servicio digital "Lo hago yo'" de la guía de seguridad, pero marqué la opción de Descuento Amigo. ¿Cómo nos arreglamos?`,
+    'diy+amigo': `Qué onda. Vi el servicio digital "Lo hago yo" de la guía de seguridad, pero marqué la opción de Descuento Amigo. ¿Cómo nos arreglamos?`,
     'diy+extra+amigo': `Qué onda. Me interesa la Guía de seguridad con el "Modo DFY Esencial" para mis 10 cuentas, pero apliqué el Descuento Amigo. ¿En cuánto me lo dejas?`,
     'dfy': `Hola. Me interesa la Asesoría 1-a-1 "Hecho contigo" (Sesión personalizada) por $199 para revisar y configurar mis aplicaciones vulnerables. ¿Qué horarios tienes disponibles?`,
     'dfy+extra': `Hola. Quiero el servicio completo "Hecho contigo" + el "Modo ALL DFY" por $299 para agendar la sesión personalizada y que asegures todas mis aplicaciones. ¿Cómo iniciamos?`,
