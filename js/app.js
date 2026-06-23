@@ -638,8 +638,9 @@ function generateFinalReport() {
         else worstPointStr = "Mantener tus accesos actualizados y revisar configuraciones de vez en cuando.";
     }
 
-    // Color por vulnerabilidad: protegida=verde; vulnerable escala por peso (5=rojo, 4=naranja, ≤3=amarillo).
-    const appDot = app => app.status !== 'vulnerable' ? '🟢' : (app.weight >= 5 ? '🔴' : app.weight >= 4 ? '🟠' : '🟡');
+    // Prioridad como emoji + letra [C/A/M/P]: la letra sobrevive aunque Safari/iOS pinte el emoji en monocromo.
+    // Protegida=verde[P]; vulnerable escala por peso (5=rojo[C], 4=naranja[A], ≤3=amarillo[M]).
+    const appDot = app => app.status !== 'vulnerable' ? '🟢 [P]' : (app.weight >= 5 ? '🔴 [C]' : app.weight >= 4 ? '🟠 [A]' : '🟡 [M]');
     const usedApps = [...RiskEngine.getUsedApps()].sort((a, b) => {
         const va = a.status === 'vulnerable' ? 0 : 1;
         const vb = b.status === 'vulnerable' ? 0 : 1;
@@ -657,7 +658,7 @@ function generateFinalReport() {
         `QUÉ CONVIENE REVISAR\n\n${badList.length ? badList.map(t => `🔴 ${t}`).join('\n') : 'No se encontraron puntos de riesgo críticos en tu cuestionario básico.'}`,
         `LO QUE YA TIENES CUBIERTO\n\n${goodList.length ? goodList.map(t => `🟢 ${t}`).join('\n') : 'No se registraron hábitos preventivos cubiertos en esta evaluación.'}`,
         `LO MÁS IMPORTANTE EN TU CASO\n\n${worstPointStr}`,
-        `APLICACIONES A CUBRIR (de mayor a menor prioridad)\n🔴 Crítica · 🟠 Alta · 🟡 Media · 🟢 Protegida\n\n${appsBlock}`,
+        `APLICACIONES A CUBRIR (de mayor a menor prioridad)\n🔴 [C] Crítica · 🟠 [A] Alta · 🟡 [M] Media · 🟢 [P] Protegida\n\n${appsBlock}`,
         SEP,
         `AVISO IMPORTANTE:\nEste servicio protege tu seguridad digital, NO está asociado al registro telefónico, NO promueve la vinculación de la CURP y NO asume consecuencias de una línea suspendida. Toma precauciones antes del 1 de julio de 2026.`,
         SEP
