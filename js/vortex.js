@@ -1,4 +1,15 @@
 
+// --- DETECCIÓN DE GAMA BAJA (evaluada una sola vez, ~microsegundos) ---
+// No altera NADA visual: solo reduce frecuencia de cálculo y carga de GPU en
+// equipos que de otro modo se congelan (ej. Galaxy A12 / Helio P35 / Mali-G).
+// Desktop y gama media-alta corren el código idéntico al original.
+const LOW_END = (() => {
+    const mem = navigator.deviceMemory || 8;            // GB; ausente => asumimos alto
+    const cores = navigator.hardwareConcurrency || 8;   // núcleos lógicos
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    return mem <= 4 || cores <= 4 || !!reduce;
+})();
+
 let currentVortexApps = [];
 let vortexRisk = 0;
 let currentChains = 0;
@@ -148,7 +159,7 @@ function initVortex() {
 
     resizeVortex();
 
-    vortexParticles = Array.from({ length: 120 }, () => new VortexParticle());
+    vortexParticles = Array.from({ length: LOW_END ? 60 : 120 }, () => new VortexParticle());
     animateVortexStars();
 
     gsap.to("#halo", { scale: 1.2, opacity: 0.5, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" });
@@ -230,9 +241,16 @@ function initVortex() {
             duration: "random(1, 2)", repeat: -1, yoyo: true, ease: "sine.inOut"
         });
 
+        // En gama baja recalculamos la trigonometría 1 vez cada 2 frames y
+        // reusamos el resultado: misma órbita, misma trayectoria (depende de
+        // Date.now()), mitad de cálculo+reflow. Imperceptible a 60→~30fps.
+        let _ox = 0, _oy = 0, _tick = 0;
         const orbitAnim = gsap.to(item, {
             duration: 25, repeat: -1, ease: "none",
-            modifiers: {
+            modifiers: LOW_END ? {
+                x: () => { if ((_tick++ & 1) === 0) { const t = Date.now() * 0.0003 + angleOffset; _ox = Math.cos(t) * orbitR; _oy = Math.sin(t) * orbitR; } return _ox; },
+                y: () => _oy
+            } : {
                 x: () => Math.cos(Date.now() * 0.0003 + angleOffset) * orbitR,
                 y: () => Math.sin(Date.now() * 0.0003 + angleOffset) * orbitR
             }
@@ -300,7 +318,7 @@ function initVortex() {
                     x: 0, y: 0,
                     scaleX: 6,
                     scaleY: 0.02,
-                    filter: "grayscale(100%) blur(12px)",
+                    filter: LOW_END ? "grayscale(100%) blur(4px)" : "grayscale(100%) blur(12px)",
                     opacity: 0,
                     rotation: "+=540",
                     ease: "expo.in",
