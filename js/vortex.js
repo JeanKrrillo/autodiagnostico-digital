@@ -97,8 +97,15 @@ class VortexParticle {
 
 let vortexAnimFrame;
 
+let _starFrame = 0;
 function animateVortexStars() {
     if (!vortexCtx) return;
+    // Gama baja: pintamos 1 de cada 2 frames (~30fps). El starfield son puntos
+    // difusos girando lento; a 30fps es indistinguible y halva la carga constante.
+    if (LOW_END && (_starFrame++ & 1)) {
+        vortexAnimFrame = requestAnimationFrame(animateVortexStars);
+        return;
+    }
     vortexCtx.fillStyle = 'rgba(5, 7, 4, 0.15)';
     vortexCtx.fillRect(0, 0, vWidth, vHeight);
     vortexParticles.forEach(p => p.draw());
@@ -236,7 +243,11 @@ function initVortex() {
 
         gsap.to(item, { scale: 1, duration: 1, delay: i * 0.1, ease: "back.out(1.5)" });
 
-        const vibAnim = gsap.to(item, {
+        // Gama baja: NO creamos vibAnim aparte. La vibración se integra como un
+        // jitter senoidal dentro del modifier de la órbita => 1 timeline por item
+        // en vez de 2 (de 42 a 21 animaciones GSAP perpetuas). Movimiento equivalente.
+        const vibPhase = Math.random() * Math.PI * 2;
+        const vibAnim = LOW_END ? null : gsap.to(item, {
             x: "+=4", y: "+=4", rotation: "random(-4, 4)",
             duration: "random(1, 2)", repeat: -1, yoyo: true, ease: "sine.inOut"
         });
@@ -248,7 +259,7 @@ function initVortex() {
         const orbitAnim = gsap.to(item, {
             duration: 25, repeat: -1, ease: "none",
             modifiers: LOW_END ? {
-                x: () => { if ((_tick++ & 1) === 0) { const t = Date.now() * 0.0003 + angleOffset; _ox = Math.cos(t) * orbitR; _oy = Math.sin(t) * orbitR; } return _ox; },
+                x: () => { if ((_tick++ & 1) === 0) { const n = Date.now(); const t = n * 0.0003 + angleOffset; _ox = Math.cos(t) * orbitR + Math.sin(n * 0.003 + vibPhase) * 4; _oy = Math.sin(t) * orbitR + Math.cos(n * 0.0035 + vibPhase) * 4; } return _ox; },
                 y: () => _oy
             } : {
                 x: () => Math.cos(Date.now() * 0.0003 + angleOffset) * orbitR,
@@ -259,12 +270,12 @@ function initVortex() {
         // UX: Pausa órbita y vibración al hover
         item.addEventListener('mouseenter', () => {
             gsap.to(item, { scale: 1.15, duration: 0.3 });
-            vibAnim.timeScale(0.2);
+            vibAnim?.timeScale(0.2);
             orbitAnim.timeScale(0.2);
         });
         item.addEventListener('mouseleave', () => {
             gsap.to(item, { scale: 1, duration: 0.3 });
-            vibAnim.timeScale(1);
+            vibAnim?.timeScale(1);
             orbitAnim.timeScale(1);
         });
 
@@ -274,7 +285,7 @@ function initVortex() {
             item.classList.add('dead');
             item.style.pointerEvents = 'none';
             orbitAnim.kill();
-            vibAnim.kill();
+            vibAnim?.kill();
 
             // Disparar partículas desde la posición del clic
             createDebris(e.clientX, e.clientY, app.color);
