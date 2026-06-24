@@ -496,6 +496,13 @@ input[type="checkbox"]:checked+.app-card {
 }
 
 /* Modificadores de color */
+/* El countdown va sobre fondo oscuro: su texto debe ser blanco
+   (el .text-white empata en especificidad con .t-acompanamiento y pierde
+   por orden de cascada, así que lo forzamos con un selector más específico). */
+.countdown-emergency .t-acompanamiento {
+    color: #fff;
+}
+
 .t-gold {
     color: var(--dorado-oscuro) !important;
 }
