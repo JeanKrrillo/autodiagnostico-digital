@@ -49,11 +49,12 @@ function updateTimer() {
         if (oval) oval.classList.remove('countdown-today');
     }
 
-    // Texto gris: siguiente plazo del calendario.
+    // Texto gris: siguiente plazo del calendario. En móvil se muestra a la
+    // izquierda del óvalo en 2 renglones (.sn-l1 / .sn-l2); en desktop, en línea.
     if (next) {
         const sig = PLAZOS[idx + 1];
-        next.textContent = sig
-            ? `Siguiente dígito (${sig.d}): ${diasHasta(sig.fecha)} días`
+        next.innerHTML = sig
+            ? `<span class="sn-l1">Siguiente dígito (${sig.d}):</span> <span class="sn-l2">${diasHasta(sig.fecha)} días</span>`
             : '';
     }
 }
