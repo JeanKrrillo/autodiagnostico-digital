@@ -566,7 +566,7 @@ function generateFinalReport() {
 
     // Perfil DFY: destacar la asesoría y preseleccionarla como base
     if (isDFY) {
-        fullText += `<hr class="my-4 border-[#E8B45B]/30"><p class="font-bold">Hemos destacado el servicio de <strong>Asesoría 1-a-1</strong>: la complejidad de tu perfil requiere asistencia experta para migrar ${hours} horas estimadas de configuración antes del 1 de julio.</p>`;
+        fullText += `<hr class="my-4 border-[#E8B45B]/30"><p class="font-bold">Hemos destacado el servicio de <strong>Asesoría 1-a-1</strong>: la complejidad de tu perfil requiere asistencia experta para migrar ${hours} horas estimadas de configuración antes de que venza tu plazo.</p>`;
     }
     const dfyBadge = document.getElementById('card-dfy-badge');
     if (dfyBadge) dfyBadge.classList.toggle('hidden', !isDFY);
@@ -606,7 +606,7 @@ function generateFinalReport() {
     // --- REPORTE EN TEXTO PLANO (portapapeles y WhatsApp) ---
     // Secciones separadas por línea en blanco para que sea legible sin formato.
     const levelDescPlain = state.level === 'critical'
-        ? 'La mayoría de tus cuentas dependen del SMS. Si tu línea deja de funcionar antes del 1 de julio, pierdes acceso a bancos, correos y redes. Se puede resolver.'
+        ? 'La mayoría de tus cuentas dependen del SMS. Si tu línea deja de funcionar antes de que venza el plazo, pierdes acceso a bancos, correos y redes. Se puede resolver.'
         : (state.level === 'optimal'
             ? 'Tus cuentas principales ya no dependen exclusivamente del chip. Si algo le pasa a tu número, tu acceso digital sigue funcionando.'
             : 'Tienes medidas de protección, pero sigues dependiendo de tu número. Si la línea se suspende o se clona, quedan inaccesibles.');
@@ -660,7 +660,7 @@ function generateFinalReport() {
         `LO MÁS IMPORTANTE EN TU CASO\n\n${worstPointStr}`,
         `APLICACIONES A CUBRIR (de mayor a menor prioridad)\n🔴 [C] Crítica · 🟠 [A] Alta · 🟡 [M] Media · 🟢 [P] Protegida\n\n${appsBlock}`,
         SEP,
-        `AVISO IMPORTANTE:\nEste servicio protege tu seguridad digital, NO está asociado al registro telefónico, NO promueve la vinculación de la CURP y NO asume consecuencias de una línea suspendida. Toma precauciones antes del 1 de julio de 2026.`,
+        `AVISO IMPORTANTE:\nEste servicio protege tu seguridad digital, NO está asociado al registro telefónico, NO promueve la vinculación de la CURP y NO asume consecuencias de una línea suspendida. Toma precauciones antes de que venza el plazo de vinculación.`,
         SEP
     ].join('\n\n');
 

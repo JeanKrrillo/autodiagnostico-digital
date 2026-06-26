@@ -343,7 +343,7 @@ const RiskEngine = (() => {
         // Sección 1: Nivel de riesgo y su descripción en lenguaje simple.
         let levelDesc = "";
         if (level === 'critical') {
-            levelDesc = "La mayoría de tus cuentas dependen del SMS. Si tu línea deja de funcionar antes del 1 de julio, pierdes acceso a bancos, correos y redes. Se puede resolver.";
+            levelDesc = "La mayoría de tus cuentas dependen del SMS. Si tu línea deja de funcionar antes de que venza el plazo, pierdes acceso a bancos, correos y redes. Se puede resolver.";
         } else if (level === 'optimal') {
             levelDesc = "Tus cuentas principales ya no dependen exclusivamente del chip. Si algo le pasa a tu número, tu acceso digital sigue funcionando.";
         } else {

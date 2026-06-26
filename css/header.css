@@ -161,3 +161,165 @@ body {
     padding: 0.4rem 0 !important;
 }
 
+/* Ancla para los elementos superpuestos sin alterar el tamaño/posición del óvalo */
+.countdown-emergency {
+    position: relative;
+}
+
+/* Texto gris SUPERPUESTO (absolute): no ocupa fila ni empuja la columna.
+   Pegado al borde superior-derecho del óvalo. */
+#timer-next {
+    position: absolute;
+    bottom: calc(100% + 4px);
+    right: 2px;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+#timer-next:empty {
+    display: none;
+}
+
+/* Ícono info SUPERPUESTO (absolute): no ensancha el óvalo.
+   Flota fuera del borde IZQUIERDO (hacia el interior, nunca fuera de pantalla). */
+.countdown-info {
+    position: absolute;
+    right: calc(100% + 6px);
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.countdown-info:hover {
+    color: var(--dorado-premium, #E8B45B);
+    transform: translateY(-50%) scale(1.15);
+}
+
+/* Día exacto del plazo: deja de parpadear, queda fijo y sobrio */
+.countdown-emergency.countdown-today {
+    animation: none;
+    background: #1a1a1a;
+}
+
+/* ===== Modal del calendario ===== */
+.calendar-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    background: rgba(10, 14, 8, 0.78);
+    backdrop-filter: blur(6px);
+    animation: calFade 0.2s ease;
+}
+
+.calendar-modal.hidden {
+    display: none;
+}
+
+@keyframes calFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.calendar-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: var(--verde-forense, #2D3924);
+    border: 1px solid rgba(232, 180, 91, 0.35);
+    border-radius: 18px;
+    padding: 1.75rem 1.5rem 1.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.calendar-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.calendar-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.calendar-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--dorado-premium, #E8B45B);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.6rem;
+    padding-right: 2rem;
+}
+
+.calendar-sub {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.1rem;
+}
+
+.calendar-list {
+    list-style: none;
+    margin: 0 0 1.1rem;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+}
+
+.calendar-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.9rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.cal-digit {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--dorado-premium, #E8B45B);
+    color: var(--verde-forense, #2D3924);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+}
+
+.calendar-foot {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.65);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 0.9rem;
+}
+

@@ -1199,9 +1199,16 @@
         font-size: clamp(1.5rem, 7vw, 1.9rem);
     }
 
-    /* Ocultar "Hasta el 1 de julio" en pantallas pequeñas */
-    .countdown-emergency span.t-acompanamiento:first-child {
-        display: none;
+    /* Móvil: el texto gris superpuesto se oculta (no hay espacio sobre el óvalo).
+       La fecha completa y el siguiente dígito viven en el modal (ⓘ). */
+    #timer-next {
+        display: none !important;
+    }
+
+    /* Etiqueta compacta: en móvil solo "Díg. n" para no agrandar el óvalo.
+       El nombre del mes se recorta vía font-size; el dígito (info clave) se conserva. */
+    #timer-label {
+        font-size: 0.6rem;
     }
 
     #timer {
@@ -1213,6 +1220,11 @@
         flex-wrap: nowrap;
         gap: 3px;
         padding: 3px 7px;
+    }
+
+    .countdown-info {
+        font-size: 0.85rem;
+        right: calc(100% + 4px);
     }
 }
 

@@ -1,47 +1,85 @@
+// Calendario oficial de vinculación 2026: índice = último dígito del celular.
+// fecha = día límite (a medianoche). El día exacto se marca como "Plazo vencido".
+const PLAZOS = [
+    { d: 0, mes: 'agosto', dia: 15, fecha: new Date(2026, 7, 15) },
+    { d: 1, mes: 'agosto', dia: 31, fecha: new Date(2026, 7, 31) },
+    { d: 2, mes: 'septiembre', dia: 15, fecha: new Date(2026, 8, 15) },
+    { d: 3, mes: 'septiembre', dia: 30, fecha: new Date(2026, 8, 30) },
+    { d: 4, mes: 'octubre', dia: 15, fecha: new Date(2026, 9, 15) },
+    { d: 5, mes: 'octubre', dia: 31, fecha: new Date(2026, 9, 31) },
+    { d: 6, mes: 'noviembre', dia: 15, fecha: new Date(2026, 10, 15) },
+    { d: 7, mes: 'noviembre', dia: 30, fecha: new Date(2026, 10, 30) },
+    { d: 8, mes: 'diciembre', dia: 15, fecha: new Date(2026, 11, 15) },
+    { d: 9, mes: 'diciembre', dia: 31, fecha: new Date(2026, 11, 31) }
+];
+
+// Días-calendario desde HOY (00:00) hasta el día del plazo. 0 = hoy es el plazo.
+const hoy0 = () => { const t = new Date(); t.setHours(0, 0, 0, 0); return t; };
+const diasHasta = fecha => Math.round((fecha - hoy0()) / 86400000);
+
 function updateTimer() {
-    // Forzamos el año 2026 para que el cálculo sea exacto desde hoy
-    const target = new Date(2026, 6, 1); // Mes 6 = Julio (0-indexed)
-    const now = new Date();
-    const diff = target - now;
-    
-    // Convertimos a días totales
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const el = document.getElementById('timer');
-    
+    const lbl = document.getElementById('timer-label');
+    const next = document.getElementById('timer-next');
+    const oval = el && el.closest('.countdown-emergency');
     if (!el) return;
 
-    if (days > 0) {
-        el.textContent = `${days} DÍAS RESTANTES`;
-    } else if (days === 0) {
-        el.textContent = "¡HOY ES EL PLAZO!";
-        el.parentElement.classList.add('bg-red-600', 'animate-pulse');
+    // Plazo vigente: el primero cuyo día aún no ha pasado (incluye hoy).
+    const idx = PLAZOS.findIndex(p => diasHasta(p.fecha) >= 0);
+
+    if (idx === -1) { // Todos los dígitos ya vencieron
+        if (lbl) lbl.textContent = 'Calendario cerrado';
+        el.textContent = 'TODOS LOS PLAZOS VENCIDOS';
+        if (oval) oval.classList.add('countdown-today');
+        if (next) next.textContent = '';
+        return;
+    }
+
+    const p = PLAZOS[idx];
+    const dias = diasHasta(p.fecha);
+
+    // El dígito vive en la etiqueta; el #timer solo lleva el conteo. Sin duplicar.
+    if (lbl) lbl.textContent = `Dígito ${p.d} · ${p.dia} ${p.mes}`;
+    if (dias === 0) { // Hoy es el día exacto del plazo
+        el.textContent = 'PLAZO VENCIDO';
+        if (oval) oval.classList.add('countdown-today');
     } else {
-        el.textContent = "PLAZO VENCIDO";
-        el.parentElement.style.animation = "none";
-        el.parentElement.style.backgroundColor = "#1a1a1a";
+        el.textContent = `${dias} DÍA${dias === 1 ? '' : 'S'}`;
+        if (oval) oval.classList.remove('countdown-today');
+    }
+
+    // Texto gris: siguiente plazo del calendario.
+    if (next) {
+        const sig = PLAZOS[idx + 1];
+        next.textContent = sig
+            ? `Siguiente dígito (${sig.d}): ${diasHasta(sig.fecha)} días`
+            : '';
     }
 }
 
-window.addEventListener('scroll', function() {
+// Modal informativo con el calendario completo. show: true=abrir, false=cerrar, undefined=alternar.
+function toggleCalendarInfo(show) {
+    const m = document.getElementById('calendar-modal');
+    if (!m) return;
+    const ocultar = show === undefined ? !m.classList.contains('hidden') : !show;
+    m.classList.toggle('hidden', ocultar);
+}
+
+window.addEventListener('scroll', function () {
     let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     let scrolled = (winScroll / height) * 100;
     const readingBar = document.getElementById("reading-bar");
-    if (readingBar) {
-        readingBar.style.width = scrolled + "%";
-    }
+    if (readingBar) readingBar.style.width = scrolled + "%";
 
     const header = document.getElementById('header');
     if (header) {
-        if (winScroll > 50) {
-            header.classList.add('scrolled-header', 'shadow-2xl');
-        } else {
-            header.classList.remove('scrolled-header', 'shadow-2xl');
-        }
+        if (winScroll > 50) header.classList.add('scrolled-header', 'shadow-2xl');
+        else header.classList.remove('scrolled-header', 'shadow-2xl');
     }
 });
 
-// Update timer on load
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     updateTimer();
+    setInterval(updateTimer, 60000); // refresco por si cruza medianoche
 });

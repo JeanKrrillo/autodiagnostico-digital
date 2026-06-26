@@ -5,32 +5,34 @@
 * **Métricas de control:**
   * Tiempo estimado: 8-10 min
   * Progreso: 0% / 25% / 50% / 75% / 100%
-* **Sección de Alertas:**
-  * Hasta el 1 de julio
-  * -- DÍAS RESTANTES / ¡HOY ES EL PLAZO! / PLAZO VENCIDO
+* **Sección de Alertas:** (cuenta regresiva dinámica según el último dígito del celular)
+  * Etiqueta: Dígito n · DD mes (plazo vigente)
+  * -- DÍAS / PLAZO VENCIDO / TODOS LOS PLAZOS VENCIDOS
+  * Texto gris superpuesto: Siguiente dígito (n): X días
+  * ⓘ abre el calendario completo (dígitos 0–9, agosto a diciembre)
 * **Enlace legal institucional:** ACUERDO P-CRT-EXT-29102025-005
 * **Navegación del Stepper:** 1. Identificación | 2. Activos | 3. Fuerza bruta | 4. Reporte
 * **Banner de advertencia permanente (Pie de página):**
-  > **Aviso Importante:** Este servicio protege tu seguridad digital, NO está asociado al registro telefónico, NO promueve la vinculación de la CURP y NO asume consecuencias de una línea suspendida. Toma precauciones antes del 1 de julio de 2026.
+  > **Aviso Importante:** Este servicio protege tu seguridad digital, NO está asociado al registro telefónico, NO promueve la vinculación de la CURP y NO asume consecuencias de una línea suspendida. Toma precauciones antes de que venza el plazo de vinculación.
   >
 
 ## II. Fase 01 — Diagnóstico
 
 ### Introducción
 
-"Casi todas nuestras cuentas dependen del número de celular. Este diagnóstico revisa tus puntos vulnerables y qué conviene resolver antes del 1 de julio. No hay respuestas correctas ni incorrectas."
+"Casi todas nuestras cuentas dependen del número de celular. Este diagnóstico revisa tus puntos vulnerables y qué conviene resolver antes de que venza el plazo. No hay respuestas correctas ni incorrectas."
 
 ### Preguntas
 
-* **01. ¿Sabes qué sucede el 1 de julio?**
-  * *Explicación:* El 1 de julio planean suspender líneas no registradas.
+* **01. ¿Sabes qué sucede con las líneas no registradas?**
+  * *Explicación:* Hay un plazo para registrar tu número. Las líneas que no se registren a tiempo podrían ser suspendidas.
   * *Botones:* No sabía nada de esto | Ya registré mi número con mi operadora | Sé que existe pero no sé qué hacer.
   * *Post-respuestas:*
     * **Negativo:** No te preocupes, es normal, para eso es este diagnóstico.
     * **Neutro:** Responder este diagnóstico ya es el primer paso 👍
     * **Positivo:** Bien. Ahora conviene revisar si tus cuentas siguen dependiendo del SMS, porque el registro no resuelve eso.
 * **02. ¿Usas la misma contraseña en más de un servicio?**
-  * *Explicación:* Casi todas tus cuentas dependen de tu número. Esto revisa qué conviene resolver antes del 1 de julio. No hay respuestas correctas ni incorrectas.
+  * *Explicación:* Casi todas tus cuentas dependen de tu número. Esto revisa qué conviene resolver antes de que venza el plazo. No hay respuestas correctas ni incorrectas.
   * *Botones:* Sí, repito alguna en varios lugares | No, cada cuenta tiene la suya | No estoy seguro / No sé.
   * *Post-respuestas:*
     * **Negativo:** Es lo más común y tiene solución.
@@ -40,7 +42,7 @@
   * *Explicación:* Puede llegar por SMS o generarse en una app. El SMS depende de tu chip: si lo clonan, reciben tu código.
   * *Botones:* Me llega por mensaje de texto (SMS) | Lo genero en una app (Authenticator, Authy) | No lo tengo activado o no lo sé.
   * *Post-respuestas:*
-    * **Negativo:** Veremos si conviene cambiarlo antes del 1 de julio.
+    * **Negativo:** Veremos si conviene cambiarlo antes de que venza el plazo.
     * **Neutro:** Muchas personas no lo saben.
     * **Positivo:** Tendremos que revisar.
 * **04. Si pierdes tu correo ¿podrías recuperarlo sin tu número?**
@@ -70,7 +72,7 @@
   * *Post-respuestas:*
     * **Negativo:** Alguien intentó entrar. Vale la pena revisar esa cuenta.
     * **Neutro:** Mucha gente los ignora. Conviene estar al pendiente.
-    * **Positivo:** Bien, aunque puede cambiar, especialmente después del 1 de julio.
+    * **Positivo:** Bien, aunque puede cambiar, especialmente una vez que venza el plazo.
 * **08. ¿Tu celular ha perdido señal de repente y sin razón?**
   * *Explicación:* Perder señal de repente puede ser SIM Swapping: alguien transfiere tu número a otro chip y recibe tus SMS.
   * *Botones:* Sí, tardó horas o días en volver | No, nunca | No estoy seguro / No sé.
@@ -110,9 +112,9 @@
     * **Negativo:** Se activa desde la configuración del celular en unos minutos.
     * **Neutro:** La mayoría no sabe que existe. Activarlo toma pocos minutos.
     * **Positivo:** Casi nadie lo tiene activado. Buena protección.
-* **14. ¿Estarás fuera de México entre junio y julio de este año?**
+* **14. ¿Estarás fuera de México durante los próximos meses?**
   * *Explicación:* Si la línea se suspende mientras estás fuera de México, recuperar el acceso se complica mucho.
-  * *Botones:* Sí, voy a viajar en esas fechas | No, voy a estar en México | No estoy seguro / No sé.
+  * *Botones:* Sí, voy a viajar en ese periodo | No, voy a estar en México | No estoy seguro / No sé.
   * *Post-respuestas:*
     * **Negativo:** Conviene resolver todo antes de salir.
     * **Neutro:** Si viajas, conviene tener todo configurado antes de salir.
@@ -164,7 +166,7 @@
 
 ### Textos de la Narrativa Forense (Por Niveles)
 
-* **Level Critical:** La mayoría de tus cuentas dependen del SMS. Si tu línea deja de funcionar antes del 1 de julio, pierdes acceso a bancos, correos y redes. Se puede resolver.
+* **Level Critical:** La mayoría de tus cuentas dependen del SMS. Si tu línea deja de funcionar antes de que venza el plazo, pierdes acceso a bancos, correos y redes. Se puede resolver.
 * **Level Vulnerable:** Tienes medidas de protección, pero sigues dependiendo de tu número. Si la línea se suspende o se clona, quedan inaccesibles.
 * **Level Optimal:** Tus cuentas principales ya no dependen exclusivamente del chip. Si algo le pasa a tu número, tu acceso digital sigue funcionando.
 

@@ -17,7 +17,7 @@ const RISK_CONFIG = {
   questions: [
     { 
       id: 1, 
-      text: "¿Sabes qué sucede el 1 de julio?",
+      text: "¿Sabes qué sucede con las líneas no registradas?",
       opciones: {
         positivo: { label: "Ya registré mi número con mi operadora", value: 0 },
         neutro: { label: "Sé que existe pero no sé qué hacer", value: 20 },
@@ -134,11 +134,11 @@ const RISK_CONFIG = {
     },
     { 
       id: 14, 
-      text: "¿Estarás fuera de México entre junio y julio de este año?", 
+      text: "¿Estarás fuera de México durante los próximos meses?",
       opciones: {
         positivo: { label: "No, voy a estar en México", value: 0 },
         neutro: { label: "No estoy seguro / No sé", value: 20 },
-        negativo: { label: "Sí, voy a viajar en esas fechas", value: 40 }
+        negativo: { label: "Sí, voy a viajar en ese periodo", value: 40 }
       }
     },
     { 
@@ -275,7 +275,7 @@ const POST_RESPONSES = {
     positivo: "Eso ya es un buen hábito."
   },
   q3: {
-    negativo: "Veremos si conviene cambiarlo antes del 1 de julio.",
+    negativo: "Veremos si conviene cambiarlo antes de que venza el plazo.",
     neutro: "Muchas personas no lo saben.",
     positivo: "Tendremos que revisar."
   },
@@ -297,7 +297,7 @@ const POST_RESPONSES = {
   q7: {
     negativo: "Alguien intentó entrar. Vale la pena revisar esa cuenta.",
     neutro: "Mucha gente los ignora. Conviene estar al pendiente.",
-    positivo: "Bien, aunque puede cambiar, especialmente después del 1 de julio."
+    positivo: "Bien, aunque puede cambiar, especialmente una vez que venza el plazo."
   },
   q8: {
     negativo: "Pudo ser un fallo. Si notaste algo raro, revisa.",

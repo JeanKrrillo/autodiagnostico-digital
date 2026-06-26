@@ -443,20 +443,23 @@ function initCalendar() {
     const cal = document.getElementById('calendar');
     if (!cal) return;
 
-    // Mes y encabezado sobre el grid
+    // Mes y encabezado sobre el grid — etiqueta dinámica con el mes/año actual
     const calWrapper = cal.parentElement;
     if (!document.getElementById('cal-month-label')) {
+        const ahora = new Date();
+        const mes = ahora.toLocaleDateString('es-MX', { month: 'long' });
+        const etiqueta = `${mes.charAt(0).toUpperCase()}${mes.slice(1)} ${ahora.getFullYear()}`; // "Junio 2026"
         const monthLabel = document.createElement('div');
         monthLabel.id = 'cal-month-label';
         monthLabel.className = 'flex items-center justify-between px-1 mb-1 max-w-[300px] sm:max-w-[320px] mx-auto';
         monthLabel.innerHTML = `
-            <span class="text-[9px] font-black uppercase tracking-[3px] text-[#2D3924]/50">Julio 2026</span>
+            <span class="text-[9px] font-black uppercase tracking-[3px] text-[#2D3924]/50">${etiqueta}</span>
             <span class="text-[8px] font-black uppercase tracking-[2px] text-[#E8B45B] bg-[#1a2414] px-2 py-0.5 rounded-full">¡Fecha límite!</span>
         `;
         cal.before(monthLabel);
     }
 
-    // Cabeceras de días de la semana (julio 2025 empieza en martes)
+    // Cabeceras de días de la semana (grid ilustrativo de 31 días que arranca en martes)
     const weekDays = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
     weekDays.forEach(day => {
         const h = document.createElement('div');
@@ -465,8 +468,7 @@ function initCalendar() {
         cal.appendChild(h);
     });
 
-    // Julio 2025 empieza en martes (índice 1 si L=0)
-    // Por tanto hay 1 celda vacía al inicio
+    // El grid arranca en martes (índice 1 si L=0): 1 celda vacía al inicio
     const startOffset = 1;
     for (let i = 0; i < startOffset; i++) {
         const blank = document.createElement('div');
