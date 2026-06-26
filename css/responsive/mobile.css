@@ -1266,9 +1266,9 @@
     /* Texto gris "Siguiente dígito / n días": superpuesto a la IZQUIERDA del
        óvalo, en 2 renglones. No invade el header arriba ni la pill abajo. */
     #timer-next {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end; /* pegado hacia el óvalo */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important; /* pegado hacia el óvalo */
         justify-content: center;
         position: absolute;
         right: calc(100% + 6px);
@@ -1283,9 +1283,11 @@
         pointer-events: none;
     }
 
+    /* Cada parte en su propio renglón (flex item a ancho completo) */
     #timer-next .sn-l1,
     #timer-next .sn-l2 {
-        display: block;
+        display: block !important;
+        width: 100%;
     }
 
     #timer-next .sn-l2 {
