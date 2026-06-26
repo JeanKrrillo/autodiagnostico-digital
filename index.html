@@ -75,10 +75,12 @@
                 <div class="countdown-emergency">
                     <!-- Texto gris superpuesto (absolute): no ocupa espacio en el flujo -->
                     <span id="timer-next" class="t-acompanamiento"></span>
-                    <span id="timer-label" class="t-acompanamiento text-white">Dígito —</span>
-                    <div class="w-px h-3 bg-white/20"></div>
-                    <span id="timer" class="t-acompanamiento text-white whitespace-nowrap">-- DÍAS</span>
-                    <!-- Ícono info superpuesto (absolute): no ensancha el óvalo -->
+                    <!-- Wrapper: en desktop es transparente (contents); en móvil apila en 2 renglones -->
+                    <span class="countdown-text">
+                        <span id="timer-label" class="t-acompanamiento text-white">Dígito —</span>
+                        <span class="w-px h-3 bg-white/20 cd-sep"></span>
+                        <span id="timer" class="t-acompanamiento text-white whitespace-nowrap">-- DÍAS</span>
+                    </span>
                     <button type="button" onclick="toggleCalendarInfo()" aria-label="Ver calendario completo"
                         class="countdown-info"><i class="ph-fill ph-info"></i></button>
                 </div>

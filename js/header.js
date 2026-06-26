@@ -39,7 +39,8 @@ function updateTimer() {
     const dias = diasHasta(p.fecha);
 
     // El dígito vive en la etiqueta; el #timer solo lleva el conteo. Sin duplicar.
-    if (lbl) lbl.textContent = `Dígito ${p.d} · ${p.dia} ${p.mes}`;
+    // La fecha va en un span aparte (.cd-fecha) que se oculta en móvil.
+    if (lbl) lbl.innerHTML = `Dígito ${p.d}<span class="cd-fecha"> · ${p.dia} ${p.mes}</span>`;
     if (dias === 0) { // Hoy es el día exacto del plazo
         el.textContent = 'PLAZO VENCIDO';
         if (oval) oval.classList.add('countdown-today');

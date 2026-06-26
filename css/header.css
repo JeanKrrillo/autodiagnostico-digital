@@ -166,6 +166,12 @@ body {
     position: relative;
 }
 
+/* Wrapper de texto: transparente en desktop (los spans actúan como hijos
+   directos del flex del óvalo, layout original intacto). */
+.countdown-text {
+    display: contents;
+}
+
 /* Texto gris SUPERPUESTO (absolute): no ocupa fila ni empuja la columna.
    Pegado al borde superior-derecho del óvalo. */
 #timer-next {
@@ -181,25 +187,24 @@ body {
     display: none;
 }
 
-/* Ícono info SUPERPUESTO (absolute): no ensancha el óvalo.
-   Flota fuera del borde IZQUIERDO (hacia el interior, nunca fuera de pantalla). */
+/* Ícono info DENTRO del óvalo, en el flujo: siempre clickeable.
+   En desktop apenas suma ~16px al ancho del óvalo. */
 .countdown-info {
-    position: absolute;
-    right: calc(100% + 6px);
-    top: 50%;
-    transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.55);
     font-size: 0.95rem;
     line-height: 1;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0 0 0 2px;
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .countdown-info:hover {
     color: var(--dorado-premium, #E8B45B);
-    transform: translateY(-50%) scale(1.15);
+    transform: scale(1.15);
 }
 
 /* Día exacto del plazo: deja de parpadear, queda fijo y sobrio */

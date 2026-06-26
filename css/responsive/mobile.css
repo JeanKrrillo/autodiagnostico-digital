@@ -1199,32 +1199,87 @@
         font-size: clamp(1.5rem, 7vw, 1.9rem);
     }
 
-    /* Móvil: el texto gris superpuesto se oculta (no hay espacio sobre el óvalo).
-       La fecha completa y el siguiente dígito viven en el modal (ⓘ). */
-    #timer-next {
-        display: none !important;
+    /* ── ÓVALO COMPACTO EN MÓVIL ──────────────────────────────
+       Texto en 2 renglones pequeños (Dígito n / N días) para reducir
+       el ancho. El ⓘ va DENTRO del óvalo, clickeable. El texto gris
+       "siguiente plazo" se superpone debajo del óvalo. */
+
+    .countdown-emergency {
+        position: relative;
+        display: inline-flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 5px !important;
+        padding: 3px 8px !important;
+        z-index: 1002; /* por encima del título/barra para recibir taps */
     }
 
-    /* Etiqueta compacta: en móvil solo "Díg. n" para no agrandar el óvalo.
-       El nombre del mes se recorta vía font-size; el dígito (info clave) se conserva. */
+    /* Wrapper real en móvil: apila dígito (arriba) y días (abajo) */
+    .countdown-text {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        line-height: 1.05;
+    }
+
+    #timer-label,
+    #timer {
+        display: block;
+        white-space: nowrap;
+        text-align: left;
+    }
+
     #timer-label {
-        font-size: 0.6rem;
+        font-size: 0.5rem !important;
+        font-weight: 700;
+        opacity: 0.85;
+    }
+
+    /* Móvil: solo "Dígito n" (la fecha completa está en el modal ⓘ) */
+    .cd-fecha {
+        display: none;
     }
 
     #timer {
-        white-space: nowrap;
-        font-size: 0.7rem;
+        font-size: 0.62rem !important;
+        font-weight: 800;
     }
 
-    .countdown-emergency {
-        flex-wrap: nowrap;
-        gap: 3px;
-        padding: 3px 7px;
+    /* Separador vertical: no aplica al apilar en 2 renglones */
+    .cd-sep {
+        display: none !important;
     }
 
+    /* ⓘ dentro del óvalo, plenamente clickeable */
     .countdown-info {
-        font-size: 0.85rem;
-        right: calc(100% + 4px);
+        font-size: 1rem;
+        padding: 3px;
+        color: rgba(255, 255, 255, 0.9);
+        z-index: 2;
+    }
+
+    .countdown-info:active {
+        transform: none;
+        color: #fff;
+    }
+
+    /* Texto gris "Siguiente dígito": superpuesto DEBAJO del óvalo,
+       no ocupa espacio en el flujo (no empuja la pill del acuerdo). */
+    #timer-next {
+        display: block;
+        position: absolute;
+        top: calc(100% + 2px);
+        right: 0;
+        bottom: auto;
+        font-size: 0.46rem;
+        line-height: 1;
+        color: rgba(255, 255, 255, 0.55);
+        white-space: nowrap;
+        pointer-events: none;
+    }
+
+    #timer-next:empty {
+        display: none;
     }
 }
 
