@@ -54,7 +54,7 @@ function updateTimer() {
     if (next) {
         const sig = PLAZOS[idx + 1];
         next.innerHTML = sig
-            ? `<span class="sn-l1">Siguiente dígito (${sig.d}):</span> <span class="sn-l2">${diasHasta(sig.fecha)} días</span>`
+            ? `<span class="sn-l1">Siguiente<span class="sn-digito"> dígito</span> (${sig.d}):</span> <span class="sn-l2">${diasHasta(sig.fecha)} días</span>`
             : '';
     }
 }

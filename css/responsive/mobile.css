@@ -1283,6 +1283,9 @@
         pointer-events: none;
     }
 
+    /* En móvil decimos solo "Siguiente (n):" para ahorrar ancho. */
+    .sn-digito { display: none; }
+
     /* Cada parte en su propio renglón (flex item a ancho completo) */
     #timer-next .sn-l1,
     #timer-next .sn-l2 {
