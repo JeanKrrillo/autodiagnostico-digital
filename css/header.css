@@ -354,7 +354,7 @@ body {
     padding-top: 0.9rem;
 }
 
-/* ===== Modal Informativo Q&A (Light Theme matching main page) ===== */
+/* ===== Modal Informativo Q&A (Tokens Oficiales Autodiagnóstico) ===== */
 .qa-modal {
     position: fixed;
     inset: 0;
@@ -378,16 +378,16 @@ body {
     max-width: 820px;
     max-height: 88vh;
     overflow-y: auto;
-    background: #f5f4ef;
-    border: 1px solid rgba(198, 155, 45, 0.4);
+    background: #F1EFE7;
+    border: 1px solid rgba(232, 180, 91, 0.4);
     border-radius: 20px;
     padding: 0;
     box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
-    color: #1e291e;
+    color: #2D3924;
 }
 
 .qa-modal-header {
-    background-color: #283728;
+    background-color: #2D3924;
     color: #ffffff;
     padding: 1.25rem 1.75rem;
     border-top-left-radius: 19px;
@@ -395,14 +395,14 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(198, 155, 45, 0.3);
+    border-bottom: 1px solid rgba(232, 180, 91, 0.3);
 }
 
 .qa-modal-title {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1.25rem;
     font-weight: 800;
-    color: #e5c158;
+    color: #E8B45B;
     letter-spacing: 0.5px;
     margin-bottom: 0.2rem;
     display: flex;
@@ -412,7 +412,7 @@ body {
 
 .qa-modal-sub {
     font-size: 0.85rem;
-    color: #a3b8a3;
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .qa-modal-body {
@@ -428,18 +428,18 @@ body {
     padding: 0.85rem 1.2rem;
     font-family: inherit;
     font-size: 0.95rem;
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(45, 57, 36, 0.15);
     border-radius: 10px;
-    background: #ffffff;
-    color: #1e291e;
+    background: #FAF8F5;
+    color: #2D3924;
     box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     outline: none;
     transition: all 0.2s ease;
 }
 
 .qa-modal-search input:focus {
-    border-color: #c69b2d;
-    box-shadow: 0 0 0 3px rgba(198, 155, 45, 0.2);
+    border-color: #E8B45B;
+    box-shadow: 0 0 0 3px rgba(232, 180, 91, 0.2);
 }
 
 .qa-modal .section-header {
@@ -456,7 +456,7 @@ body {
 .qa-modal .section-accent-bar {
     width: 5px;
     height: 1.5rem;
-    background-color: #c69b2d;
+    background-color: #E8B45B;
     border-radius: 4px;
     flex-shrink: 0;
 }
@@ -464,40 +464,40 @@ body {
 .qa-modal .section-header h2 {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #1e291e;
+    color: #2D3924;
 }
 
 .qa-modal .qa-card {
-    background-color: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: #FAF8F5;
+    border: 1px solid rgba(45, 57, 36, 0.12);
     border-radius: 14px;
     padding: 1.35rem 1.5rem;
     margin-bottom: 0.9rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .qa-modal .qa-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 6px 16px rgba(45, 57, 36, 0.08);
 }
 
 .qa-modal .qa-card h3 {
     font-size: 1.02rem;
     font-weight: 700;
-    color: #1a241b;
+    color: #2D3924;
     margin-bottom: 0.5rem;
     line-height: 1.4;
 }
 
 .qa-modal .qa-card p {
     font-size: 0.94rem;
-    color: #4b574c;
+    color: #4A5E40;
     line-height: 1.6;
 }
 
 .qa-modal .qa-card strong {
-    color: #1a241b;
+    color: #2D3924;
 }
 
 .qa-modal-close {
