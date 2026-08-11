@@ -95,24 +95,24 @@
             border: none;
         }
 
-        .btn-back {
-            background-color: rgba(255, 255, 255, 0.12);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-back:hover {
-            background-color: rgba(255, 255, 255, 0.22);
-        }
-
-        .btn-pdf {
+        .btn-gold {
             background-color: var(--accent-gold);
-            color: #1e291e;
+            color: #2D3924;
             font-weight: 700;
+            padding: 0.65rem 1.25rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(232, 180, 91, 0.25);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            transition: all 0.2s ease;
         }
 
-        .btn-pdf:hover {
+        .btn-gold:hover {
             background-color: #d8a932;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(232, 180, 91, 0.35);
         }
 
         main {
@@ -391,12 +391,9 @@
                 <p>Acuerdo P/CRT/EXT/29102025/005 | Actualizado a Prórroga 2026</p>
             </div>
             <div class="header-actions">
-                <a href="https://jeankrrillo.github.io/autodiagnostico-digital/" class="btn-header btn-back">
-                    <i class="ph ph-arrow-left"></i> Autodiagnóstico
+                <a href="https://jeankrrillo.github.io/autodiagnostico-digital/" class="btn-header btn-gold">
+                    <i class="ph ph-shield-check"></i> Ir al Autodiagnóstico
                 </a>
-                <button onclick="window.print()" class="btn-header btn-pdf">
-                    <i class="ph ph-printer"></i> Imprimir / PDF
-                </button>
             </div>
         </div>
     </header>
@@ -648,10 +645,10 @@
             <h2>¿Quieres saber qué tan vulnerables son tus cuentas?</h2>
             <p>Realiza tu Autodiagnóstico Gratuito y descubre cuántas de tus aplicaciones bancarias y redes dependen del SMS.</p>
             <div class="cta-buttons">
-                <a href="index.html" class="btn-cta-primary">
+                <a href="https://jeankrrillo.github.io/autodiagnostico-digital/" class="btn-cta-primary">
                     <i class="ph ph-shield-check"></i> Ir al Autodiagnóstico
                 </a>
-                <a href="https://wa.me/?text=Hola,%20quisiera%20asesor%C3%ADa%20sobre%20el%20Acuerdo%20P-CRT-EXT" target="_blank" class="btn-cta-secondary">
+                <a href="https://wa.me/524424820977?text=Hola,%20quisiera%20asesor%C3%ADa%20sobre%20el%20Acuerdo%20P-CRT-EXT" target="_blank" class="btn-cta-secondary">
                     <i class="ph ph-whatsapp-logo"></i> Asesoría Personalizada
                 </a>
             </div>
