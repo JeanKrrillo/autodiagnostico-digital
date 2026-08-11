@@ -10,16 +10,17 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         :root {
-            --verde-forense: #233324;
-            --verde-oscuro: #162217;
-            --dorado-premium: #E8B45B;
-            --bg-page: #162217;
-            --bg-card: rgba(255, 255, 255, 0.05);
+            --bg-header: #283728;
+            --bg-page: #f5f4ef;
+            --bg-card: #ffffff;
             --text-title: #ffffff;
-            --text-subtitle: rgba(255, 255, 255, 0.75);
-            --text-question: #E8B45B;
-            --text-answer: rgba(255, 255, 255, 0.88);
-            --card-border: rgba(255, 255, 255, 0.08);
+            --text-subtitle: #a3b8a3;
+            --text-heading: #1e291e;
+            --text-question: #1a241b;
+            --text-answer: #4b574c;
+            --accent-gold: #c69b2d;
+            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --card-border: rgba(0, 0, 0, 0.05);
         }
 
         * {
@@ -34,14 +35,18 @@
             color: var(--text-answer);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         header {
-            background-color: var(--verde-forense);
-            border-bottom: 1px solid rgba(232, 180, 91, 0.3);
+            background-color: var(--bg-header);
+            border-bottom: 1px solid rgba(198, 155, 45, 0.3);
             color: var(--text-title);
             padding: 2rem 1.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         .header-container {
@@ -58,7 +63,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.8rem;
             font-weight: 800;
-            color: var(--dorado-premium);
+            color: #e5c158;
             display: flex;
             align-items: center;
             gap: 0.6rem;
@@ -91,18 +96,18 @@
         }
 
         .btn-back {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.12);
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .btn-back:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.22);
         }
 
         .btn-pdf {
-            background-color: var(--dorado-premium);
-            color: #162217;
+            background-color: var(--accent-gold);
+            color: #1e291e;
             font-weight: 700;
         }
 
@@ -125,17 +130,18 @@
             padding: 0.85rem 1.2rem;
             font-family: inherit;
             font-size: 1rem;
-            border: 1px solid rgba(232, 180, 91, 0.35);
+            border: 1px solid rgba(0, 0, 0, 0.12);
             border-radius: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            color: #ffffff;
+            background: #ffffff;
+            color: var(--text-heading);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
             outline: none;
             transition: all 0.2s ease;
         }
 
         .search-box input:focus {
-            border-color: var(--dorado-premium);
-            box-shadow: 0 0 0 3px rgba(232, 180, 91, 0.2);
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(198, 155, 45, 0.2);
         }
 
         .section-header {
@@ -152,15 +158,17 @@
         .section-accent-bar {
             width: 5px;
             height: 1.8rem;
-            background-color: var(--dorado-premium);
+            background-color: var(--accent-gold);
             border-radius: 4px;
             flex-shrink: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         .section-header h2 {
             font-size: 1.35rem;
             font-weight: 700;
-            color: #ffffff;
+            color: var(--text-heading);
         }
 
         .qa-card {
@@ -168,13 +176,18 @@
             border-radius: 14px;
             padding: 1.5rem;
             margin-bottom: 1rem;
+            box-shadow: var(--card-shadow);
             border: 1px solid var(--card-border);
-            transition: transform 0.15s ease, background 0.15s ease;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         .qa-card:hover {
-            background-color: rgba(255, 255, 255, 0.08);
             transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
         }
 
         .qa-card h3 {
@@ -192,25 +205,29 @@
         }
 
         .qa-card strong {
-            color: #ffffff;
+            color: var(--text-question);
         }
 
         .cta-banner {
-            background: linear-gradient(135deg, #233324 0%, #162217 100%);
-            border: 1px solid rgba(232, 180, 91, 0.3);
+            background: linear-gradient(135deg, #283728 0%, #1a251b 100%);
+            border: 1px solid rgba(198, 155, 45, 0.3);
             color: #ffffff;
             border-radius: 16px;
             padding: 2.5rem 1.8rem;
             margin-top: 3.5rem;
             text-align: center;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            break-inside: avoid;
+            page-break-inside: avoid;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         .cta-banner h2 {
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.4rem;
             font-weight: 800;
-            color: var(--dorado-premium);
+            color: #e5c158;
             margin-bottom: 0.75rem;
         }
 
@@ -229,8 +246,8 @@
         }
 
         .btn-cta-primary {
-            background-color: var(--dorado-premium);
-            color: #162217;
+            background-color: var(--accent-gold);
+            color: #1e291e;
             padding: 0.85rem 1.6rem;
             border-radius: 10px;
             font-weight: 700;
@@ -248,9 +265,9 @@
         }
 
         .btn-cta-secondary {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.12);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             padding: 0.85rem 1.6rem;
             border-radius: 10px;
             font-weight: 600;
@@ -263,8 +280,33 @@
         }
 
         .btn-cta-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.22);
             transform: translateY(-2px);
+        }
+
+        @media print {
+            body {
+                background-color: #f5f4ef !important;
+            }
+            .header-actions, .search-box {
+                display: none !important;
+            }
+            header {
+                padding: 1.5rem !important;
+            }
+            main {
+                padding: 1rem 0 !important;
+                max-width: 100% !important;
+            }
+            .qa-card {
+                background-color: #ffffff !important;
+                border: 1px solid rgba(0,0,0,0.08) !important;
+                box-shadow: none !important;
+            }
+            @page {
+                size: A4;
+                margin: 12mm 10mm;
+            }
         }
 
         @media (max-width: 640px) {
