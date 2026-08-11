@@ -206,6 +206,28 @@
         hyphens: none !important;
     }
 
+    .qa-pill {
+        padding: 3px 7px !important;
+        font-size: 0.58rem !important;
+        background: rgba(198, 155, 45, 0.2) !important;
+        color: #e5c158 !important;
+        border: 1px solid rgba(198, 155, 45, 0.4) !important;
+        font-weight: 700 !important;
+        white-space: nowrap !important;
+        border-radius: 99px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+    }
+
+    .header-pills-row {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 3px !important;
+        width: auto !important;
+    }
+
     /* ── STEPPER ─────────────────────────────────────────────── */
     .stepper-nav {
         padding: 6px 4px;

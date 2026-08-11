@@ -67,6 +67,51 @@ function toggleCalendarInfo(show) {
     m.classList.toggle('hidden', ocultar);
 }
 
+// Modal informativo de Preguntas Frecuentes (Q&A)
+function toggleQAModal(show) {
+    const m = document.getElementById('qa-modal');
+    if (!m) return;
+    const ocultar = show === undefined ? !m.classList.contains('hidden') : !show;
+    m.classList.toggle('hidden', ocultar);
+    if (!ocultar) {
+        // Focus search input when opening
+        setTimeout(() => {
+            const input = document.getElementById('qaModalSearchInput');
+            if (input) input.focus();
+        }, 100);
+    }
+}
+
+function filterModalQA() {
+    const input = document.getElementById('qaModalSearchInput');
+    if (!input) return;
+    const filter = input.value.toLowerCase();
+    const cards = document.querySelectorAll('#qaModalContainer .qa-card');
+    const sectionHeaders = document.querySelectorAll('#qaModalContainer .section-header');
+
+    cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(filter)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    sectionHeaders.forEach(header => {
+        let nextEl = header.nextElementSibling;
+        let hasVisibleCard = false;
+        while (nextEl && nextEl.classList.contains('qa-card')) {
+            if (nextEl.style.display !== 'none') {
+                hasVisibleCard = true;
+                break;
+            }
+            nextEl = nextEl.nextElementSibling;
+        }
+        header.style.display = hasVisibleCard ? 'flex' : 'none';
+    });
+}
+
 window.addEventListener('scroll', function () {
     let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;

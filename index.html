@@ -71,7 +71,7 @@
             </div>
 
             <!-- SECCIÓN DERECHA: Alertas y Acuerdo -->
-            <div class="flex flex-col gap-3 items-end">
+            <div class="flex flex-col gap-2 items-end">
                 <div class="countdown-emergency">
                     <!-- Texto gris superpuesto (absolute): no ocupa espacio en el flujo -->
                     <span id="timer-next" class="t-acompanamiento"></span>
@@ -85,10 +85,15 @@
                         class="countdown-info"><i class="ph-fill ph-info"></i></button>
                 </div>
 
-                <a href="https://www.gob.mx/cms/uploads/attachment/file/1033903/20251029163147_59737_Acuerdo_P-CRT-EXT-29102025-005.pdf"
-                    target="_blank" class="legal-pill">
-                    ACUERDO P-CRT-EXT-29102025-005
-                </a>
+                <div class="header-pills-row">
+                    <a href="https://www.gob.mx/cms/uploads/attachment/file/1033903/20251029163147_59737_Acuerdo_P-CRT-EXT-29102025-005.pdf"
+                        target="_blank" class="legal-pill">
+                        ACUERDO P-CRT-EXT-29102025-005
+                    </a>
+                    <button type="button" onclick="toggleQAModal(true)" class="qa-pill">
+                        <i class="ph ph-question"></i> Guía Q&A
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -117,6 +122,265 @@
                 <strong>15 de octubre de 2026</strong>.</p>
         </div>
     </div>
+
+    <!-- MODAL: Preguntas Frecuentes (Q&A) -->
+    <div id="qa-modal" class="qa-modal hidden" onclick="if(event.target===this)toggleQAModal(false)">
+        <div class="qa-modal-card">
+            <div class="qa-modal-header">
+                <div>
+                    <h3 class="qa-modal-title"><i class="ph ph-book-open-text"></i> Preguntas Frecuentes (Q&A)</h3>
+                    <p class="qa-modal-sub">Acuerdo P/CRT/EXT/29102025/005 | Actualizado a Prórroga 2026</p>
+                </div>
+                <button type="button" class="qa-modal-close" onclick="toggleQAModal(false)" aria-label="Cerrar">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+
+            <div class="qa-modal-body">
+                <div class="qa-modal-search">
+                    <input type="text" id="qaModalSearchInput" placeholder="🔍 Buscar pregunta o palabra clave..." onkeyup="filterModalQA()">
+                </div>
+
+            <div id="qaModalContainer">
+                <!-- Sección I -->
+                <div class="section-header">
+                    <div class="section-accent-bar"></div>
+                    <h2>I. ¿Qué está pasando?</h2>
+                </div>
+
+                <div class="qa-card">
+                    <h3>1. ¿Qué es el Acuerdo P-CRT-EXT-29102025-005?</h3>
+                    <p>Es el reglamento oficial que obliga a que toda línea celular en México esté vinculada a la identidad real de una persona.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>2. ¿Por qué se hace esto ahora?</h3>
+                    <p>El gobierno busca reducir el anonimato en líneas usadas para delitos, vinculando cada chip a un nombre y una CURP.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>3. ¿Es obligatorio?</h3>
+                    <p>Sí, para mantener el servicio activo. Las empresas telefónicas deben dar de baja las líneas no identificadas.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>4. ¿Cuándo es la fecha límite?</h3>
+                    <p>Con la prórroga oficial de 2026, la fecha límite depende del <strong>último dígito de tu número celular</strong> (desde el 15 de agosto para el dígito 0 hasta el 31 de diciembre para el dígito 9). Puedes verificar tu fecha exacta en el calendario del autodiagnóstico.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>5. ¿Qué pasa si no registro mi línea antes de mi fecha límite?</h3>
+                    <p>Tu línea será suspendida automáticamente al vencer la fecha límite correspondiente a tu dígito. No podrás hacer llamadas, enviar SMS ni usar datos móviles.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>6. Si me suspenden, ¿puedo llamar a alguien?</h3>
+                    <p>Solo a números de emergencia (como el 911) y al centro de atención de tu operadora.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>7. ¿Me van a quitar mi número para siempre si no doy de Alta?</h3>
+                    <p>Eventualmente sí. Tras la suspensión, el número puede reasignarse a otra persona, que entonces recibiría los SMS de tus cuentas bancarias en tu lugar.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>8. ¿Esto aplica solo para chips nuevos?</h3>
+                    <p>No, aplica para todas las líneas activas, ya sean viejas o nuevas, prepago o contrato.</p>
+                </div>
+
+                <!-- Sección II -->
+                <div class="section-header">
+                    <div class="section-accent-bar"></div>
+                    <h2>II. El proceso de registro</h2>
+                </div>
+
+                <div class="qa-card">
+                    <h3>9. ¿Qué documentos necesito si soy persona física?</h3>
+                    <p>Identificación oficial con foto y tu <strong>CURP</strong>.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>10. ¿Y si es una línea de empresa (Persona Moral)?</h3>
+                    <p>Necesitas el <strong>RFC</strong> de la empresa y la identificación del representante legal.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>11. ¿Qué piden si soy extranjero?</h3>
+                    <p>Pasaporte vigente y, si la tienes, tu CURP temporal.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>12. ¿Tengo que ir a la sucursal a fuerza?</h3>
+                    <p>No necesariamente. Las telefónicas deben ofrecer medios remotos (apps o web) y presenciales.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>13. ¿Cómo sabrán que soy yo en línea?</h3>
+                    <p>Usarán una "Prueba de Vida" (como una selfie en tiempo real) y validación de tus documentos.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>14. ¿Me van a cobrar por registrarme?</h3>
+                    <p>No, el proceso de Alta es gratuito para el usuario.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>15. ¿Puedo registrar la línea de mi hijo o mi abuelo a mi nombre?</h3>
+                    <p>Sí, tú aparecerás como el "Titular" responsable de esa línea.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>16. ¿Cuántas líneas puedo tener a mi nombre?</h3>
+                    <p>Hasta 5 líneas en prepago y hasta 10 en pospago por persona (Art. 10).</p>
+                </div>
+
+                <!-- Sección III -->
+                <div class="section-header">
+                    <div class="section-accent-bar"></div>
+                    <h2>III. Privacidad y desvinculación</h2>
+                </div>
+
+                <div class="qa-card">
+                    <h3>17. ¿Puedo desvincular mi CURP de una línea ya registrada?</h3>
+                    <p>Sí, mediante un proceso llamado "Baja", pero esto implica que la línea dejará de funcionar.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>18. ¿Existe forma de tener la línea activa sin dar mi CURP?</h3>
+                    <p>No para mexicanos. Los extranjeros pueden usar pasaporte y CURP temporal (revisar Art. 18), pero en todos los casos se requiere identificación para mantener el servicio activo.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>19. ¿Mis datos están seguros con la telefónica?</h3>
+                    <p>Están obligados por la Ley Federal de Protección de Datos Personales, pero el riesgo de filtraciones siempre existe en cualquier base de datos.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>20. ¿El gobierno tendrá acceso directo a mis llamadas?</h3>
+                    <p>El acuerdo es para <strong>identificación</strong>, no menciona intervención de comunicaciones. El sistema sí crea una base de datos que vincula números a identidades, lo que facilita vigilancia si un juez lo ordena.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>21. Si cancelo mi línea (Baja), ¿se borran mis datos de inmediato?</h3>
+                    <p>La empresa debe registrar la desvinculación, pero suelen conservar registros históricos por periodos legales obligatorios.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>22. ¿Qué pasa si alguien usa mi CURP para registrar un número que no es mío?</h3>
+                    <p>Podrás consultar con tu operadora qué números están a tu nombre y denunciar o dar de baja los que no reconozcas (Art. 37).</p>
+                </div>
+
+                <!-- Sección IV -->
+                <div class="section-header">
+                    <div class="section-accent-bar"></div>
+                    <h2>IV. Riesgos: SMS y SIM Swapping</h2>
+                </div>
+
+                <div class="qa-card">
+                    <h3>23. ¿Por qué dicen que el SMS es peligroso para mis bancos?</h3>
+                    <p>Porque si alguien clona tu chip (<strong>SIM Swapping</strong>), puede recibir tus códigos de banco y entrar a tu cuenta.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>24. ¿Qué es el TOTP que mencionas?</h3>
+                    <p>Son códigos que cambian cada 30 segundos en una app de tu celular (como Google Authenticator), no llegan por SMS y son mucho más seguros.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>25. ¿Si suspenden mi línea, pierdo acceso a mi WhatsApp?</h3>
+                    <p>No de inmediato, pero si quieres instalarlo en otro teléfono o verificar tu cuenta, no podrás recibir el código de activación por SMS.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>26. ¿Y mis redes sociales?</h3>
+                    <p>Si usas el número de cel para recuperar contraseña, te quedarás fuera. Por eso es vital migrar a <strong>TOTP</strong> o correos de respaldo antes de la suspensión de tu línea.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>27. ¿Puedo usar mi celular solo con Wi-Fi si me suspenden?</h3>
+                    <p>Sí, el Wi-Fi seguirá funcionando, pero el número telefónico como tal estará muerto para llamadas y SMS tradicionales.</p>
+                </div>
+
+                <!-- Sección V -->
+                <div class="section-header">
+                    <div class="section-accent-bar"></div>
+                    <h2>V. Sobre el servicio de asesoría</h2>
+                </div>
+
+                <div class="qa-card">
+                    <h3>28. ¿En qué consiste el "Diagnóstico de riesgo" gratuito?</h3>
+                    <p>Es un escaneo inicial de seguridad donde identificamos cuántas de tus aplicaciones (banca móvil, redes sociales, correos) dependen peligrosamente del SMS para validar tu identidad. Al finalizar, recibes un reporte que señala tus puntos críticos de vulnerabilidad y una estimación de qué cuentas podrías perder si tu línea es suspendida al vencer la fecha límite de tu dígito por el Acuerdo P-CRT.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>29. ¿Qué servicios ofreces si necesito ayuda para asegurar mis cuentas?</h3>
+                    <p>Ofrezco dos niveles de apoyo profesional: 1) Guías de blindaje digital con manuales tutoriales para configurar TOTP y llaves de seguridad; y 2) Asesoría (Sesión 1-a-1) personalizada.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>30. ¿Es difícil usar aplicaciones de Token (TOTP)?</h3>
+                    <p>Para nada. Es como leer un código de 6 números que cambia solo. Es cuestión de costumbre.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>31. ¿Qué pasa si pierdo el celular con mis Tokens?</h3>
+                    <p>Por eso el servicio incluye configurar <strong>respaldos y llaves de recuperación</strong> (como en Apple o Android).</p>
+                </div>
+
+                <!-- Sección VI -->
+                <div class="section-header">
+                    <div class="section-accent-bar"></div>
+                    <h2>VI. Dudas comunes y casos especiales</h2>
+                </div>
+
+                <div class="qa-card">
+                    <h3>32. ¿Qué pasa si compro un chip en el OXXO?</h3>
+                    <p>Al intentar activarlo, te pedirá que hagas el proceso de registro (Alta) mediante SMS o app antes de darte servicio.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>33. ¿Si tengo un plan de renta ya estoy registrado?</h3>
+                    <p>No necesariamente. El Art. 13 establece que incluso tras una portabilidad el proveedor receptor debe solicitar el Alta. Verifica con tu operadora que tu registro esté actualizado.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>34. ¿Me pueden multar por no registrarme?</h3>
+                    <p>A ti como usuario no, pero la telefónica sí recibe multas millonarias si no suspende tu línea.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>35. ¿Qué pasa con los números de empresas de cobranza o telemarketing?</h3>
+                    <p>También deben registrarse; esto debería ayudar a identificar quién molesta con llamadas de spam.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>36. ¿Puedo registrar mi línea si soy menor de edad?</h3>
+                    <p>No, un adulto (padre o tutor) deberá registrarla como titular.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>37. ¿Este acuerdo es el mismo que el PANAUT que cancelaron antes?</h3>
+                    <p>Es similar en intención (identificar usuarios), pero este se basa en nuevas facultades de la Agencia de Transformación Digital.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>38. ¿Y si viajo al extranjero (Roaming)?</h3>
+                    <p>Si tu línea no está registrada, te llegará un SMS avisándote que debes hacerlo o se cortará, incluso estando fuera.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>39. ¿La plataforma de consulta será pública para cualquiera?</h3>
+                    <p>No, solo tú podrás consultar tus propias líneas mediante mecanismos de autenticación segura.</p>
+                </div>
+
+                <div class="qa-card">
+                    <h3>40. ¿Cuál es el primer paso que debo dar hoy?</h3>
+                    <p>Decidir si deseas registrar tu línea o no antes del plazo según tu dígito. Si además quieres reducir tu dependencia del SMS, empieza hoy a migrar tus cuentas bancarias y redes a métodos que no dependan del número.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <main class="max-w-6xl mx-auto px-4 pt-10 pb-16" id="main-content">
 

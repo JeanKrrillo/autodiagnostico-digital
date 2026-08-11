@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes (Q&A) | Acuerdo P-CRT-EXT-29102025-005</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --verde-forense: #233324;
+            --verde-oscuro: #162217;
+            --dorado-premium: #E8B45B;
+            --bg-page: #162217;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-title: #ffffff;
+            --text-subtitle: rgba(255, 255, 255, 0.75);
+            --text-question: #E8B45B;
+            --text-answer: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-answer);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background-color: var(--verde-forense);
+            border-bottom: 1px solid rgba(232, 180, 91, 0.3);
+            color: var(--text-title);
+            padding: 2rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-container {
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-text h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dorado-premium);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .header-text p {
+            color: var(--text-subtitle);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-back {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-back:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-pdf {
+            background-color: var(--dorado-premium);
+            color: #162217;
+            font-weight: 700;
+        }
+
+        .btn-pdf:hover {
+            background-color: #d8a932;
+        }
+
+        main {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        .search-box {
+            margin-bottom: 2rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.85rem 1.2rem;
+            font-family: inherit;
+            font-size: 1rem;
+            border: 1px solid rgba(232, 180, 91, 0.35);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--dorado-premium);
+            box-shadow: 0 0 0 3px rgba(232, 180, 91, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 2.5rem 0 1.25rem;
+        }
+
+        .section-header:first-of-type {
+            margin-top: 0.5rem;
+        }
+
+        .section-accent-bar {
+            width: 5px;
+            height: 1.8rem;
+            background-color: var(--dorado-premium);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .qa-card {
+            background-color: var(--bg-card);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--card-border);
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        .qa-card:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .qa-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-question);
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .qa-card p {
+            font-size: 0.95rem;
+            color: var(--text-answer);
+            line-height: 1.6;
+        }
+
+        .qa-card strong {
+            color: #ffffff;
+        }
+
+        .cta-banner {
+            background: linear-gradient(135deg, #233324 0%, #162217 100%);
+            border: 1px solid rgba(232, 180, 91, 0.3);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 2.5rem 1.8rem;
+            margin-top: 3.5rem;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-banner h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--dorado-premium);
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-banner p {
+            color: var(--text-subtitle);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto 1.8rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-cta-primary {
+            background-color: var(--dorado-premium);
+            color: #162217;
+            padding: 0.85rem 1.6rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cta-primary:hover {
+            background-color: #d8a932;
+            transform: translateY(-2px);
+        }
+
+        .btn-cta-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.85rem 1.6rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cta-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: 1.5rem 1rem;
+            }
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-text h1 {
+                font-size: 1.4rem;
+            }
+            .header-actions {
+                width: 100%;
+            }
+            .btn-header {
+                flex: 1;
+                justify-content: center;
+            }
+            main {
+                padding: 1.25rem 1rem 3rem;
+            }
+            .section-header h2 {
+                font-size: 1.15rem;
+            }
+            .qa-card {
+                padding: 1.2rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+            }
+            .btn-cta-primary, .btn-cta-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="header-text">
+                <h1><i class="ph ph-book-open-text"></i> Preguntas Frecuentes (Q&A)</h1>
+                <p>Acuerdo P/CRT/EXT/29102025/005 | Actualizado a Prórroga 2026</p>
+            </div>
+            <div class="header-actions">
+                <a href="index.html" class="btn-header btn-back">
+                    <i class="ph ph-arrow-left"></i> Autodiagnóstico
+                </a>
+                <button onclick="window.print()" class="btn-header btn-pdf">
+                    <i class="ph ph-printer"></i> Imprimir / PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Buscar pregunta o palabra clave..." onkeyup="filterQA()">
+        </div>
+
+        <div id="qaContainer">
+            <!-- Sección I -->
+            <div class="section-header">
+                <div class="section-accent-bar"></div>
+                <h2>I. ¿Qué está pasando?</h2>
+            </div>
+
+            <div class="qa-card">
+                <h3>1. ¿Qué es el Acuerdo P-CRT-EXT-29102025-005?</h3>
+                <p>Es el reglamento oficial que obliga a que toda línea celular en México esté vinculada a la identidad real de una persona.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>2. ¿Por qué se hace esto ahora?</h3>
+                <p>El gobierno busca reducir el anonimato en líneas usadas para delitos, vinculando cada chip a un nombre y una CURP.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>3. ¿Es obligatorio?</h3>
+                <p>Sí, para mantener el servicio activo. Las empresas telefónicas deben dar de baja las líneas no identificadas.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>4. ¿Cuándo es la fecha límite?</h3>
+                <p>Con la prórroga oficial de 2026, la fecha límite depende del <strong>último dígito de tu número celular</strong> (desde el 15 de agosto para el dígito 0 hasta el 31 de diciembre para el dígito 9). Puedes verificar tu fecha exacta en el calendario del autodiagnóstico.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>5. ¿Qué pasa si no registro mi línea antes de mi fecha límite?</h3>
+                <p>Tu línea será suspendida automáticamente al vencer la fecha límite correspondiente a tu dígito. No podrás hacer llamadas, enviar SMS ni usar datos móviles.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>6. Si me suspenden, ¿puedo llamar a alguien?</h3>
+                <p>Solo a números de emergencia (como el 911) y al centro de atención de tu operadora.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>7. ¿Me van a quitar mi número para siempre si no doy de Alta?</h3>
+                <p>Eventualmente sí. Tras la suspensión, el número puede reasignarse a otra persona, que entonces recibiría los SMS de tus cuentas bancarias en tu lugar.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>8. ¿Esto aplica solo para chips nuevos?</h3>
+                <p>No, aplica para todas las líneas activas, ya sean viejas o nuevas, prepago o contrato.</p>
+            </div>
+
+            <!-- Sección II -->
+            <div class="section-header">
+                <div class="section-accent-bar"></div>
+                <h2>II. El proceso de registro</h2>
+            </div>
+
+            <div class="qa-card">
+                <h3>9. ¿Qué documentos necesito si soy persona física?</h3>
+                <p>Identificación oficial con foto y tu <strong>CURP</strong>.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>10. ¿Y si es una línea de empresa (Persona Moral)?</h3>
+                <p>Necesitas el <strong>RFC</strong> de la empresa y la identificación del representante legal.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>11. ¿Qué piden si soy extranjero?</h3>
+                <p>Pasaporte vigente y, si la tienes, tu CURP temporal.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>12. ¿Tengo que ir a la sucursal a fuerza?</h3>
+                <p>No necesariamente. Las telefónicas deben ofrecer medios remotos (apps o web) y presenciales.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>13. ¿Cómo sabrán que soy yo en línea?</h3>
+                <p>Usarán una "Prueba de Vida" (como una selfie en tiempo real) y validación de tus documentos.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>14. ¿Me van a cobrar por registrarme?</h3>
+                <p>No, el proceso de Alta es gratuito para el usuario.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>15. ¿Puedo registrar la línea de mi hijo o mi abuelo a mi nombre?</h3>
+                <p>Sí, tú aparecerás como el "Titular" responsable de esa línea.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>16. ¿Cuántas líneas puedo tener a mi nombre?</h3>
+                <p>Hasta 5 líneas en prepago y hasta 10 en pospago por persona (Art. 10).</p>
+            </div>
+
+            <!-- Sección III -->
+            <div class="section-header">
+                <div class="section-accent-bar"></div>
+                <h2>III. Privacidad y desvinculación</h2>
+            </div>
+
+            <div class="qa-card">
+                <h3>17. ¿Puedo desvincular mi CURP de una línea ya registrada?</h3>
+                <p>Sí, mediante un proceso llamado "Baja", pero esto implica que la línea dejará de funcionar.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>18. ¿Existe forma de tener la línea activa sin dar mi CURP?</h3>
+                <p>No para mexicanos. Los extranjeros pueden usar pasaporte y CURP temporal (revisar Art. 18), pero en todos los casos se requiere identificación para mantener el servicio activo.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>19. ¿Mis datos están seguros con la telefónica?</h3>
+                <p>Están obligados por la Ley Federal de Protección de Datos Personales, pero el riesgo de filtraciones siempre existe en cualquier base de datos.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>20. ¿El gobierno tendrá acceso directo a mis llamadas?</h3>
+                <p>El acuerdo es para <strong>identificación</strong>, no menciona intervención de comunicaciones. El sistema sí crea una base de datos que vincula números a identidades, lo que facilita vigilancia si un juez lo ordena.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>21. Si cancelo mi línea (Baja), ¿se borran mis datos de inmediato?</h3>
+                <p>La empresa debe registrar la desvinculación, pero suelen conservar registros históricos por periodos legales obligatorios.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>22. ¿Qué pasa si alguien usa mi CURP para registrar un número que no es mío?</h3>
+                <p>Podrás consultar con tu operadora qué números están a tu nombre y denunciar o dar de baja los que no reconozcas (Art. 37).</p>
+            </div>
+
+            <!-- Sección IV -->
+            <div class="section-header">
+                <div class="section-accent-bar"></div>
+                <h2>IV. Riesgos: SMS y SIM Swapping</h2>
+            </div>
+
+            <div class="qa-card">
+                <h3>23. ¿Por qué dicen que el SMS es peligroso para mis bancos?</h3>
+                <p>Porque si alguien clona tu chip (<strong>SIM Swapping</strong>), puede recibir tus códigos de banco y entrar a tu cuenta.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>24. ¿Qué es el TOTP que mencionas?</h3>
+                <p>Son códigos que cambian cada 30 segundos en una app de tu celular (como Google Authenticator), no llegan por SMS y son mucho más seguros.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>25. ¿Si suspenden mi línea, pierdo acceso a mi WhatsApp?</h3>
+                <p>No de inmediato, pero si quieres instalarlo en otro teléfono o verificar tu cuenta, no podrás recibir el código de activación por SMS.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>26. ¿Y mis redes sociales?</h3>
+                <p>Si usas el número de cel para recuperar contraseña, te quedarás fuera. Por eso es vital migrar a <strong>TOTP</strong> o correos de respaldo antes de la suspensión de tu línea.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>27. ¿Puedo usar mi celular solo con Wi-Fi si me suspenden?</h3>
+                <p>Sí, el Wi-Fi seguirá funcionando, pero el número telefónico como tal estará muerto para llamadas y SMS tradicionales.</p>
+            </div>
+
+            <!-- Sección V -->
+            <div class="section-header">
+                <div class="section-accent-bar"></div>
+                <h2>V. Sobre el servicio de asesoría</h2>
+            </div>
+
+            <div class="qa-card">
+                <h3>28. ¿En qué consiste el "Diagnóstico de riesgo" gratuito?</h3>
+                <p>Es un escaneo inicial de seguridad donde identificamos cuántas de tus aplicaciones (banca móvil, redes sociales, correos) dependen peligrosamente del SMS para validar tu identidad. Al finalizar, recibes un reporte que señala tus puntos críticos de vulnerabilidad y una estimación de qué cuentas podrías perder si tu línea es suspendida al vencer la fecha límite de tu dígito por el Acuerdo P-CRT.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>29. ¿Qué servicios ofreces si necesito ayuda para asegurar mis cuentas?</h3>
+                <p>Ofrezco dos niveles de apoyo profesional: 1) Guías de blindaje digital con manuales tutoriales para configurar TOTP y llaves de seguridad; y 2) Asesoría (Sesión 1-a-1) personalizada.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>30. ¿Es difícil usar aplicaciones de Token (TOTP)?</h3>
+                <p>Para nada. Es como leer un código de 6 números que cambia solo. Es cuestión de costumbre.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>31. ¿Qué pasa si pierdo el celular con mis Tokens?</h3>
+                <p>Por eso el servicio incluye configurar <strong>respaldos y llaves de recuperación</strong> (como en Apple o Android).</p>
+            </div>
+
+            <!-- Sección VI -->
+            <div class="section-header">
+                <div class="section-accent-bar"></div>
+                <h2>VI. Dudas comunes y casos especiales</h2>
+            </div>
+
+            <div class="qa-card">
+                <h3>32. ¿Qué pasa si compro un chip en el OXXO?</h3>
+                <p>Al intentar activarlo, te pedirá que hagas el proceso de registro (Alta) mediante SMS o app antes de darte servicio.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>33. ¿Si tengo un plan de renta ya estoy registrado?</h3>
+                <p>No necesariamente. El Art. 13 establece que incluso tras una portabilidad el proveedor receptor debe solicitar el Alta. Verifica con tu operadora que tu registro esté actualizado.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>34. ¿Me pueden multar por no registrarme?</h3>
+                <p>A ti como usuario no, pero la telefónica sí recibe multas millonarias si no suspende tu línea.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>35. ¿Qué pasa con los números de empresas de cobranza o telemarketing?</h3>
+                <p>También deben registrarse; esto debería ayudar a identificar quién molesta con llamadas de spam.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>36. ¿Puedo registrar mi línea si soy menor de edad?</h3>
+                <p>No, un adulto (padre o tutor) deberá registrarla como titular.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>37. ¿Este acuerdo es el mismo que el PANAUT que cancelaron antes?</h3>
+                <p>Es similar en intención (identificar usuarios), pero este se basa en nuevas facultades de la Agencia de Transformación Digital.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>38. ¿Y si viajo al extranjero (Roaming)?</h3>
+                <p>Si tu línea no está registrada, te llegará un SMS avisándote que debes hacerlo o se cortará, incluso estando fuera.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>39. ¿La plataforma de consulta será pública para cualquiera?</h3>
+                <p>No, solo tú podrás consultar tus propias líneas mediante mecanismos de autenticación segura.</p>
+            </div>
+
+            <div class="qa-card">
+                <h3>40. ¿Cuál es el primer paso que debo dar hoy?</h3>
+                <p>Decidir si deseas registrar tu línea o no antes del plazo según tu dígito. Si además quieres reducir tu dependencia del SMS, empieza hoy a migrar tus cuentas bancarias y redes a métodos que no dependan del número.</p>
+            </div>
+        </div>
+
+        <div class="cta-banner">
+            <h2>¿Quieres saber qué tan vulnerables son tus cuentas?</h2>
+            <p>Realiza tu Autodiagnóstico Gratuito y descubre cuántas de tus aplicaciones bancarias y redes dependen del SMS.</p>
+            <div class="cta-buttons">
+                <a href="index.html" class="btn-cta-primary">
+                    <i class="ph ph-shield-check"></i> Ir al Autodiagnóstico
+                </a>
+                <a href="https://wa.me/?text=Hola,%20quisiera%20asesor%C3%ADa%20sobre%20el%20Acuerdo%20P-CRT-EXT" target="_blank" class="btn-cta-secondary">
+                    <i class="ph ph-whatsapp-logo"></i> Asesoría Personalizada
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterQA() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.qa-card');
+            const sectionHeaders = document.querySelectorAll('.section-header');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            sectionHeaders.forEach(header => {
+                let nextEl = header.nextElementSibling;
+                let hasVisibleCard = false;
+                while (nextEl && nextEl.classList.contains('qa-card')) {
+                    if (nextEl.style.display !== 'none') {
+                        hasVisibleCard = true;
+                        break;
+                    }
+                    nextEl = nextEl.nextElementSibling;
+                }
+                header.style.display = hasVisibleCard ? 'flex' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
