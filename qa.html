@@ -285,27 +285,63 @@
         }
 
         @media print {
-            body {
-                background-color: #f5f4ef !important;
+            @page {
+                size: A4;
+                margin: 0;
             }
-            .header-actions, .search-box {
-                display: none !important;
+            html, body {
+                background-color: #f5f4ef !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             header {
-                padding: 1.5rem !important;
+                background-color: #283728 !important;
+                padding: 1.75rem 2.5rem !important;
+                width: 100% !important;
+                box-shadow: none !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .header-container {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            .header-actions {
+                display: flex !important;
+            }
+            .search-box {
+                display: none !important;
             }
             main {
-                padding: 1rem 0 !important;
+                padding: 1.5rem 2.5rem 3rem !important;
                 max-width: 100% !important;
+                width: 100% !important;
+                background-color: #f5f4ef !important;
+            }
+            .section-header {
+                break-after: avoid;
+                page-break-after: avoid;
             }
             .qa-card {
                 background-color: #ffffff !important;
-                border: 1px solid rgba(0,0,0,0.08) !important;
-                box-shadow: none !important;
+                border: 1px solid rgba(0, 0, 0, 0.08) !important;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 0.9rem !important;
+                padding: 1.25rem 1.5rem !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
-            @page {
-                size: A4;
-                margin: 12mm 10mm;
+            .cta-banner {
+                background: linear-gradient(135deg, #283728 0%, #1a251b 100%) !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
         }
 
@@ -355,7 +391,7 @@
                 <p>Acuerdo P/CRT/EXT/29102025/005 | Actualizado a Prórroga 2026</p>
             </div>
             <div class="header-actions">
-                <a href="index.html" class="btn-header btn-back">
+                <a href="https://jeankrrillo.github.io/autodiagnostico-digital/" class="btn-header btn-back">
                     <i class="ph ph-arrow-left"></i> Autodiagnóstico
                 </a>
                 <button onclick="window.print()" class="btn-header btn-pdf">
