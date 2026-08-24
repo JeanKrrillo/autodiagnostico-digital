@@ -1233,7 +1233,8 @@
         align-items: center !important;
         gap: 5px !important;
         padding: 3px 8px !important;
-        z-index: 1002; /* por encima del título/barra para recibir taps */
+        z-index: 1002;
+        /* por encima del título/barra para recibir taps */
     }
 
     /* Wrapper real en móvil: apila dígito (arriba) y días (abajo) */
@@ -1290,7 +1291,8 @@
     #timer-next {
         display: flex !important;
         flex-direction: column !important;
-        align-items: flex-end !important; /* pegado hacia el óvalo */
+        align-items: flex-end !important;
+        /* pegado hacia el óvalo */
         justify-content: center;
         position: absolute;
         right: calc(100% + 6px);
@@ -1306,7 +1308,9 @@
     }
 
     /* En móvil decimos solo "Siguiente (n):" para ahorrar ancho. */
-    .sn-digito { display: none; }
+    .sn-digito {
+        display: none;
+    }
 
     /* Cada parte en su propio renglón (flex item a ancho completo) */
     #timer-next .sn-l1,
@@ -1896,3 +1900,14 @@
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     }
 }
+
+/* ------------------------------------------------------------------
+   FRAGMENTO HUÉRFANO — duplicado por accidente al editar.
+   Estas declaraciones quedaron fuera de todo selector, así que el
+   navegador ya las descartaba como error de parseo: comentarlas no
+   cambia nada visualmente, solo deja de publicarse CSS inválido.
+   (El bloque válido equivalente está justo arriba.)
+   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+   }
+   }
+   ------------------------------------------------------------------ */

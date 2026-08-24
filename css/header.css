@@ -32,7 +32,7 @@ body {
 }
 
 /* Ambas mitades del flex del header nunca se comprimirán una sobre la otra */
-.header-authority > div > div {
+.header-authority>div>div {
     min-width: 0;
     flex-shrink: 1;
 }
@@ -258,8 +258,13 @@ body {
 }
 
 @keyframes calFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .calendar-card {
@@ -432,7 +437,7 @@ body {
     border-radius: 10px;
     background: #FAF8F5;
     color: #2D3924;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
     outline: none;
     transition: all 0.2s ease;
 }
@@ -524,14 +529,27 @@ body {
     .qa-modal-body {
         padding: 1.25rem 1rem;
     }
+
     .qa-modal-header {
         padding: 1rem 1.25rem;
     }
+
     .qa-modal-title {
         font-size: 1.05rem;
     }
+
     .qa-modal .qa-card {
         padding: 1rem 1.1rem;
     }
 }
 
+/* ------------------------------------------------------------------
+   FRAGMENTO HUÉRFANO — duplicado por accidente al editar.
+   Estas declaraciones quedaron fuera de todo selector, así que el
+   navegador ya las descartaba como error de parseo: comentarlas no
+   cambia nada visualmente, solo deja de publicarse CSS inválido.
+   (El bloque válido equivalente está justo arriba.)
+   padding: 1rem 1.1rem;
+   }
+   }
+   ------------------------------------------------------------------ */
