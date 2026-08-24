@@ -1,0 +1,163 @@
+/* ============================================================
+   MARCA jean.krrillo — sistema de aplicación del logo
+   Regla estructural: todo watermark va en capa absoluta o en
+   ::before/::after. Nunca ocupa espacio en el flujo, nunca
+   desplaza un elemento existente.
+   ============================================================ */
+
+:root {
+    /* El SVG se inyecta como mask: así el color lo pone la paleta,
+       no el archivo. Un solo asset sirve para todas las variantes. */
+    --jk-mark: url("../logos/jk-mark.svg");
+}
+
+/* Marca sólida reutilizable — hereda color del contenedor */
+.jk-mark {
+    display: block;
+    background-color: currentColor;
+    mask: var(--jk-mark) center / contain no-repeat;
+    -webkit-mask: var(--jk-mark) center / contain no-repeat;
+    flex-shrink: 0;
+}
+
+/* ---------- 1. HEADER: marca dentro del gauge ----------
+   Capa absoluta dentro de .logo-container, POR DEBAJO del %.
+   No toca el flex ni el markup del header: nada se desplaza.
+   El dato de riesgo manda; la marca solo habita el fondo. */
+.logo-container::after {
+    content: '';
+    position: absolute;
+    /* Ocupa el hueco interior del donut (la mask lo libera al 68%) */
+    inset: 22%;
+    background-color: var(--dorado-premium);
+    mask: var(--jk-mark) center / contain no-repeat;
+    -webkit-mask: var(--jk-mark) center / contain no-repeat;
+    /* Baja: el % encima conserva todo su contraste sobre el verde */
+    opacity: .16;
+    pointer-events: none;
+    z-index: 1;
+    /* el span del % es z-10 → siempre por encima */
+}
+
+/* Por debajo de 480px el gauge cae a 52px y luego a 46px: el % ocupa
+   casi todo el hueco. Ahí la marca dejaría de leerse como marca y solo
+   ensuciaría el dato, así que se retira. */
+@media (max-width: 480px) {
+    .logo-container::after {
+        display: none;
+    }
+}
+
+/* ---------- 2. MARCA DE AGUA DEL REPORTE ----------
+   Ocupa el sitio del antiguo escudo genérico: misma capa absoluta
+   dentro del panel (relative + overflow-hidden), así que el grid del
+   reporte no se mueve. Estilos aquí y no en clases Tailwind porque
+   el build estático no compila utilidades arbitrarias. */
+.jk-report-wm {
+    position: absolute;
+    right: -4rem;
+    top: -4rem;
+    width: 300px;
+    height: 300px;
+    background-color: var(--verde-forense);
+    mask: var(--jk-mark) center / contain no-repeat;
+    -webkit-mask: var(--jk-mark) center / contain no-repeat;
+    /* 6%: presencia de marca sin restar contraste a la narrativa */
+    opacity: .06;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* El hermano siguiente es el contenido real del reporte: se eleva para
+   quedar SOBRE la marca. No se usa z-index negativo porque el panel
+   tiene backdrop-filter (crea contexto de apilamiento) y la marca
+   desaparecería tras el fondo del propio panel. */
+.jk-report-wm+* {
+    position: relative;
+    z-index: 1;
+}
+
+/* En móvil el panel es estrecho: se reduce para no invadir el texto */
+@media (max-width: 640px) {
+    .jk-report-wm {
+        width: 200px;
+        height: 200px;
+        right: -2.5rem;
+        top: -2.5rem;
+        opacity: .05;
+    }
+}
+
+/* ---------- 3. FIRMA DE MARCA ----------
+   Bloque de cierre: marca + wordmark. Tipografía del sistema. */
+.jk-signature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    color: var(--verde-forense);
+}
+
+.jk-signature .jk-mark {
+    width: 34px;
+    height: 34px;
+}
+
+.jk-signature-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    text-align: left;
+}
+
+.jk-signature-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: .5px;
+    color: var(--verde-forense);
+}
+
+.jk-signature-role {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    font-size: 9.5px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--texto-3);
+}
+
+/* ---------- 4. MÓVIL ----------
+   La marca de la firma baja de 34 a 28px: sigue reconocible y deja
+   respirar al wordmark en anchos estrechos. */
+@media (max-width: 430px) {
+    .jk-signature .jk-mark {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* Impresión: la marca debe sobrevivir al PDF */
+@media print {
+    .jk-signature {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+
+/* ---------- 5. FOOTER DE MARCA ----------
+   Cierre del sitio. Añadido al final del main: no reposiciona
+   ningún bloque previo. */
+.jk-footer {
+    margin-top: 2.5rem;
+    padding: 2rem 1rem 2.5rem;
+    border-top: 1px solid var(--borde-cristal);
+    text-align: center;
+}
+
+/* El FAB flota abajo a la derecha; se reserva aire para no solaparlo */
+@media (max-width: 640px) {
+    .jk-footer {
+        padding-bottom: 5.5rem;
+    }
+}

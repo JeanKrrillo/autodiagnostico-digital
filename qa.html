@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preguntas frecuentes (Q&A)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="logos/jk-favicon.svg">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         :root {
@@ -29,7 +33,8 @@
             padding: 0;
         }
 
-        html, body {
+        html,
+        body {
             background-color: var(--bg-page);
             color: var(--text-answer);
             font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -166,7 +171,7 @@
             border-radius: 12px;
             background: var(--bg-card);
             color: var(--text-heading);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
             outline: none;
             transition: all 0.2s ease;
         }
@@ -379,7 +384,7 @@
             padding: 2.5rem 1.8rem;
             margin-top: 3rem;
             text-align: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
             break-inside: avoid;
             page-break-inside: avoid;
             -webkit-print-color-adjust: exact !important;
@@ -480,12 +485,72 @@
             font-style: italic;
         }
 
+        /* ===== MARCA jean.krrillo ===== */
+        .jk-mark {
+            display: block;
+            background-color: currentColor;
+            mask: url("logos/jk-mark.svg") center / contain no-repeat;
+            -webkit-mask: url("logos/jk-mark.svg") center / contain no-repeat;
+            flex-shrink: 0;
+        }
+
+        /* Marca en el h1: ocupa el hueco del icono anterior, mismo tamaño */
+        .header-text h1 .jk-mark {
+            width: 1.5em;
+            height: 1.5em;
+            color: var(--accent-gold);
+        }
+
+        /* Firma de cierre del documento */
+        .jk-signature {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            max-width: 820px;
+            margin: 2.5rem auto 0;
+            padding: 1.75rem 1rem 2.25rem;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .jk-signature .jk-mark {
+            width: 34px;
+            height: 34px;
+            color: var(--text-heading);
+        }
+
+        .jk-signature-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+            text-align: left;
+        }
+
+        .jk-signature-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            color: var(--text-heading);
+        }
+
+        .jk-signature-role {
+            font-weight: 600;
+            font-size: 9.5px;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+            color: var(--text-answer);
+            opacity: 0.7;
+        }
+
         @media print {
             @page {
                 size: A4;
                 margin: 0;
             }
-            html, body {
+
+            html,
+            body {
                 background-color: #F1EFE7 !important;
                 margin: 0 !important;
                 padding: 0 !important;
@@ -494,6 +559,7 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
+
             header {
                 background-color: #2D3924 !important;
                 padding: 2rem 2.5rem !important;
@@ -504,16 +570,20 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
+
             .header-container {
                 max-width: 100% !important;
                 width: 100% !important;
             }
+
             .header-actions {
                 display: flex !important;
             }
+
             .search-box {
                 display: none !important;
             }
+
             main {
                 padding: 2rem 2.5rem 3rem !important;
                 max-width: 100% !important;
@@ -521,10 +591,21 @@
                 background-color: #F1EFE7 !important;
                 box-sizing: border-box !important;
             }
+
+            .jk-signature {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                padding: 1.5rem 2.5rem 2rem !important;
+                margin-top: 1rem !important;
+            }
+
             .section-header {
                 break-after: avoid;
                 page-break-after: avoid;
             }
+
             .qa-card {
                 background-color: #FAF8F5 !important;
                 border: 1px solid rgba(45, 57, 36, 0.12) !important;
@@ -536,11 +617,13 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
+
             .schedule-table {
                 background-color: #ffffff !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
+
             .cta-banner {
                 background: linear-gradient(135deg, #2D3924 0%, #1a2414 100%) !important;
                 break-inside: avoid;
@@ -548,6 +631,7 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
+
             .floating-fab {
                 display: none !important;
             }
@@ -557,39 +641,51 @@
             header {
                 padding: 1.5rem 1rem;
             }
+
             .header-container {
                 flex-direction: column;
                 align-items: flex-start;
             }
+
             .header-text h1 {
                 font-size: 1.35rem;
             }
+
             .header-actions {
                 width: 100%;
             }
+
             .btn-header {
                 flex: 1;
                 justify-content: center;
             }
+
             main {
                 padding: 1.25rem 1rem 3rem;
             }
+
             .section-header h2 {
                 font-size: 1.15rem;
             }
+
             .qa-card {
                 padding: 1.2rem;
             }
+
             .cta-buttons {
                 flex-direction: column;
             }
-            .btn-cta-primary, .btn-cta-secondary {
+
+            .btn-cta-primary,
+            .btn-cta-secondary {
                 width: 100%;
                 justify-content: center;
             }
+
             .floating-fab span {
                 display: none;
             }
+
             .floating-fab {
                 padding: 0.8rem;
                 border-radius: 50%;
@@ -597,19 +693,22 @@
         }
     </style>
 </head>
+
 <body>
 
     <header>
         <div class="header-container">
             <div class="header-text">
-                <h1><i class="ph ph-book-open-text"></i> Preguntas frecuentes (Q&A)</h1>
-                <p>Lineamientos para la Identificación de Líneas Telefónicas Móviles | Acuerdo P/CRT/EXT/08122025/144</p>
+                <h1><span class="jk-mark" aria-hidden="true"></span> Preguntas frecuentes (Q&A)</h1>
+                <p>Lineamientos para la Identificación de Líneas Telefónicas Móviles | Acuerdo P/CRT/EXT/08122025/144
+                </p>
             </div>
             <div class="header-actions">
                 <a href="https://jeankrrillo.github.io/autodiagnostico-digital/" class="btn-header btn-gold">
                     <i class="ph ph-shield-check"></i> Ir al autodiagnóstico
                 </a>
-                <a href="https://wa.me/524424820977?text=Hola,%20quisiera%20asesor%C3%ADa%20sobre%20el%20registro%20de%20l%C3%ADneas" target="_blank" class="btn-header btn-outline">
+                <a href="https://wa.me/524424820977?text=Hola,%20quisiera%20asesor%C3%ADa%20sobre%20el%20registro%20de%20l%C3%ADneas"
+                    target="_blank" class="btn-header btn-outline">
                     <i class="ph ph-whatsapp-logo"></i> Asesoría Personalizada
                 </a>
             </div>
@@ -618,14 +717,18 @@
 
     <main>
         <div class="intro-card">
-            <p>Todo esto sale de los Lineamientos para la Identificación de Líneas Telefónicas Móviles, publicados en el Diario Oficial el 9 de diciembre de 2025 (Acuerdo P/CRT/EXT/08122025/144), y de la modificación del 30 de junio de 2026 (Acuerdo P/CRT/EXT/25062026/084) que cambió las fechas. Los links están al final por si quieres revisarlos tú.</p>
+            <p>Todo esto sale de los Lineamientos para la Identificación de Líneas Telefónicas Móviles, publicados en el
+                Diario Oficial el 9 de diciembre de 2025 (Acuerdo P/CRT/EXT/08122025/144), y de la modificación del 30
+                de junio de 2026 (Acuerdo P/CRT/EXT/25062026/084) que cambió las fechas. Los links están al final por si
+                quieres revisarlos tú.</p>
             <div class="update-badge">
                 <i class="ph ph-clock"></i> Actualizado a agosto de 2026
             </div>
         </div>
 
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Buscar pregunta o palabra clave..." onkeyup="filterQA()">
+            <input type="text" id="searchInput" placeholder="🔍 Buscar pregunta o palabra clave..."
+                onkeyup="filterQA()">
         </div>
 
         <div id="qaContainer">
@@ -637,12 +740,14 @@
 
             <div class="qa-card">
                 <h3>1. ¿Qué es esto?</h3>
-                <p>Una regla nueva (Acuerdo P/CRT/EXT/08122025/144) que obliga a que todos los celulares del país estén a nombre de una persona real, con su CURP.</p>
+                <p>Una regla nueva (Acuerdo P/CRT/EXT/08122025/144) que obliga a que todos los celulares del país estén
+                    a nombre de una persona real, con su CURP.</p>
             </div>
 
             <div class="qa-card">
                 <h3>2. ¿Por qué lo hacen?</h3>
-                <p>El gobierno dice que es para que los delincuentes no puedan usar chips anónimos, y también para ayudar a localizar personas desaparecidas.</p>
+                <p>El gobierno dice que es para que los delincuentes no puedan usar chips anónimos, y también para
+                    ayudar a localizar personas desaparecidas.</p>
             </div>
 
             <div class="qa-card">
@@ -707,17 +812,21 @@
 
             <div class="qa-card">
                 <h3>5. ¿Y si no lo hago a tiempo?</h3>
-                <p>Te suspenden. Tienes 72 horas de margen después de tu fecha, y pasado ese rato ya no puedes llamar, ni mandar mensajes, ni usar datos.</p>
+                <p>Te suspenden. Tienes 72 horas de margen después de tu fecha, y pasado ese rato ya no puedes llamar,
+                    ni mandar mensajes, ni usar datos.</p>
             </div>
 
             <div class="qa-card">
                 <h3>6. Si me suspenden, ¿me quedo sin nada?</h3>
-                <p>No, te dejan el 911, los números de atención ciudadana, las alertas de emergencia y las llamadas a tu propia compañía. Todo lo demás se suspende.</p>
+                <p>No, te dejan el 911, los números de atención ciudadana, las alertas de emergencia y las llamadas a tu
+                    propia compañía. Todo lo demás se suspende.</p>
             </div>
 
             <div class="qa-card">
                 <h3>7. ¿Pierdo mi número?</h3>
-                <p>No. En cuanto te registres se te reactiva el servicio con el mismo número. Lo único es que si dejas la línea muerta durante meses, tu compañía puede reciclarla, pero eso ya lo hacían desde antes y no tiene que ver con esta regla.</p>
+                <p>No. En cuanto te registres se te reactiva el servicio con el mismo número. Lo único es que si dejas
+                    la línea muerta durante meses, tu compañía puede reciclarla, pero eso ya lo hacían desde antes y no
+                    tiene que ver con esta regla.</p>
             </div>
 
             <div class="qa-card">
@@ -727,7 +836,9 @@
 
             <div class="qa-card">
                 <h3>9. ¿Por qué cambiaron las fechas?</h3>
-                <p>Porque al principio la fecha era el 30 de junio para todo mundo, y la propia autoridad se dio cuenta de que apagar millones de líneas el mismo día podía tumbar las redes. Por eso repartieron las fechas de agosto a diciembre.</p>
+                <p>Porque al principio la fecha era el 30 de junio para todo mundo, y la propia autoridad se dio cuenta
+                    de que apagar millones de líneas el mismo día podía tumbar las redes. Por eso repartieron las fechas
+                    de agosto a diciembre.</p>
             </div>
 
             <!-- SECCIÓN II -->
@@ -743,17 +854,22 @@
 
             <div class="qa-card">
                 <h3>11. ¿Tengo que ir a una sucursal?</h3>
-                <p>No, tú decides. Puedes hacerlo desde tu celular o ir en persona, y la compañía no te puede obligar a una u otra.</p>
+                <p>No, tú decides. Puedes hacerlo desde tu celular o ir en persona, y la compañía no te puede obligar a
+                    una u otra.</p>
             </div>
 
             <div class="qa-card">
                 <h3>12. ¿Cuál es la página oficial?</h3>
-                <p><a href="https://registratulinea.crt.gob.mx/" target="_blank" style="color: #2b6cb0; font-weight: 700; text-decoration: underline;">registratulinea.crt.gob.mx</a>, o directo la página de tu compañía si prefieres.</p>
+                <p><a href="https://registratulinea.crt.gob.mx/" target="_blank"
+                        style="color: #2b6cb0; font-weight: 700; text-decoration: underline;">registratulinea.crt.gob.mx</a>,
+                    o directo la página de tu compañía si prefieres.</p>
             </div>
 
             <div class="qa-card">
                 <h3>13. ¿Cómo saben que soy yo si lo hago por internet?</h3>
-                <p>Te piden foto de tu identificación y luego una selfie, a veces pidiéndote que parpadees o voltees la cara para comprobar que eres tú y no una foto. Le dicen "prueba de vida". Si vas a sucursal no te la piden, porque ahí te ven en persona.</p>
+                <p>Te piden foto de tu identificación y luego una selfie, a veces pidiéndote que parpadees o voltees la
+                    cara para comprobar que eres tú y no una foto. Le dicen "prueba de vida". Si vas a sucursal no te la
+                    piden, porque ahí te ven en persona.</p>
             </div>
 
             <div class="qa-card">
@@ -773,42 +889,50 @@
 
             <div class="qa-card">
                 <h3>17. ¿Y si es de una empresa?</h3>
-                <p>Ahí no hay límite. Se registran con el RFC de la empresa más la identificación del representante legal, y desde junio también lo pueden hacer por internet, igual que las oficinas de gobierno.</p>
+                <p>Ahí no hay límite. Se registran con el RFC de la empresa más la identificación del representante
+                    legal, y desde junio también lo pueden hacer por internet, igual que las oficinas de gobierno.</p>
             </div>
 
             <div class="qa-card">
                 <h3>18. ¿Puedo registrar el celular de mi mamá o de mi hijo?</h3>
-                <p>Sí, y de hecho es lo normal para adultos mayores y para menores. Tú quedas como responsable de esa línea.</p>
+                <p>Sí, y de hecho es lo normal para adultos mayores y para menores. Tú quedas como responsable de esa
+                    línea.</p>
             </div>
 
             <div class="qa-card">
                 <h3>19. ¿Un menor de edad se puede registrar solo?</h3>
-                <p>No, la ley pide que el responsable sea mayor de edad, así que la línea va a nombre del papá, mamá o tutor.</p>
+                <p>No, la ley pide que el responsable sea mayor de edad, así que la línea va a nombre del papá, mamá o
+                    tutor.</p>
             </div>
 
             <div class="qa-card">
                 <h3>20. No tengo nacionalidad mexicana, ¿qué hago?</h3>
-                <p>Puedes usar tu pasaporte, tu CURP para extranjeros, o la tarjeta de visitante o residente del INM si trae CURP. Cualquiera de las tres sirve.</p>
+                <p>Puedes usar tu pasaporte, tu CURP para extranjeros, o la tarjeta de visitante o residente del INM si
+                    trae CURP. Cualquiera de las tres sirve.</p>
             </div>
 
             <div class="qa-card">
                 <h3>21. ¿Cómo sé si mi línea ya está en el registro?</h3>
-                <p>Metiéndote a la página de la CRT, donde puedes ver qué números están a nombre de tu CURP. O de plano pregunta en tu compañía.</p>
+                <p>Metiéndote a la página de la CRT, donde puedes ver qué números están a nombre de tu CURP. O de plano
+                    pregunta en tu compañía.</p>
             </div>
 
             <div class="qa-card">
                 <h3>22. Tengo plan de renta, ¿ya me registraron?</h3>
-                <p>Lo más seguro es que sí, porque al contratar diste tus datos, pero de todos modos revisa, porque no todos los registros viejos quedaron con el formato que pide la regla nueva.</p>
+                <p>Lo más seguro es que sí, porque al contratar diste tus datos, pero de todos modos revisa, porque no
+                    todos los registros viejos quedaron con el formato que pide la regla nueva.</p>
             </div>
 
             <div class="qa-card">
                 <h3>23. Compré un chip en el OXXO, ¿qué hago?</h3>
-                <p>Registrarlo antes de usarlo. Todos los chips salen bloqueados de fábrica y solo sirven para emergencias hasta que los vinculas.</p>
+                <p>Registrarlo antes de usarlo. Todos los chips salen bloqueados de fábrica y solo sirven para
+                    emergencias hasta que los vinculas.</p>
             </div>
 
             <div class="qa-card">
                 <h3>24. ¿Aplica para mi tableta o mi reloj inteligente?</h3>
-                <p>Depende de si el aparato puede llamar. Si nada más usa datos, no entra; si puede hacer llamadas o mandar mensajes, sí.</p>
+                <p>Depende de si el aparato puede llamar. Si nada más usa datos, no entra; si puede hacer llamadas o
+                    mandar mensajes, sí.</p>
             </div>
 
             <div class="qa-card">
@@ -818,7 +942,8 @@
 
             <div class="qa-card">
                 <h3>26. Si me suspenden, ¿dejo de pagar?</h3>
-                <p>No, y esa es la parte molesta. Si tienes contrato de renta sigues debiendo la mensualidad aunque no tengas servicio.</p>
+                <p>No, y esa es la parte molesta. Si tienes contrato de renta sigues debiendo la mensualidad aunque no
+                    tengas servicio.</p>
             </div>
 
             <!-- SECCIÓN III -->
@@ -829,7 +954,9 @@
 
             <div class="qa-card">
                 <h3>27. ¿Esto es el PANAUT que tumbó la Corte?</h3>
-                <p>No, aunque se parecen. El PANAUT era una lista gigante en manos del gobierno y pedía huellas digitales, y por eso la Suprema Corte lo canceló en 2022. En este los datos se quedan con tu compañía telefónica y no piden huellas.</p>
+                <p>No, aunque se parecen. El PANAUT era una lista gigante en manos del gobierno y pedía huellas
+                    digitales, y por eso la Suprema Corte lo canceló en 2022. En este los datos se quedan con tu
+                    compañía telefónica y no piden huellas.</p>
             </div>
 
             <div class="qa-card">
@@ -839,7 +966,8 @@
 
             <div class="qa-card">
                 <h3>29. ¿Se quedan con mi selfie y con la foto de mi credencial?</h3>
-                <p>No, y esto viene prohibido por escrito en la regla. Una vez que verifican que eres tú, no pueden guardar ni la selfie, ni copias de tu identificación, ni ningún dato biométrico.</p>
+                <p>No, y esto viene prohibido por escrito en la regla. Una vez que verifican que eres tú, no pueden
+                    guardar ni la selfie, ni copias de tu identificación, ni ningún dato biométrico.</p>
             </div>
 
             <div class="qa-card">
@@ -849,32 +977,40 @@
 
             <div class="qa-card">
                 <h3>31. ¿El gobierno va a escuchar mis llamadas?</h3>
-                <p>No, esto solo une un número con un nombre. Ahora, sí les facilita saber de quién es un número, aunque para pedirlo necesitan orden de un juez.</p>
+                <p>No, esto solo une un número con un nombre. Ahora, sí les facilita saber de quién es un número, aunque
+                    para pedirlo necesitan orden de un juez.</p>
             </div>
 
             <div class="qa-card">
                 <h3>32. ¿Mis datos están seguros con la telefónica?</h3>
-                <p>La ley los obliga a protegerlos, pero ninguna base de datos es perfecta. De hecho en enero de este año, a semanas de arrancar, el portal de Telcel tuvo una falla que dejó ver datos personales de cualquiera que tecleara un número. Lo arreglaron, pero pasó.</p>
+                <p>La ley los obliga a protegerlos, pero ninguna base de datos es perfecta. De hecho en enero de este
+                    año, a semanas de arrancar, el portal de Telcel tuvo una falla que dejó ver datos personales de
+                    cualquiera que tecleara un número. Lo arreglaron, pero pasó.</p>
             </div>
 
             <div class="qa-card">
                 <h3>33. ¿Cualquiera puede ver de quién es un número?</h3>
-                <p>No. Solo tú puedes consultar tus líneas y tienes que identificarte, y además la página nada más te muestra los últimos cuatro dígitos de cada número.</p>
+                <p>No. Solo tú puedes consultar tus líneas y tienes que identificarte, y además la página nada más te
+                    muestra los últimos cuatro dígitos de cada número.</p>
             </div>
 
             <div class="qa-card">
                 <h3>34. ¿Hay forma de tener celular sin dar mi CURP?</h3>
-                <p>Si tienes CURP mexicana, no. Quien no la tenga usa pasaporte o sus papeles del INM, pero de una u otra forma hay que identificarse.</p>
+                <p>Si tienes CURP mexicana, no. Quien no la tenga usa pasaporte o sus papeles del INM, pero de una u
+                    otra forma hay que identificarse.</p>
             </div>
 
             <div class="qa-card">
                 <h3>35. Si doy de baja mi línea, ¿borran mis datos?</h3>
-                <p>No luego luego, porque las compañías tienen que guardar registros históricos durante los plazos que la ley les marca.</p>
+                <p>No luego luego, porque las compañías tienen que guardar registros históricos durante los plazos que
+                    la ley les marca.</p>
             </div>
 
             <div class="qa-card">
                 <h3>36. Alguien registró un número con mi CURP, ¿qué hago?</h3>
-                <p>Métete a la página de la CRT a ver qué líneas salen a tu nombre y quita las que no reconozcas. La regla obliga a que eso sea fácil, o sea que no te pueden pedir el número completo ni códigos por mensaje para dejarte hacerlo.</p>
+                <p>Métete a la página de la CRT a ver qué líneas salen a tu nombre y quita las que no reconozcas. La
+                    regla obliga a que eso sea fácil, o sea que no te pueden pedir el número completo ni códigos por
+                    mensaje para dejarte hacerlo.</p>
             </div>
 
             <div class="qa-card">
@@ -884,7 +1020,9 @@
 
             <div class="qa-card">
                 <h3>38. ¿Puedo ampararme?</h3>
-                <p>Sí, y varias personas ya lo hicieron, sobre todo contra la parte de datos biométricos. Algunos amparos se los dieron y otros se los negaron. Eso sí, un amparo solo protege a quien lo tramita, no cambia la regla para todos.</p>
+                <p>Sí, y varias personas ya lo hicieron, sobre todo contra la parte de datos biométricos. Algunos
+                    amparos se los dieron y otros se los negaron. Eso sí, un amparo solo protege a quien lo tramita, no
+                    cambia la regla para todos.</p>
             </div>
 
             <!-- SECCIÓN IV -->
@@ -895,25 +1033,31 @@
 
             <div class="qa-card">
                 <h3>39. Me llegó un mensaje con un link, ¿es real?</h3>
-                <p>Puede que sí, porque las compañías están obligadas a mandarte recordatorios dos veces por semana, y diario durante la última semana antes de tu fecha. El problema es que los estafadores ya se dieron cuenta y están copiando esos mensajes.</p>
+                <p>Puede que sí, porque las compañías están obligadas a mandarte recordatorios dos veces por semana, y
+                    diario durante la última semana antes de tu fecha. El problema es que los estafadores ya se dieron
+                    cuenta y están copiando esos mensajes.</p>
             </div>
 
             <div class="qa-card">
                 <h3>40. ¿Cómo distingo el bueno del malo?</h3>
-                <p>Comparando el texto, porque la regla dice palabra por palabra qué debe decir el mensaje oficial, y va sin acentos:</p>
+                <p>Comparando el texto, porque la regla dice palabra por palabra qué debe decir el mensaje oficial, y va
+                    sin acentos:</p>
                 <div class="official-quote">
-                    "Por disposicion oficial, la fecha limite para vincular tu linea es hasta el DD-MM-AAAA. Vincula tu linea en [enlace]"
+                    "Por disposicion oficial, la fecha limite para vincular tu linea es hasta el DD-MM-AAAA. Vincula tu
+                    linea en [enlace]"
                 </div>
                 <p>Y si ya se te venció:</p>
                 <div class="official-quote">
-                    "La fecha limite para vincular tu linea ha vencido y sera suspendida en las proximas 72 horas. Vincula tu linea en [enlace]"
+                    "La fecha limite para vincular tu linea ha vencido y sera suspendida en las proximas 72 horas.
+                    Vincula tu linea en [enlace]"
                 </div>
                 <p>Si te llega algo distinto, desconfía.</p>
             </div>
 
             <div class="qa-card">
                 <h3>41. ¿Entonces sí le doy clic?</h3>
-                <p>Mejor no, aunque se vea bien. Es más seguro que tú escribas la dirección de tu compañía o entres desde su app, porque así no hay manera de que te equivoques.</p>
+                <p>Mejor no, aunque se vea bien. Es más seguro que tú escribas la dirección de tu compañía o entres
+                    desde su app, porque así no hay manera de que te equivoques.</p>
             </div>
 
             <div class="qa-card">
@@ -939,12 +1083,15 @@
 
             <div class="qa-card">
                 <h3>45. ¿Por qué es riesgoso que el banco me mande códigos por mensaje?</h3>
-                <p>Porque si alguien logra clonar tu chip, esos códigos le llegan a esa persona y con eso entra a tu cuenta. Se llama SIM swapping y pasa más de lo que alguien querería.</p>
+                <p>Porque si alguien logra clonar tu chip, esos códigos le llegan a esa persona y con eso entra a tu
+                    cuenta. Se llama SIM swapping y pasa más de lo que alguien querería.</p>
             </div>
 
             <div class="qa-card">
                 <h3>46. ¿Qué hago hoy?</h3>
-                <p>Dos cosas. Revisa qué día te toca según tu último dígito y resuelve tus asuntos. Y aparte, métete a tu banco y a tus redes y cambia la verificación por mensaje a una app de códigos o a un correo de respaldo, para que el día que te quedes sin línea no pierdas tus cuentas.</p>
+                <p>Dos cosas. Revisa qué día te toca según tu último dígito y resuelve tus asuntos. Y aparte, métete a
+                    tu banco y a tus redes y cambia la verificación por mensaje a una app de códigos o a un correo de
+                    respaldo, para que el día que te quedes sin línea no pierdas tus cuentas.</p>
             </div>
 
             <p style="text-align: center; font-style: italic; color: rgba(45, 57, 36, 0.7); margin: 1.5rem 0 2.5rem;">
@@ -959,10 +1106,21 @@
 
             <div class="qa-card opinion-card">
                 <p><strong>No estoy de acuerdo con este registro,</strong> porque no hay pruebas de que sirva.</p>
-                <p>México ya lo intentó dos veces. En 2009 fue el RENAUT y terminó con la base filtrada y vendida en el mercado negro, sin que la extorsión bajara. En 2021 fue el PANAUT y la Corte lo considero como inconstitucional porque nadie demostró que hiciera falta.</p>
-                <p>Este es el tercer intento y el argumento sigue sin tener fundamentos. La asociación mundial de operadores móviles ha dicho que no hay evidencia de que estos registros reduzcan delitos, y se calcula que como el 90% de las extorsiones telefónicas se hacen por internet, o sea por donde el registro ni llega.</p>
-                <p>Entregar los datos de identidad de todo un país a cambio de algo que nadie ha comprobado se me hace de más.</p>
-                <p>Aparte hay dos cosas que me inquietan. Una, que la regla prohíbe guardar tu selfie y tu identificación, lo cual está bien, pero en enero el portal de una de las operadoras más grandes dejó expuestos datos personales de cualquiera que tecleara un número, así que una cosa es lo que manda la norma y otra cómo se ejecuta. Y dos, que el INAI, que fue quien demandó al PANAUT en su momento, se extinguió en marzo de 2025 y sus funciones se fueron a oficinas que dependen del Ejecutivo, o sea que quien vigila tus datos ya no es un órgano autónomo.</p>
+                <p>México ya lo intentó dos veces. En 2009 fue el RENAUT y terminó con la base filtrada y vendida en el
+                    mercado negro, sin que la extorsión bajara. En 2021 fue el PANAUT y la Corte lo considero como
+                    inconstitucional porque nadie demostró que hiciera falta.</p>
+                <p>Este es el tercer intento y el argumento sigue sin tener fundamentos. La asociación mundial de
+                    operadores móviles ha dicho que no hay evidencia de que estos registros reduzcan delitos, y se
+                    calcula que como el 90% de las extorsiones telefónicas se hacen por internet, o sea por donde el
+                    registro ni llega.</p>
+                <p>Entregar los datos de identidad de todo un país a cambio de algo que nadie ha comprobado se me hace
+                    de más.</p>
+                <p>Aparte hay dos cosas que me inquietan. Una, que la regla prohíbe guardar tu selfie y tu
+                    identificación, lo cual está bien, pero en enero el portal de una de las operadoras más grandes dejó
+                    expuestos datos personales de cualquiera que tecleara un número, así que una cosa es lo que manda la
+                    norma y otra cómo se ejecuta. Y dos, que el INAI, que fue quien demandó al PANAUT en su momento, se
+                    extinguió en marzo de 2025 y sus funciones se fueron a oficinas que dependen del Ejecutivo, o sea
+                    que quien vigila tus datos ya no es un órgano autónomo.</p>
             </div>
 
             <!-- SI QUIERES PROTEGER TUS CUENTAS -->
@@ -972,12 +1130,16 @@
             </div>
 
             <div class="qa-card">
-                <p>Te registres o no, hay un riesgo que va por separado: si tu número es la llave de tu banco y de tus redes, el día que lo pierdas, pierdes el acceso a todo. Eso ya pasaba desde antes de esta regla.</p>
+                <p>Te registres o no, hay un riesgo que va por separado: si tu número es la llave de tu banco y de tus
+                    redes, el día que lo pierdas, pierdes el acceso a todo. Eso ya pasaba desde antes de esta regla.</p>
                 <p style="margin-top: 0.75rem;">En eso te puedo ayudar:</p>
                 <ul class="service-list">
-                    <li><strong>Diagnóstico gratis.</strong> Reviso cuáles de tus aplicaciones dependen del SMS y qué cuentas perderías si te quedas sin línea.</li>
-                    <li><strong>Guías de protección.</strong> Paso a paso para configurar apps de códigos y respaldos, si prefieres hacerlo tú.</li>
-                    <li><strong>Asesoría 1 a 1.</strong> Te ayudo a tener tus cuentas listas, incluyendo qué hacer si pierdes el teléfono.</li>
+                    <li><strong>Diagnóstico gratis.</strong> Reviso cuáles de tus aplicaciones dependen del SMS y qué
+                        cuentas perderías si te quedas sin línea.</li>
+                    <li><strong>Guías de protección.</strong> Paso a paso para configurar apps de códigos y respaldos,
+                        si prefieres hacerlo tú.</li>
+                    <li><strong>Asesoría 1 a 1.</strong> Te ayudo a tener tus cuentas listas, incluyendo qué hacer si
+                        pierdes el teléfono.</li>
                 </ul>
             </div>
 
@@ -991,15 +1153,20 @@
                 <div class="link-list">
                     <div class="link-item">
                         <strong>Para registrarte</strong>
-                        <a href="https://registratulinea.crt.gob.mx/" target="_blank">https://registratulinea.crt.gob.mx/</a>
+                        <a href="https://registratulinea.crt.gob.mx/"
+                            target="_blank">https://registratulinea.crt.gob.mx/</a>
                     </div>
                     <div class="link-item">
-                        <strong>Las reglas vigentes.</strong> Acuerdo P/CRT/EXT/08122025/144, publicado el 9 de diciembre de 2025. Es el que manda hoy.
-                        <a href="https://dof.gob.mx/nota_detalle_popup.php?codigo=5775677" target="_blank">https://dof.gob.mx/nota_detalle_popup.php?codigo=5775677</a>
+                        <strong>Las reglas vigentes.</strong> Acuerdo P/CRT/EXT/08122025/144, publicado el 9 de
+                        diciembre de 2025. Es el que manda hoy.
+                        <a href="https://dof.gob.mx/nota_detalle_popup.php?codigo=5775677"
+                            target="_blank">https://dof.gob.mx/nota_detalle_popup.php?codigo=5775677</a>
                     </div>
                     <div class="link-item">
-                        <strong>El calendario por dígito.</strong> Acuerdo P/CRT/EXT/25062026/084, publicado el 30 de junio de 2026 en la edición vespertina. Es el que cambió las fechas.
-                        <a href="https://www.dof.gob.mx/nota_to_pdf.php?fecha=30/06/2026&edicion=VES" target="_blank">https://www.dof.gob.mx/nota_to_pdf.php?fecha=30/06/2026&edicion=VES</a>
+                        <strong>El calendario por dígito.</strong> Acuerdo P/CRT/EXT/25062026/084, publicado el 30 de
+                        junio de 2026 en la edición vespertina. Es el que cambió las fechas.
+                        <a href="https://www.dof.gob.mx/nota_to_pdf.php?fecha=30/06/2026&edicion=VES"
+                            target="_blank">https://www.dof.gob.mx/nota_to_pdf.php?fecha=30/06/2026&edicion=VES</a>
                     </div>
                 </div>
             </div>
@@ -1007,21 +1174,33 @@
 
         <div class="cta-banner">
             <h2>¿Quieres saber qué tan vulnerables son tus cuentas?</h2>
-            <p>Realiza tu Autodiagnóstico Gratuito y descubre cuántas de tus aplicaciones bancarias y redes dependen del SMS.</p>
+            <p>Realiza tu Autodiagnóstico Gratuito y descubre cuántas de tus aplicaciones bancarias y redes dependen del
+                SMS.</p>
             <div class="cta-buttons">
                 <a href="https://jeankrrillo.github.io/autodiagnostico-digital/" class="btn-cta-primary">
                     <i class="ph ph-shield-check"></i> Ir al autodiagnóstico
                 </a>
-                <a href="https://wa.me/524424820977?text=Hola,%20quisiera%20asesor%C3%ADa%20sobre%20el%20registro%20de%20l%C3%ADneas" target="_blank" class="btn-cta-secondary">
+                <a href="https://wa.me/524424820977?text=Hola,%20quisiera%20asesor%C3%ADa%20sobre%20el%20registro%20de%20l%C3%ADneas"
+                    target="_blank" class="btn-cta-secondary">
                     <i class="ph ph-whatsapp-logo"></i> Asesoría Personalizada
                 </a>
             </div>
         </div>
 
         <div class="footer-disclaimer">
-            *Esto es informativo, no es asesoría legal. Las fechas y las reglas pueden cambiar, así que si lo lees mucho después revisa la página de la CRT.*
+            *Esto es informativo, no es asesoría legal. Las fechas y las reglas pueden cambiar, así que si lo lees mucho
+            después revisa la página de la CRT.*
         </div>
     </main>
+
+    <!-- Firma de marca: cierre del documento, viaja en la impresi&oacute;n -->
+    <footer class="jk-signature">
+        <span class="jk-mark" aria-hidden="true"></span>
+        <span class="jk-signature-text">
+            <span class="jk-signature-name">jean.krrillo</span>
+            <span class="jk-signature-role">Seguridad digital para personas</span>
+        </span>
+    </footer>
 
     <a href="https://jeankrrillo.github.io/autodiagnostico-digital/" class="floating-fab" title="Ir al autodiagnóstico">
         <i class="ph ph-shield-check"></i>
@@ -1058,4 +1237,5 @@
         }
     </script>
 </body>
+
 </html>
