@@ -1,0 +1,2750 @@
+/* ============================================================
+   SERVICIOS — portada de marca.
+   Depende de tokens.css (paleta) y brand.css (.jk-mark, firma).
+
+   IDIOMA VISUAL
+   Los dos trazos del logo comparten una pendiente de ~58°. Ese
+   ángulo se reutiliza en toda la página: biseles de esquina,
+   cortes entre secciones y acentos. Así las formas no son un
+   adorno arbitrario, son la marca repetida a otra escala.
+   ============================================================ */
+
+:root {
+    /* Bisel derivado del logo: 22px horizontales por 35px verticales
+       ≈ 58°, la misma pendiente de los trazos del monograma. */
+    --bisel: 22px;
+    --bisel-v: 35px;
+
+    /* Cursores adaptativos — variante oscura para fondos claros */
+    --cursor-default: url('../logos/cursorflecha_dark.svg') 16 16, auto;
+    --cursor-pointer: url('../logos/cursordedo_dark.svg') 16 16, pointer;
+    --cursor-text: url('../logos/cursortexto_dark.svg') 16 16, text;
+}
+
+html, body {
+    cursor: var(--cursor-default);
+}
+
+/* Cursores claros para fondos oscuros — se activa vía JS con body.is-over-dark.
+   Se redefinen las variables Y se aplica cursor directamente en todos los selectores
+   para garantizar que Chromium los actualice sin necesidad de repaint. */
+body.is-over-dark,
+body.is-over-dark html {
+    --cursor-default: url('../logos/cursorflecha_light.svg') 16 16, auto;
+    --cursor-pointer: url('../logos/cursordedo_light.svg') 16 16, pointer;
+    --cursor-text: url('../logos/cursortexto_light.svg') 16 16, text;
+    cursor: url('../logos/cursorflecha_light.svg') 16 16, auto !important;
+}
+body.is-over-dark p,
+body.is-over-dark h1, body.is-over-dark h2, body.is-over-dark h3,
+body.is-over-dark h4, body.is-over-dark h5, body.is-over-dark h6,
+body.is-over-dark input[type="text"], body.is-over-dark input[type="search"],
+body.is-over-dark input[type="email"], body.is-over-dark textarea,
+body.is-over-dark .finder-query, body.is-over-dark code, body.is-over-dark pre {
+    cursor: url('../logos/cursortexto_light.svg') 16 16, text !important;
+}
+body.is-over-dark a, body.is-over-dark button,
+body.is-over-dark [role="button"], body.is-over-dark input[type="submit"],
+body.is-over-dark input[type="button"], body.is-over-dark select,
+body.is-over-dark summary, body.is-over-dark .chip, body.is-over-dark .platform-item,
+body.is-over-dark .fab, body.is-over-dark .solution, body.is-over-dark .btn,
+body.is-over-dark .link-reset, body.is-over-dark .tag, body.is-over-dark [tabindex="0"],
+body.is-over-dark a *, body.is-over-dark button *, body.is-over-dark [role="button"] *,
+body.is-over-dark .chip *, body.is-over-dark .platform-item *, body.is-over-dark .fab *,
+body.is-over-dark .solution *, body.is-over-dark .btn * {
+    cursor: url('../logos/cursordedo_light.svg') 16 16, pointer !important;
+}
+
+/* Cursor de texto para tipografía y campos */
+p, h1, h2, h3, h4, h5, h6, input[type="text"], input[type="search"], input[type="email"], textarea, .finder-query, code, pre {
+    cursor: var(--cursor-text);
+}
+
+/* Cursor de dedo (pointer) para todos los elementos interactivos */
+a, button, [role="button"], input[type="submit"], input[type="button"], select, summary, .chip, .platform-item, .fab, .solution, .btn, .link-reset, .tag, [tabindex="0"],
+a *, button *, [role="button"] *, .chip *, .platform-item *, .fab *, .solution *, .btn * {
+    cursor: var(--cursor-pointer);
+}
+
+body {
+    /* Base crema con dos halos de la paleta: el fondo deja de ser
+       un plano liso sin introducir ningún color ajeno. */
+    background-color: var(--crema-fondo);
+    background-image:
+        radial-gradient(ellipse 60% 45% at 88% 12%, rgba(232, 180, 91, .13), transparent 70%),
+        radial-gradient(ellipse 55% 40% at 4% 62%, rgba(90, 107, 78, .1), transparent 68%);
+    background-attachment: fixed;
+    color: var(--verde-forense);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.wrap {
+    width: 100%;
+    max-width: 1060px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+}
+
+/* ===================== HERO ===================== */
+.hero {
+    position: relative;
+    isolation: isolate;
+    background: linear-gradient(155deg, var(--verde-forense) 0%, var(--verde-oscuro) 100%);
+    color: #fff;
+    padding-block: 4rem 6.5rem;
+    /* Borde inferior diagonal ascendente: el bloque no termina en
+       una línea recta sino con el gesto del logo. */
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4.5vw), 0 100%);
+    margin-bottom: -1px;
+}
+
+/* Trama de puntos que se desplaza muy lento: el fondo nunca está
+   del todo quieto, pero el movimiento es tan lento que no distrae. */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: -30px;
+    background-image: radial-gradient(rgba(232, 180, 91, .16) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(200deg, #000 0%, transparent 62%);
+    -webkit-mask-image: linear-gradient(200deg, #000 0%, transparent 62%);
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 34s linear infinite;
+}
+
+@keyframes drift {
+    to {
+        background-position: 22px 22px;
+    }
+}
+
+/* Aurora: dos halos de la paleta que se mueven despacio bajo el
+   contenido. Da la sensación de que el fondo respira. */
+.hero-aurora {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-aurora span {
+    position: absolute;
+    width: 46rem;
+    height: 46rem;
+    border-radius: 50%;
+    filter: blur(70px);
+    /* .15 y no más: al 30% el halo dorado hunde el texto dorado del
+       hero a 3.47:1. Con este valor se mantiene en 4.78:1 y el
+       movimiento del fondo sigue siendo perceptible. */
+    opacity: .15;
+}
+
+.hero-aurora span:nth-child(1) {
+    background: radial-gradient(circle, var(--dorado-premium), transparent 62%);
+    top: -22rem;
+    left: -12rem;
+    animation: float-a 19s ease-in-out infinite;
+}
+
+.hero-aurora span:nth-child(2) {
+    background: radial-gradient(circle, var(--verde-mutated), transparent 62%);
+    bottom: -26rem;
+    right: -8rem;
+    animation: float-b 23s ease-in-out infinite;
+}
+
+@keyframes float-a {
+
+    0%,
+    100% {
+        translate: 0 0;
+        scale: 1;
+    }
+
+    50% {
+        translate: 5rem 3rem;
+        scale: 1.15;
+    }
+}
+
+@keyframes float-b {
+
+    0%,
+    100% {
+        translate: 0 0;
+        scale: 1.1;
+    }
+
+    50% {
+        translate: -4rem -3rem;
+        scale: 1;
+    }
+}
+
+/* Marca de agua gigante, recortada por el propio hero */
+.hero::after {
+    content: '';
+    position: absolute;
+    right: -8rem;
+    top: 46%;
+    translate: 0 -50%;
+    width: 460px;
+    height: 460px;
+    background-color: var(--dorado-premium);
+    mask: var(--jk-mark) center / contain no-repeat;
+    -webkit-mask: var(--jk-mark) center / contain no-repeat;
+    opacity: .09;
+    rotate: -8deg;
+    pointer-events: none;
+    z-index: 0;
+    /* La marca respira: escala y giro mínimos, ciclo largo. Es
+       movimiento periférico, nunca compite con la lectura. */
+    animation: mark-breathe 14s ease-in-out infinite;
+}
+
+/* Este keyframe evita `translate` a propósito: esa propiedad la usa
+   el parallax del ratón sobre la misma capa. */
+@keyframes mark-breathe {
+
+    0%,
+    100% {
+        rotate: -8deg;
+        scale: 1;
+        opacity: .09;
+    }
+
+    50% {
+        rotate: -4deg;
+        scale: 1.06;
+        opacity: .13;
+    }
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+}
+
+.hero-text {
+    max-width: 34rem;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: 1.15rem;
+    padding: .4rem .9rem .4rem .55rem;
+    border: 1px solid rgba(232, 180, 91, .38);
+    background: rgba(232, 180, 91, .12);
+    color: var(--dorado-premium);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    /* Píldora biselada en un extremo: rompe la cápsula perfecta */
+    clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+    padding-right: 1.4rem;
+}
+
+.hero-eyebrow .jk-mark {
+    width: 1.15rem;
+    height: 1.15rem;
+    animation: sign-sway 6s ease-in-out infinite;
+}
+
+@keyframes badge-glow {
+
+    0%,
+    100% {
+        border-color: rgba(232, 180, 91, .38);
+        background-color: rgba(232, 180, 91, .12);
+    }
+
+    50% {
+        border-color: rgba(232, 180, 91, .75);
+        background-color: rgba(232, 180, 91, .2);
+    }
+}
+
+.hero h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.1rem, 5.4vw, 3.4rem);
+    letter-spacing: -.035em;
+    line-height: 1.04;
+    color: #fff;
+    margin: 0 0 1rem;
+}
+
+/* La palabra clave se subraya con un trazo diagonal, no con color plano */
+.hero h1 em {
+    position: relative;
+    font-style: normal;
+    white-space: nowrap;
+    /* Un reflejo recorre la palabra clave: el degradado se pinta
+       sobre el texto y se desplaza. El color de reserva queda
+       definido antes por si el recorte no está soportado. */
+    color: var(--dorado-premium);
+    background: linear-gradient(100deg,
+            var(--dorado-premium) 0%,
+            var(--dorado-premium) 38%,
+            #fff6e2 50%,
+            var(--dorado-premium) 62%,
+            var(--dorado-premium) 100%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: title-shine 5.5s ease-in-out infinite;
+}
+
+/* Sólo se vuelve transparente donde el recorte funciona: si no, el
+   texto conserva su color sólido. */
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+    .hero h1 em {
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+@keyframes title-shine {
+
+    0%,
+    100% {
+        background-position: 130% 0;
+    }
+
+    50% {
+        background-position: -30% 0;
+    }
+}
+
+.hero h1 em::after {
+    content: '';
+    position: absolute;
+    left: -.05em;
+    right: -.05em;
+    bottom: .04em;
+    height: .16em;
+    background: linear-gradient(100deg, var(--dorado-premium), rgba(232, 180, 91, .25));
+    clip-path: polygon(0 42%, 100% 0, 100% 62%, 0 100%);
+}
+
+/* Entrada al cargar la página: los tres bloques del hero aparecen
+   escalonados. Se usa 'both' para que el estado final persista. */
+@media (prefers-reduced-motion: no-preference) {
+
+    .hero-eyebrow,
+    .hero h1,
+    .hero-lead,
+    .hero-contact {
+        animation: hero-in .8s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    /* El distintivo encadena su entrada con un latido del borde.
+       Va aquí y no en su bloque base porque esta regla es más
+       específica y sobrescribiría una declaración anterior. */
+    .hero-eyebrow {
+        animation:
+            hero-in .8s cubic-bezier(.22, 1, .36, 1) both,
+            badge-glow 4.5s ease-in-out .8s infinite;
+    }
+
+    .hero h1 {
+        animation-delay: .08s;
+    }
+
+    .hero-lead {
+        animation-delay: .16s;
+    }
+
+    .hero-contact {
+        animation-delay: .24s;
+    }
+}
+
+@keyframes hero-in {
+    from {
+        opacity: 0;
+        translate: 0 18px;
+    }
+
+    to {
+        opacity: 1;
+        translate: none;
+    }
+}
+
+/* El trazo diagonal bajo la palabra clave se dibuja solo */
+@media (prefers-reduced-motion: no-preference) {
+    .hero h1 em::after {
+        transform-origin: left center;
+        animation: draw-stroke .7s cubic-bezier(.22, 1, .36, 1) .55s both;
+    }
+}
+
+@keyframes draw-stroke {
+    from {
+        scale: 0 1;
+    }
+
+    to {
+        scale: 1 1;
+    }
+}
+
+.hero-lead {
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, .84);
+    margin: 0;
+    max-width: 30rem;
+}
+
+/* Tarjeta de contacto: esquina superior derecha biselada */
+.hero-contact {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    padding: 1.5rem;
+    min-width: 15.5rem;
+    border: 1px solid rgba(255, 255, 255, .16);
+    background: rgba(255, 255, 255, .07);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    clip-path: polygon(0 0,
+            calc(100% - var(--bisel)) 0,
+            100% var(--bisel-v),
+            100% 100%,
+            0 100%);
+}
+
+.contact-line {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: .95rem;
+    letter-spacing: .02em;
+    color: var(--dorado-premium);
+    text-decoration: none;
+}
+
+.contact-line i {
+    font-size: 1.05rem;
+    opacity: .85;
+}
+
+/* ===================== BOTONES ===================== */
+.btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    padding: .85rem 1.5rem;
+    border: 1px solid transparent;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: .95rem;
+    text-decoration: none;
+    cursor: var(--cursor-pointer);
+    /* Esquina inferior derecha cortada: mismo gesto que las tarjetas */
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%);
+    transition: background-color .2s ease, transform .2s ease, filter .2s ease;
+}
+
+.btn {
+    overflow: hidden;
+}
+
+/* Destello diagonal que cruza el botón al pasar el ratón */
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg,
+            transparent 35%,
+            rgba(255, 255, 255, .45) 50%,
+            transparent 65%);
+    translate: -140% 0;
+    pointer-events: none;
+}
+
+.btn:hover::after {
+    animation: sheen .65s ease-out;
+}
+
+@keyframes sheen {
+    to {
+        translate: 140% 0;
+    }
+}
+
+.btn-gold {
+    background-color: var(--dorado-premium);
+    color: var(--verde-forense);
+    filter: drop-shadow(0 5px 12px rgba(232, 180, 91, .34));
+}
+
+.btn-gold:hover {
+    background-color: #d8a932;
+    transform: translateY(-2px);
+    filter: drop-shadow(0 8px 18px rgba(232, 180, 91, .45));
+}
+
+.btn-ghost {
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .28);
+    color: #fff;
+}
+
+.btn-ghost:hover {
+    background-color: rgba(255, 255, 255, .2);
+    transform: translateY(-2px);
+}
+
+/* ===================== SECCIONES ===================== */
+main {
+    position: relative;
+    padding-block: 1rem 4rem;
+}
+
+.section-head {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    margin: 0 0 1.6rem;
+}
+
+/* Acento diagonal en vez de barra recta */
+.section-head::before {
+    content: '';
+    width: 8px;
+    height: 2.1rem;
+    background-color: var(--dorado-premium);
+    flex-shrink: 0;
+    clip-path: polygon(38% 0, 100% 0, 62% 100%, 0 100%);
+}
+
+.section-head h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+    letter-spacing: -.025em;
+    color: var(--verde-forense);
+    margin: 0;
+}
+
+.section-head p {
+    margin: .15rem 0 0;
+    font-size: .9rem;
+    color: var(--texto-2);
+}
+
+.section-head-text {
+    min-width: 0;
+}
+
+/* ===================== SERVICIO DESTACADO ===================== */
+/* El autodiagnóstico es la puerta de entrada gratuita: se eleva
+   sobre el corte del hero, montándose entre las dos zonas. */
+.featured {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: -3.5rem;
+    margin-bottom: 3.5rem;
+    /* El bisel de 34x54 corta la esquina: el padding lo absorbe
+       para que ninguna línea de texto quede mordida. */
+    padding: 2.5rem 2.4rem;
+    background: linear-gradient(125deg, var(--crema-tarjeta) 0%, #fff 55%, rgba(232, 180, 91, .12) 100%);
+    filter: drop-shadow(0 14px 26px rgba(45, 57, 36, .18));
+    clip-path: polygon(0 0,
+            calc(100% - 34px) 0,
+            100% 54px,
+            100% 100%,
+            34px 100%,
+            0 calc(100% - 54px));
+}
+
+/* Filo dorado sobre el bisel superior derecho */
+/* Filo izquierdo con luz que lo recorre de arriba abajo: el bloque
+   se lee como "encendido", no como un borde pintado. */
+.featured::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    z-index: 2;
+    background: linear-gradient(180deg,
+            var(--dorado-oscuro) 0%,
+            var(--dorado-premium) 25%,
+            #fff5e0 40%,
+            var(--dorado-premium) 55%,
+            var(--dorado-oscuro) 100%);
+    background-size: 100% 260%;
+    animation: edge-run 4.5s ease-in-out infinite;
+}
+
+@keyframes edge-run {
+
+    0%,
+    100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 0 100%;
+    }
+}
+
+.featured-body {
+    flex: 1 1 20rem;
+    min-width: 0;
+}
+
+.featured-tag {
+    display: inline-block;
+    margin-bottom: .8rem;
+    padding: .3rem .9rem .3rem .7rem;
+    background-color: var(--verde-forense);
+    color: var(--dorado-premium);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
+.featured h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.4rem, 2.7vw, 1.85rem);
+    letter-spacing: -.025em;
+    line-height: 1.12;
+    color: var(--verde-forense);
+    margin: 0 0 .6rem;
+}
+
+.featured p {
+    font-size: .97rem;
+    line-height: 1.65;
+    color: var(--texto-2);
+    margin: 0 0 1.3rem;
+}
+
+.featured .btn {
+    background-color: var(--verde-forense);
+    color: var(--dorado-premium);
+    /* Latido lento: señala dónde hay que pulsar sin parpadear de
+       forma molesta. Se detiene al acercar el puntero. */
+    animation: cta-beat 3.4s ease-in-out infinite;
+}
+
+.featured .btn:hover {
+    animation-play-state: paused;
+}
+
+@keyframes cta-beat {
+
+    0%,
+    100% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.028;
+    }
+}
+
+/* La flecha del botón empuja hacia delante en bucle */
+.featured .btn i {
+    animation: nudge 2.2s ease-in-out infinite;
+}
+
+@keyframes nudge {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 3px 0;
+    }
+}
+
+.featured .btn:hover {
+    background-color: var(--verde-oscuro);
+    transform: translateY(-2px);
+}
+
+/* Gauge: cita visual del medidor de riesgo del autodiagnóstico */
+.featured-gauge {
+    position: relative;
+    width: 128px;
+    height: 128px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+}
+
+/* El relleno del arco es una propiedad animable propia: @property
+   permite interpolar el porcentaje del conic-gradient, que de otro
+   modo saltaría de golpe. */
+@property --gauge {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+
+.featured-gauge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    /* Sin animación el arco ya se ve relleno al 62%: ese es el
+       estado por defecto, no el vacío. */
+    background: conic-gradient(var(--dorado-premium) var(--gauge, 62%), rgba(45, 57, 36, .1) 0);
+    mask: radial-gradient(farthest-side, transparent 67%, #000 69%);
+    -webkit-mask: radial-gradient(farthest-side, transparent 67%, #000 69%);
+}
+
+/* El relleno solo se anima donde hay línea de tiempo de scroll Y
+   @property para interpolar el porcentaje. Sin ambas cosas el arco
+   se queda en su 62% fijo, que es el resultado correcto. */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .featured-gauge::before {
+            animation: gauge-fill 1.6s cubic-bezier(.22, 1, .36, 1) both;
+            animation-timeline: view();
+            animation-range: entry 10% entry 65%;
+        }
+    }
+}
+
+@keyframes gauge-fill {
+    from {
+        --gauge: 0%;
+    }
+
+    to {
+        --gauge: 62%;
+    }
+}
+
+/* Chispa que recorre el arco: da sensación de "midiendo" */
+.featured-gauge .spark {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+            transparent 0%,
+            rgba(232, 180, 91, .55) 7%,
+            transparent 16%);
+    mask: radial-gradient(farthest-side, transparent 67%, #000 69%);
+    -webkit-mask: radial-gradient(farthest-side, transparent 67%, #000 69%);
+    animation: spin 4.5s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes spin {
+    to {
+        rotate: 360deg;
+    }
+}
+
+/* Arco exterior punteado: da profundidad al anillo */
+.featured-gauge::after {
+    content: '';
+    position: absolute;
+    inset: -9px;
+    border-radius: 50%;
+    border: 1px dashed rgba(45, 57, 36, .22);
+    /* Gira al revés que la chispa: dos velocidades opuestas dan
+       sensación de mecanismo, no de simple adorno girando. */
+    animation: spin 26s linear infinite reverse;
+}
+
+.featured-gauge .jk-mark {
+    width: 48px;
+    height: 48px;
+    color: var(--verde-forense);
+    /* La marca oscila dentro del medidor: el conjunto se lee como
+       un instrumento en funcionamiento, no como un icono quieto. */
+    animation: mark-orbit 7s ease-in-out infinite;
+}
+
+@keyframes mark-orbit {
+
+    0%,
+    100% {
+        rotate: -7deg;
+        scale: 1;
+    }
+
+    50% {
+        rotate: 7deg;
+        scale: 1.07;
+    }
+}
+
+/* Al pasar el ratón por la tarjeta, la marca da una vuelta completa */
+.featured:hover .featured-gauge .jk-mark {
+    animation: mark-spin 1.1s cubic-bezier(.34, 1.3, .64, 1);
+}
+
+@keyframes mark-spin {
+    from {
+        rotate: 0deg;
+    }
+
+    to {
+        rotate: 360deg;
+    }
+}
+
+/* ===================== BANDA DE CIFRAS =====================
+   Tira de datos entre el destacado y la rejilla. Rompe el ritmo de
+   tarjetas y da autoridad antes de enumerar servicios. */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 1px;
+    margin-bottom: 3rem;
+    background-color: var(--borde-cristal);
+    border: 1px solid var(--borde-cristal);
+    clip-path: polygon(0 0,
+            calc(100% - 26px) 0,
+            100% 40px,
+            100% 100%,
+            26px 100%,
+            0 calc(100% - 40px));
+}
+
+.stat {
+    position: relative;
+    padding: 1.5rem 1.1rem;
+    text-align: center;
+    background-image: linear-gradient(150deg, #fff 0%, var(--crema-tarjeta) 100%);
+    transition: background-image .25s ease;
+}
+
+.stat:hover {
+    background-image: linear-gradient(150deg, #fff 0%, rgba(232, 180, 91, .16) 100%);
+}
+
+.stat-num {
+    display: block;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    line-height: 1;
+    letter-spacing: -.03em;
+    color: var(--verde-forense);
+}
+
+.stat-num i {
+    font-size: .8em;
+    animation: flicker 3.2s ease-in-out infinite;
+    /* Verde forense: sobre el fondo dorado del hover el dorado
+       oscuro cae a 2.9:1, el verde se mantiene en 10.5:1. */
+    color: var(--verde-forense);
+}
+
+.stat-label {
+    display: block;
+    margin-top: .45rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: .64rem;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--texto-2);
+}
+
+/* ===================== BUSCADOR POR SÍNTOMA =====================
+   La rejilla de tarjetas obligaba a leer 20 servicios para saber si
+   el tuyo estaba. Aquí se invierte: primero eliges qué te pasa, en
+   lenguaje de quien tiene el problema, y la lista se reduce a lo
+   que aplica. Filtrar es más rápido que escanear. */
+.finder {
+    margin-bottom: 1.5rem;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .55rem;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .6rem 1rem;
+    border: 1px solid var(--borde-cristal);
+    background-image: linear-gradient(150deg, #fff, var(--crema-tarjeta));
+    color: var(--texto-2);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: .85rem;
+    cursor: var(--cursor-pointer);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
+    transition: color .18s ease, background-image .18s ease, translate .18s ease;
+}
+
+.chip i {
+    font-size: 1.05rem;
+    color: var(--dorado-oscuro);
+    transition: color .18s ease;
+}
+
+.chip:hover {
+    scale: 1.05;
+    color: var(--verde-forense);
+}
+
+/* Estado activo: invierte a verde para que se lea de un vistazo
+   cuál filtro está puesto. */
+.chip.is-on {
+    background-image: linear-gradient(150deg, var(--verde-forense), var(--verde-oscuro));
+    border-color: var(--verde-forense);
+    color: #fff;
+}
+
+.chip.is-on i {
+    color: var(--dorado-premium);
+    animation: chip-spin .45s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* El icono da media vuelta al activarse: confirma la elección */
+@keyframes chip-spin {
+    from {
+        rotate: -180deg;
+        scale: .5;
+    }
+
+    to {
+        rotate: 0deg;
+        scale: 1;
+    }
+}
+
+/* Destello que recorre el chip al encenderse */
+.chip {
+    position: relative;
+    overflow: hidden;
+}
+
+.chip.is-on::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg,
+            transparent 35%,
+            rgba(232, 180, 91, .5) 50%,
+            transparent 65%);
+    animation: sheen .6s ease-out;
+    pointer-events: none;
+}
+
+.chip:focus-visible {
+    outline: 2px solid var(--dorado-oscuro);
+    outline-offset: 2px;
+}
+
+.finder-count {
+    margin: .9rem 0 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--texto-2);
+}
+
+.finder-count strong {
+    color: var(--verde-forense);
+    font-size: 1.05rem;
+}
+
+/* ---------- ATENUAR LO NO ELEGIDO ----------
+   Con un filtro puesto, los chips sin marcar bajan de intensidad.
+   La vista se queda donde está la decisión activa, en vez de
+   repartirse entre diez opciones con el mismo peso. */
+.has-filter .chip:not(.is-on) {
+    opacity: .5;
+}
+
+.has-filter .chip:not(.is-on):hover,
+.has-filter .chip:not(.is-on):focus-visible {
+    opacity: 1;
+}
+
+/* Respuesta física al tacto: el chip se hunde al pulsarlo */
+.chip:active {
+    scale: .95;
+}
+
+/* ---------- SUGERENCIA DEL SIGUIENTE PASO ---------- */
+.finder-next {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-top: .9rem;
+    padding-top: .9rem;
+    border-top: 1px dashed var(--borde-cristal);
+    animation: slip-in .35s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.finder-next[hidden] {
+    display: none;
+}
+
+.finder-next-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: .66rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--texto-2);
+}
+
+.finder-next-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+}
+
+.chip-sm {
+    padding: .38rem .7rem;
+    font-size: .78rem;
+}
+
+.chip-sm i {
+    font-size: .95rem;
+}
+
+@keyframes slip-in {
+    from {
+        opacity: 0;
+        translate: 0 -6px;
+    }
+
+    to {
+        opacity: 1;
+        translate: none;
+    }
+}
+
+/* ---------- LISTA DE SOLUCIONES ----------
+   Una línea por servicio: se escanea vertical y rápido, en vez de
+   obligar a leer bloques de texto dentro de seis tarjetas. */
+.solutions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: .7rem;
+}
+
+.solution {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    padding: .9rem 1rem;
+    background-image: linear-gradient(150deg, #fff 0%, var(--crema-tarjeta) 70%, rgba(232, 180, 91, .09) 100%);
+    border: 1px solid var(--borde-cristal);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+    transition: translate .18s ease, border-color .18s ease, filter .18s ease;
+}
+
+.solution:hover {
+    translate: 4px 0;
+    border-color: var(--risk-border);
+    filter: drop-shadow(0 6px 12px rgba(45, 57, 36, .1));
+}
+
+/* Oculta por filtro. Se usa un atributo y no una clase para que el
+   estado sea inspeccionable desde el HTML. */
+.solution[hidden] {
+    display: none;
+}
+
+/* Sólo las filas nuevas se animan: las que ya estaban no repiten
+   entrada, así el movimiento señala exactamente qué ha cambiado.
+   --i lo fija el JS y escalona la cascada. */
+.solution.is-entering {
+    animation: row-in .42s cubic-bezier(.22, 1, .36, 1) both;
+    animation-delay: calc(var(--i, 0) * 38ms);
+}
+
+@keyframes row-in {
+    from {
+        opacity: 0;
+        translate: -14px 0;
+        scale: .97;
+    }
+
+    to {
+        opacity: 1;
+        translate: none;
+        scale: 1;
+    }
+}
+
+/* Respuesta al tacto en la fila completa */
+.solution:active {
+    scale: .99;
+}
+
+/* ---------- BRILLO QUE SIGUE AL CURSOR ----------
+   Una luz suave se coloca donde está el puntero dentro de la fila.
+   Las coordenadas las fija el JS en --mx/--my. Es el detalle que
+   hace que el elemento parezca reaccionar al gesto, no al hover. */
+.solution::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(18rem circle at var(--mx, 50%) var(--my, 50%),
+            rgba(232, 180, 91, .3),
+            transparent 42%);
+    opacity: 0;
+    transition: opacity .25s ease;
+    pointer-events: none;
+}
+
+.solution:hover::before {
+    opacity: 1;
+}
+
+/* La fila necesita contexto propio para alojar el brillo */
+.solution {
+    position: relative;
+    isolation: isolate;
+}
+
+.solution>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- ICONO QUE CAMBIA DE COLOR ----------
+   Al pasar el ratón el icono pasa de dorado suave a dorado pleno
+   e invierte su texto: el cambio de color confirma el objetivo. */
+.solution:hover .solution-icon {
+    background-image: linear-gradient(145deg, var(--dorado-premium), var(--dorado-oscuro));
+    color: var(--verde-forense);
+}
+
+.solution-icon {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    flex-shrink: 0;
+    background-image: linear-gradient(145deg, rgba(232, 180, 91, .3), rgba(232, 180, 91, .12));
+    color: var(--verde-forense);
+    font-size: 1.2rem;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
+    transition: scale .22s cubic-bezier(.34, 1.56, .64, 1), rotate .22s ease;
+}
+
+.solution:hover .solution-icon {
+    scale: 1.1;
+    rotate: -6deg;
+}
+
+.solution-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.solution-name {
+    font-weight: 700;
+    font-size: .93rem;
+    line-height: 1.35;
+    color: var(--verde-forense);
+}
+
+.solution-cat {
+    margin-top: .15rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: .6rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    /* texto-2 y no texto-3: a este tamaño el tono claro se queda
+       en 3.95:1 sobre el degradado de la fila. */
+    color: var(--texto-2);
+}
+
+/* Flecha de acción: cada servicio es un contacto directo por
+   WhatsApp con el asunto ya escrito. */
+.solution-go {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    background-color: transparent;
+    border: 1px solid var(--borde-cristal);
+    color: var(--verde-forense);
+    text-decoration: none;
+    font-size: 1rem;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+    transition: background-color .18s ease, color .18s ease, translate .18s ease;
+}
+
+.solution:hover .solution-go {
+    background-color: var(--dorado-premium);
+    border-color: var(--dorado-premium);
+    translate: 3px 0;
+}
+
+.solution-go:focus-visible {
+    outline: 2px solid var(--dorado-oscuro);
+    outline-offset: 2px;
+}
+
+.solutions-empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--texto-2);
+}
+
+.solutions-empty a,
+.link-reset {
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 700;
+    color: var(--dorado-oscuro);
+    text-decoration: underline;
+    cursor: var(--cursor-pointer);
+}
+
+@media (max-width: 640px) {
+    .chip {
+        font-size: .8rem;
+        padding: .55rem .85rem;
+    }
+
+    .solutions {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ===================== PLATAFORMAS ===================== */
+.platforms-card {
+    position: relative;
+    /* Padding superior/inferior mayor: los biseles de 30x48 recortan
+       las esquinas opuestas y no deben tocar la rejilla. */
+    padding: 2.35rem 2rem;
+    background-image: linear-gradient(160deg, #fff 0%, var(--crema-tarjeta) 55%, rgba(90, 107, 78, .09) 100%);
+    border: 1px solid var(--borde-cristal);
+    filter: drop-shadow(0 2px 6px rgba(45, 57, 36, .06));
+    clip-path: polygon(0 0,
+            calc(100% - 30px) 0,
+            100% 48px,
+            100% 100%,
+            30px 100%,
+            0 calc(100% - 48px));
+}
+
+.platforms-grid {
+    display: grid;
+    /* Celdas y separación mayores: sin recuadro que los delimite,
+       los logotipos necesitan aire propio para no leerse pegados. */
+    grid-template-columns: repeat(auto-fill, minmax(5.2rem, 1fr));
+    gap: 1.6rem .8rem;
+}
+
+.platform-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .45rem;
+    text-align: center;
+}
+
+/* Hexágono suave: la forma más distintiva de la página */
+/* Sin recuadro: sólo el logotipo. Se conserva una caja cuadrada
+   invisible que actúa de rejilla óptica, de modo que marcas anchas
+   y altas queden centradas sobre el mismo eje. */
+.platform-icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    background: none;
+    border: 0;
+    clip-path: none;
+    /* Los iconos de fuente se miden por font-size y los SVG por su
+       caja. 2.6rem sobre 52px deja el glifo al ~80%, equivalente al
+       86% de los SVG una vez descontado el interlineado propio de
+       la fuente. Así las tres familias pesan lo mismo. */
+    /* Objetivo común: ~40px de alto real dentro de la caja de 52.
+       El glifo de Phosphor ocupa ~80% de su font-size, así que
+       3.1rem (49.6px) rinde unos 40px de dibujo. */
+    font-size: 3.1rem;
+    line-height: 1;
+    transition: transform .18s ease, filter .18s ease;
+}
+
+/* Sin recuadro, una sombra proyectaría la silueta del propio dibujo
+   y se vería sucia. El realce se hace con escala y saturación, que
+   funcionan igual en un logotipo recortado. */
+.platform-item:hover .platform-icon {
+    transform: translateY(-3px) scale(1.12);
+}
+
+/* `filter` no se acumula entre reglas: si el hover declarara sólo
+   saturate, borraría el halo. Se repite la lista completa. */
+.platform-item:hover .platform-icon svg {
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, .9)) saturate(1.3);
+}
+
+.platform-item span {
+    font-size: .63rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--texto-2);
+}
+
+/* Los SVG reales (tomados de logos.html) conservan su proporción:
+   se les da la caja completa y preserveAspectRatio los centra sin
+   deformarlos. Un logotipo ancho usará todo el ancho y uno alto
+   todo el alto, quedando ambos con el mismo peso visual. */
+.platform-icon svg {
+    display: block;
+    /* 86% deja un margen de respiro: sin recuadro, un logotipo a
+       sangre completa se pegaría a su etiqueta y a los vecinos. */
+    width: 78%;
+    height: 78%;
+    overflow: visible;
+    /* Halo blanco mínimo. Los logotipos multicolor tienen tramos
+       muy claros —el amarillo de Google queda en 1.4:1 sobre el
+       crema— y sin recuadro perderían su borde. Esto los separa
+       del fondo sin dibujar una caja. */
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, .9));
+}
+
+/* Excepciones de tamaño para logotipos con proporciones muy rectangulares */
+.platform-icon svg.platform-icon-wide {
+    width: 90%;
+    height: 90%;
+    transform: scale(1.45);
+}
+
+/* Iniciales en la mono de marca para plataformas sin logo propio
+   ni en Phosphor ni en logos.html. */
+/* Las iniciales se equiparan al tamaño de los logotipos reales:
+   sin recuadro que las contenga necesitan más cuerpo para pesar
+   lo mismo en la rejilla. */
+.platform-wordmark {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    /* Dos mayúsculas en mono a 1.6rem alcanzan un ancho y una
+       mancha equivalentes a los logotipos vecinos. */
+    font-size: 1.6rem;
+    letter-spacing: -.06em;
+}
+
+/* ===================== CTA ===================== */
+.cta {
+    position: relative;
+    isolation: isolate;
+    margin-top: 4rem;
+    /* Los biseles de 44px recortan esquinas opuestas: el padding
+       lateral los compensa para que el texto centrado no se acerque. */
+    padding: 3.25rem 3rem;
+    background: linear-gradient(125deg, var(--verde-forense) 0%, var(--verde-oscuro) 100%);
+    text-align: center;
+    filter: drop-shadow(0 14px 26px rgba(45, 57, 36, .3));
+    /* Bisel en dos esquinas opuestas: el bloque final tiene la
+       misma silueta que la tarjeta destacada, cerrando el círculo. */
+    clip-path: polygon(0 44px,
+            44px 0,
+            100% 0,
+            100% calc(100% - 44px),
+            calc(100% - 44px) 100%,
+            0 100%);
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(232, 180, 91, .14) 1px, transparent 1px);
+    background-size: 20px 20px;
+    mask-image: linear-gradient(340deg, #000 0%, transparent 58%);
+    -webkit-mask-image: linear-gradient(340deg, #000 0%, transparent 58%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.cta::after {
+    content: '';
+    position: absolute;
+    left: -5rem;
+    bottom: -7rem;
+    width: 340px;
+    height: 340px;
+    background-color: var(--dorado-premium);
+    mask: var(--jk-mark) center / contain no-repeat;
+    -webkit-mask: var(--jk-mark) center / contain no-repeat;
+    opacity: .08;
+    rotate: 6deg;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Aro de luz que gira por el borde del CTA. Es una capa cónica
+   recortada a la silueta, así respeta los biseles del bloque. */
+.cta-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: conic-gradient(from 0deg,
+            transparent 0deg,
+            rgba(232, 180, 91, .55) 22deg,
+            transparent 58deg,
+            transparent 180deg,
+            rgba(232, 180, 91, .32) 202deg,
+            transparent 242deg);
+    /* Sólo se ve el perímetro: la máscara vacía el interior. */
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    padding: 2px;
+    animation: spin 9s linear infinite;
+}
+
+/* El contenido del CTA va sobre todas las capas decorativas */
+.cta-inner {
+    position: relative;
+    z-index: 1;
+}
+
+.cta h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.45rem, 3.1vw, 2rem);
+    letter-spacing: -.025em;
+    color: var(--dorado-premium);
+    margin: 0 0 .8rem;
+}
+
+.cta p {
+    max-width: 34rem;
+    margin: 0 auto 1.9rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .84);
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: .9rem;
+}
+
+/* ===================== FIRMA Y FAB ===================== */
+/* .jk-signature vive en brand.css; aquí solo su caja. */
+.jk-signature {
+    position: relative;
+    max-width: 1060px;
+    margin: 3rem auto 0;
+    padding: 2rem 1.5rem 2.75rem;
+}
+
+/* Separador diagonal en lugar de línea recta */
+.jk-signature::before {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    right: 1.5rem;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--dorado-premium) 22%,
+            var(--dorado-premium) 78%,
+            transparent);
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 100%);
+    opacity: .5;
+}
+
+.fab {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .9rem 1.35rem;
+    background-color: var(--dorado-premium);
+    color: var(--verde-forense);
+    font-weight: 700;
+    font-size: .92rem;
+    text-decoration: none;
+    filter: drop-shadow(0 6px 14px rgba(45, 57, 36, .4));
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+    transition: transform .2s ease, filter .2s ease, background-color .2s ease;
+}
+
+.fab:hover {
+    background-color: #d8a932;
+    transform: translateY(-3px);
+    filter: drop-shadow(0 10px 20px rgba(45, 57, 36, .48));
+}
+
+.fab i {
+    font-size: 1.2rem;
+}
+
+/* Halo que late tras el FAB. Vive en el envoltorio y no en el
+   propio botón: el clip-path del FAB recortaría cualquier cosa que
+   creciera fuera de su silueta, y su filter rompe el z-index
+   negativo. Se detiene al pasar el ratón: ya captó la atención. */
+.fab-wrap {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 999;
+    display: inline-flex;
+}
+
+.fab-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--dorado-premium);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+    animation: fab-pulse 2.8s ease-out infinite;
+    pointer-events: none;
+}
+
+.fab-wrap:hover::before {
+    animation-play-state: paused;
+}
+
+@keyframes fab-pulse {
+    0% {
+        opacity: .55;
+        scale: 1;
+    }
+
+    70%,
+    100% {
+        opacity: 0;
+        scale: 1.5;
+    }
+}
+
+/* ===================== ENTRADA AL HACER SCROLL ===================== */
+/* Las tarjetas aparecen al entrar en pantalla. Sin JS: si el
+   navegador no soporta scroll-driven animations, todo queda
+   visible desde el inicio (el estado final es el normal). */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+
+        .featured,
+        .stats,
+        .platforms-card,
+        .cta {
+            animation: rise-in linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 42%;
+        }
+
+        /* Las soluciones entran en cascada al aparecer la lista */
+        .solution {
+            animation: pop-in linear both;
+            animation-timeline: view();
+            animation-range: entry 4% entry 48%;
+        }
+
+        /* Cada cifra entra por separado dentro de su banda */
+        .stat {
+            animation: pop-in linear both;
+            animation-timeline: view();
+            animation-range: entry 8% entry 50%;
+        }
+
+        /* Las plataformas entran una a una, en cascada */
+        .platform-item {
+            animation: pop-in linear both;
+            animation-timeline: view();
+            animation-range: entry 5% entry 55%;
+        }
+    }
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        translate: 0 30px;
+        scale: .975;
+    }
+
+    to {
+        opacity: 1;
+        translate: none;
+        scale: 1;
+    }
+}
+
+@keyframes pop-in {
+    from {
+        opacity: 0;
+        scale: .82;
+        translate: 0 12px;
+    }
+
+    to {
+        opacity: 1;
+        scale: 1;
+        translate: none;
+    }
+}
+
+/* ===================== MÓVIL ===================== */
+/* La aurora usa blur de 70px sobre dos capas grandes: es lo más caro
+   de la página. En pantallas pequeñas se queda quieta y con menos
+   desenfoque — el color permanece, el coste continuo desaparece. */
+@media (max-width: 900px) {
+    .hero-aurora span {
+        animation: none;
+        filter: blur(45px);
+        opacity: .12;
+    }
+}
+
+@media (max-width: 640px) {
+    :root {
+        /* Biseles más discretos: en pantallas estrechas un corte
+           grande se come demasiado ancho útil. */
+        --bisel: 15px;
+        --bisel-v: 24px;
+    }
+
+    .hero {
+        padding-block: 2.75rem 4.5rem;
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 7vw), 0 100%);
+    }
+
+    .hero::after {
+        width: 290px;
+        right: -6.5rem;
+        opacity: .07;
+    }
+
+    .hero-contact {
+        width: 100%;
+    }
+
+    .featured {
+        margin-top: -2.5rem;
+        padding: 1.6rem;
+        gap: 1.4rem;
+        clip-path: polygon(0 0,
+                calc(100% - 24px) 0,
+                100% 38px,
+                100% 100%,
+                24px 100%,
+                0 calc(100% - 38px));
+    }
+
+    /* El gauge encabeza la tarjeta: en columna funciona mejor
+       como remate visual que como acompañante lateral. */
+    .featured-gauge {
+        order: -1;
+        margin-inline: auto;
+        width: 104px;
+        height: 104px;
+    }
+
+    .platforms-card {
+        padding: 1.4rem;
+        clip-path: polygon(0 0,
+                calc(100% - 22px) 0,
+                100% 35px,
+                100% 100%,
+                22px 100%,
+                0 calc(100% - 35px));
+    }
+
+    .cta {
+        padding: 2.25rem 1.4rem;
+        clip-path: polygon(0 30px,
+                30px 0,
+                100% 0,
+                100% calc(100% - 30px),
+                calc(100% - 30px) 100%,
+                0 100%);
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .cta-buttons .btn {
+        width: 100%;
+    }
+
+    .fab span {
+        display: none;
+    }
+
+    .fab {
+        padding: 1rem;
+    }
+
+    /* El halo debe seguir la nueva silueta cuadrada del FAB */
+    .fab-wrap {
+        right: 1.1rem;
+        bottom: 1.1rem;
+    }
+
+    /* Aire para que el FAB no se monte sobre la firma */
+    .jk-signature {
+        padding-bottom: 5.5rem;
+    }
+}
+
+/* ===================== MOVIMIENTO REDUCIDO =====================
+   Con esta preferencia activa la página queda completamente quieta:
+   ninguna animación en bucle, ninguna entrada, ningún desplazamiento
+   al pasar el ratón. El diseño sigue completo, solo se detiene. */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    /* Los elementos que dependían de una animación para mostrarse
+       deben quedar visibles en su estado final. */
+    .hero-eyebrow,
+    .hero h1,
+    .hero-lead,
+    .hero-contact,
+    .featured,
+    .stats,
+    .stat,
+    .solution,
+    .platforms-card,
+    .platform-item,
+    .cta {
+        opacity: 1;
+        scale: 1;
+        translate: none;
+    }
+
+    .hero h1 em::after {
+        scale: 1 1;
+    }
+
+    /* El arco del gauge se muestra ya relleno */
+    .featured-gauge::before {
+        --gauge: 62%;
+    }
+
+    .featured-gauge .spark,
+    .fab-wrap::before {
+        display: none;
+    }
+
+    /* Las filas filtradas aparecen sin cascada ni desplazamiento */
+    .solution.is-entering {
+        animation: none;
+        opacity: 1;
+        translate: none;
+        scale: 1;
+    }
+
+    .finder-next {
+        animation: none;
+    }
+
+    /* Capas decorativas vivas: se retiran por completo */
+    .hero-aurora,
+    .cta-glow,
+    .solution::before {
+        display: none;
+    }
+
+    /* Los elementos que latían quedan en su estado pleno */
+    .featured::before,
+    .stat-num i,
+    .section-head::before,
+    .jk-signature .jk-mark,
+    .jk-signature::before,
+    .chip.is-on i,
+    .chip.is-on::after,
+    .featured-gauge .jk-mark,
+    .featured:hover .featured-gauge .jk-mark,
+    .featured .btn,
+    .featured .btn i,
+    .hero-eyebrow,
+    .hero-eyebrow .jk-mark,
+    .contact-line .ph-phone,
+    .contact-line .ph-at,
+    .platforms-card:hover .platform-item,
+    .fab i,
+    .solution.is-entering .solution-icon {
+        animation: none;
+        opacity: 1;
+        scale: 1;
+        rotate: none;
+        translate: none;
+    }
+
+    /* El título conserva su dorado sólido, sin reflejo animado */
+    .hero h1 em {
+        animation: none;
+        background: none;
+        -webkit-text-fill-color: var(--dorado-premium);
+        color: var(--dorado-premium);
+    }
+
+    /* Desplazamientos al pasar el ratón, anulados */
+    .contact-line:hover,
+    .section-head:hover h2,
+    .solution:hover .solution-go i,
+    .stat:hover .stat-num,
+    .stat:hover .stat-label {
+        translate: none;
+        scale: 1;
+        letter-spacing: inherit;
+    }
+
+    .btn:hover,
+    .solution:hover,
+    .solution:hover .solution-icon,
+    .platform-item:hover .platform-icon,
+    .fab:hover {
+        transform: none;
+        translate: none;
+        scale: 1;
+        rotate: none;
+    }
+}
+
+
+/* ---------- PISTA DE ATAJOS ----------
+   Sólo aparece al navegar con teclado. En táctil y ratón no ocupa
+   nada: sería ruido para quien no la va a usar. */
+.kbd-hint {
+    display: none;
+    margin-top: .8rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .64rem;
+    letter-spacing: .08em;
+    color: var(--texto-2);
+}
+
+body.using-keys .kbd-hint {
+    display: block;
+    animation: slip-in .3s ease both;
+}
+
+.kbd-hint kbd {
+    display: inline-block;
+    padding: .1rem .35rem;
+    border: 1px solid var(--borde-cristal);
+    background-image: linear-gradient(150deg, #fff, var(--crema-tarjeta));
+    font-family: inherit;
+    font-size: .95em;
+    font-weight: 700;
+    color: var(--verde-forense);
+}
+
+
+/* El rayo de las cifras late como energía viva */
+@keyframes flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+        scale: 1;
+    }
+
+    45% {
+        opacity: .55;
+        scale: .94;
+    }
+
+    50% {
+        opacity: 1;
+        scale: 1.08;
+    }
+}
+
+/* ---------- SUBRAYADO VIVO EN LOS TÍTULOS ----------
+   El acento diagonal de cada sección late suavemente, de modo que
+   los encabezados no son marcas estáticas. */
+.section-head::before {
+    animation: accent-pulse 3.6s ease-in-out infinite;
+}
+
+@keyframes accent-pulse {
+
+    0%,
+    100% {
+        scale: 1;
+        opacity: 1;
+    }
+
+    50% {
+        scale: 1 1.18;
+        opacity: .8;
+    }
+}
+
+/* ---------- MARCA DE LA FIRMA ----------
+   Gira muy despacio: cierra la página con el mismo gesto vivo. */
+.jk-signature .jk-mark {
+    animation: sign-sway 11s ease-in-out infinite;
+}
+
+@keyframes sign-sway {
+
+    0%,
+    100% {
+        rotate: -4deg;
+    }
+
+    50% {
+        rotate: 4deg;
+    }
+}
+
+
+/* ---------- AHORRO DE BATERÍA ----------
+   Con la conexión en modo ahorro de datos el navegador expresa una
+   preferencia por gastar menos: se retiran las capas más costosas. */
+@media (prefers-reduced-data: reduce) {
+
+    .hero-aurora,
+    .cta-glow {
+        display: none;
+    }
+}
+
+/* ---------- PAUSA FUERA DE PANTALLA ----------
+   La clase la pone el JS con un IntersectionObserver: las capas
+   decorativas dejan de animarse cuando su sección no está a la
+   vista, en vez de consumir GPU mientras se lee otra parte. */
+.is-offscreen .hero-aurora span,
+.is-offscreen .cta-glow,
+.is-offscreen .spark,
+.is-offscreen.featured::before,
+.is-offscreen .featured-gauge::after {
+    animation-play-state: paused;
+}
+
+
+/* ============================================================
+   GESTO PROPIO DE CADA ELEMENTO
+   Cada pieza tiene un movimiento que significa algo: el teléfono
+   vibra como un timbre, el candado se cierra, la nube sube. El
+   movimiento describe la función, no adorna por adornar.
+   ============================================================ */
+
+/* ---------- LÍNEAS DE CONTACTO ----------
+   El icono del teléfono repica cada pocos segundos. */
+.contact-line .ph-phone {
+    animation: ring 5s ease-in-out infinite;
+    transform-origin: 50% 10%;
+}
+
+@keyframes ring {
+
+    0%,
+    88%,
+    100% {
+        rotate: 0deg;
+    }
+
+    90% {
+        rotate: -12deg;
+    }
+
+    92% {
+        rotate: 10deg;
+    }
+
+    94% {
+        rotate: -8deg;
+    }
+
+    96% {
+        rotate: 6deg;
+    }
+}
+
+/* La arroba orbita despacio */
+.contact-line .ph-at {
+    animation: sign-sway 7s ease-in-out infinite;
+}
+
+/* Al pasar el ratón, la línea entera se adelanta */
+.contact-line {
+    transition: translate .2s ease, color .2s ease;
+}
+
+.contact-line:hover {
+    translate: 4px 0;
+    color: #fff;
+}
+
+/* ---------- CIFRAS ----------
+   El número se agranda al acercarse: invita a leerlo. */
+.stat-num {
+    transition: scale .25s cubic-bezier(.34, 1.56, .64, 1), color .25s ease;
+}
+
+.stat:hover .stat-num {
+    scale: 1.12;
+    color: var(--dorado-oscuro);
+}
+
+.stat-label {
+    transition: letter-spacing .25s ease, color .25s ease;
+}
+
+.stat:hover .stat-label {
+    letter-spacing: .18em;
+    color: var(--verde-forense);
+}
+
+/* ---------- PLATAFORMAS ----------
+   Al pasar por la tarjeta, los iconos ondean uno tras otro. El
+   retardo lo fija el índice de cada elemento. */
+.platform-item {
+    transition: translate .2s ease;
+}
+
+.platforms-card:hover .platform-item {
+    animation: wave 1.4s ease-in-out;
+    animation-delay: calc(var(--n, 0) * 26ms);
+}
+
+/* El índice de cada icono se deriva de su posición: así la ola
+   recorre la rejilla sin necesidad de escribirlo en el HTML. */
+.platform-item:nth-child(1) {
+    --n: 0;
+}
+.platform-item:nth-child(2) {
+    --n: 1;
+}
+.platform-item:nth-child(3) {
+    --n: 2;
+}
+.platform-item:nth-child(4) {
+    --n: 3;
+}
+.platform-item:nth-child(5) {
+    --n: 4;
+}
+.platform-item:nth-child(6) {
+    --n: 5;
+}
+.platform-item:nth-child(7) {
+    --n: 6;
+}
+.platform-item:nth-child(8) {
+    --n: 7;
+}
+.platform-item:nth-child(9) {
+    --n: 8;
+}
+.platform-item:nth-child(10) {
+    --n: 9;
+}
+.platform-item:nth-child(11) {
+    --n: 10;
+}
+.platform-item:nth-child(12) {
+    --n: 11;
+}
+.platform-item:nth-child(13) {
+    --n: 12;
+}
+.platform-item:nth-child(14) {
+    --n: 13;
+}
+.platform-item:nth-child(15) {
+    --n: 14;
+}
+.platform-item:nth-child(16) {
+    --n: 15;
+}
+.platform-item:nth-child(n+17) {
+    --n: 16;
+}
+
+@keyframes wave {
+
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    35% {
+        translate: 0 -5px;
+    }
+}
+
+/* La etiqueta se resalta al señalar su icono */
+.platform-item span {
+    transition: color .2s ease, font-weight .2s ease;
+}
+
+.platform-item:hover span {
+    color: var(--verde-forense);
+}
+
+/* ---------- SEPARADOR DE LA FIRMA ----------
+   La línea dorada del cierre se desliza de lado a lado. */
+.jk-signature::before {
+    background-size: 220% 100%;
+    animation: sweep 7s ease-in-out infinite;
+}
+
+@keyframes sweep {
+
+    0%,
+    100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
+}
+
+/* ---------- FAB ----------
+   El icono de WhatsApp se balancea como quien saluda. */
+.fab i {
+    animation: hail 3.6s ease-in-out infinite;
+    transform-origin: 50% 80%;
+}
+
+@keyframes hail {
+
+    0%,
+    70%,
+    100% {
+        rotate: 0deg;
+    }
+
+    76% {
+        rotate: -14deg;
+    }
+
+    82% {
+        rotate: 12deg;
+    }
+
+    88% {
+        rotate: -8deg;
+    }
+}
+
+/* ---------- FLECHA DE CADA SOLUCIÓN ----------
+   Empuja hacia la derecha al señalar la fila: indica que lleva
+   a algún sitio. */
+.solution-go i {
+    transition: translate .2s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.solution:hover .solution-go i {
+    translate: 2px 0;
+}
+
+/* ---------- ICONOS DE LA LISTA ----------
+   Cada icono entra con un giro cuando su fila aparece tras filtrar. */
+.solution.is-entering .solution-icon {
+    animation: icon-land .5s cubic-bezier(.34, 1.4, .64, 1) both;
+    animation-delay: calc(var(--i, 0) * 38ms + 60ms);
+}
+
+@keyframes icon-land {
+    from {
+        rotate: -35deg;
+        scale: .6;
+        opacity: 0;
+    }
+
+    to {
+        rotate: 0deg;
+        scale: 1;
+        opacity: 1;
+    }
+}
+
+/* ---------- TÍTULOS DE SECCIÓN ----------
+   El texto se desplaza levemente al pasar por su encabezado. */
+.section-head h2 {
+    transition: translate .25s ease;
+}
+
+.section-head:hover h2 {
+    translate: 4px 0;
+}
+
+
+/* ============================================================
+   CARGA EN PANTALLAS PEQUEÑAS
+   En escritorio los gestos conviven bien, pero 22 animaciones en
+   bucle sobre un móvil modesto gastan batería sin aportar: en una
+   pantalla estrecha la mayoría ni siquiera se aprecian. Se conservan
+   los que guían (botón, FAB, medidor) y se retiran los decorativos.
+   ============================================================ */
+@media (max-width: 640px) {
+
+    .hero h1 em,
+    .hero-eyebrow,
+    .hero-eyebrow .jk-mark,
+    .contact-line .ph-phone,
+    .contact-line .ph-at,
+    .section-head::before,
+    .jk-signature::before,
+    .jk-signature .jk-mark,
+    .stat-num i,
+    .featured::before {
+        animation: none;
+    }
+
+    /* El reflejo del título se retira, pero el dorado permanece */
+    .hero h1 em {
+        background: none;
+        -webkit-text-fill-color: var(--dorado-premium);
+    }
+}
+
+/* En pantallas sin puntero fino los efectos de hover no llegan a
+   verse: no tiene sentido pagar su coste. */
+@media (hover: none) {
+
+    .platforms-card:hover .platform-item {
+        animation: none;
+    }
+
+    .solution::before {
+        display: none;
+    }
+}
+
+/* ============================================================
+   CAPA DE EFECTOS
+   Todo lo que sigue es decorativo. Las variables --px/--py/--sy
+   las alimenta efectos.js desde ratón, scroll y giroscopio.
+   ============================================================ */
+
+/* ---------- 14-16. TEMPERATURA SEGÚN LA HORA ----------
+   El hero cambia de tono según el momento del día. Se mueve sólo
+   dentro de la paleta: nunca introduce un color ajeno. */
+:root[data-phase="morning"] .hero {
+    background: linear-gradient(155deg, #35422b 0%, #202b18 100%);
+}
+
+:root[data-phase="day"] .hero {
+    background: linear-gradient(155deg, var(--verde-forense) 0%, var(--verde-oscuro) 100%);
+}
+
+:root[data-phase="dusk"] .hero {
+    background: linear-gradient(155deg, #3a3524 0%, #211d12 100%);
+}
+
+:root[data-phase="night"] .hero {
+    background: linear-gradient(155deg, #1d2616 0%, #0e130a 100%);
+}
+
+/* 16. Estrellas: sólo de noche */
+.hero-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-stars i {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #fff;
+    opacity: .5;
+    animation: twinkle 3.5s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: .15;
+    }
+
+    50% {
+        opacity: .8;
+    }
+}
+
+/* ---------- 17. DISPONIBILIDAD EN VIVO ---------- */
+.avail {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .82);
+}
+
+.avail::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #7bd77b;
+    box-shadow: 0 0 0 0 rgba(123, 215, 123, .7);
+    animation: live 2s ease-out infinite;
+}
+
+.avail[data-state="off"]::before {
+    background: var(--dorado-oscuro);
+    animation: none;
+}
+
+@keyframes live {
+    to {
+        box-shadow: 0 0 0 9px rgba(123, 215, 123, 0);
+    }
+}
+
+/* ---------- 18. MÁQUINA DE ESCRIBIR ---------- */
+.type-target {
+    color: var(--dorado-premium);
+    font-weight: 800;
+}
+
+.type-target::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 2px;
+    background: var(--dorado-premium);
+    vertical-align: -.13em;
+    animation: caret .9s step-end infinite;
+}
+
+@keyframes caret {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* ---------- 6. BARRA DE PROGRESO ---------- */
+.read-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* Ancho completo con scaleX: animar `width` forzaría relayout
+       en cada píxel de scroll. */
+    width: 100%;
+    transform-origin: 0 50%;
+    scale: 0 1;
+    height: 3px;
+    z-index: 1000;
+    background: linear-gradient(90deg, var(--dorado-oscuro), var(--dorado-premium), #fff6e2);
+    box-shadow: 0 0 12px rgba(232, 180, 91, .6);
+}
+
+/* ---------- 1,7,11. PARALLAX ----------
+   Cada capa se desplaza a distinta velocidad según --px/--py
+   (ratón o giroscopio) y --sy (scroll). */
+.hero-aurora span:nth-child(1) {
+    translate: calc(var(--px, 0) * 26px) calc(var(--py, 0) * 20px + var(--sy, 0) * .05px);
+}
+
+.hero-aurora span:nth-child(2) {
+    translate: calc(var(--px, 0) * -20px) calc(var(--py, 0) * -16px + var(--sy, 0) * .08px);
+}
+
+/* mark-breathe ya controla rotate/scale/opacity de esta capa, así
+   que translate queda libre para el parallax: propiedades distintas
+   no compiten. El -50% de centrado se conserva en el cálculo. */
+.hero::after {
+    translate: calc(var(--px, 0) * -34px) calc(-50% + var(--py, 0) * 22px);
+}
+
+.hero-inner {
+    translate: calc(var(--px, 0) * 7px) calc(var(--sy, 0) * -.04px);
+}
+
+/* 8. El hero se difumina y encoge al bajar */
+.hero-text {
+    opacity: calc(1 - var(--sy, 0) * .0016);
+}
+
+/* ---------- 2. INCLINACIÓN 3D ----------
+   El giro se mantiene pequeño (±7°/±9°) a propósito: la tarjeta
+   lleva clip-path con biseles, y una inclinación mayor delataría
+   el recorte plano en los bordes. */
+.featured {
+    transform: perspective(1100px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg));
+    transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+    will-change: transform;
+}
+
+/* ---------- 4. CHIPS IMANTADOS ----------
+   El imán se queda con `translate`; el hover y el pulsado usan
+   `scale`, que es una propiedad distinta y no compite. */
+.chip {
+    translate: var(--gx, 0) var(--gy, 0);
+}
+
+
+
+/* ---------- 3,5. CURSOR LOGO SEGUIDOR ADAPTATIVO (JEAN KRILLO) ---------- */
+.cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 46px;
+    height: 46px;
+    margin: -23px 0 0 -23px;
+    pointer-events: none;
+    z-index: 9999;
+    color: var(--dorado-premium); /* Dorado sobre fondo claro */
+    opacity: 0.50; /* 50% de opacidad */
+    transition: width .22s cubic-bezier(.16, 1, .3, 1),
+                height .22s cubic-bezier(.16, 1, .3, 1),
+                margin .22s cubic-bezier(.16, 1, .3, 1),
+                opacity .2s ease,
+                color .2s ease,
+                filter .2s ease;
+    filter: drop-shadow(0 0 5px rgba(232, 180, 91, 0.4));
+}
+
+.cursor-ring svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    animation: cursor-spin 6s linear infinite;
+    transform-origin: center center;
+}
+
+@keyframes cursor-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Cuando el cursor pasa sobre fondo oscuro: se vuelve blanco/crema luminoso */
+.cursor-ring.is-over-dark {
+    color: #FFF8EB;
+    opacity: 0.70;
+    filter: drop-shadow(0 0 10px rgba(255, 248, 235, 0.8));
+}
+
+/* Reacción interactiva (botones, chips, enlaces): se amplía suavemente */
+/* Sobre elementos interactivos: monograma desaparece */
+.cursor-ring.is-hovering-interactive {
+    opacity: 0 !important;
+    transition: opacity 0.15s ease;
+}
+.cursor-ring.is-hovering-interactive.is-over-dark {
+    opacity: 0 !important;
+}
+
+/* Sobre logos de plataformas: monograma desaparece */
+.cursor-ring.is-hovering-platform {
+    opacity: 0 !important;
+    transition: opacity 0.15s ease;
+}
+.cursor-ring.is-hovering-platform.is-over-dark {
+    opacity: 0 !important;
+}
+
+/* Reacción en textos y títulos */
+/* Sobre texto: el monograma desaparece — solo visible en áreas limpias */
+.cursor-ring.is-hovering-text {
+    opacity: 0 !important;
+    transform: scale(0.5);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.cursor-ring.is-hovering-text.is-over-dark {
+    opacity: 0 !important;
+}
+
+.cursor-ring svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    animation: cursor-spin 6s linear infinite;
+    transform-origin: center center;
+}
+
+@keyframes cursor-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Reacción interactiva (botones, chips, enlaces): se amplía suavemente */
+.cursor-ring.is-hovering-interactive {
+    width: 58px;
+    height: 58px;
+    margin: -29px 0 0 -29px;
+    opacity: 0.65;
+    color: var(--dorado-premium);
+    filter: drop-shadow(0 0 10px rgba(232, 180, 91, 0.6));
+}
+
+/* Reacción en tarjetas de plataformas: aro amplio verde/dorado */
+.cursor-ring.is-hovering-platform {
+    width: 68px;
+    height: 68px;
+    margin: -34px 0 0 -34px;
+    opacity: 0.60;
+    color: var(--verde-forense);
+    filter: drop-shadow(0 0 10px rgba(45, 57, 36, 0.4));
+}
+
+/* Reacción en textos y títulos: mantiene el color dorado original al 50% sin oscurecer el fondo */
+.cursor-ring.is-hovering-text {
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    opacity: 0.50;
+    color: var(--dorado-premium);
+    filter: drop-shadow(0 0 5px rgba(232, 180, 91, 0.4));
+}
+
+.spark-dot {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
+    border-radius: 50%;
+    background: var(--dorado-premium);
+    pointer-events: none;
+    z-index: 9998;
+    animation: spark-fade .7s ease-out forwards;
+}
+
+@keyframes spark-fade {
+    to {
+        opacity: 0;
+        scale: 0;
+        translate: 0 -22px;
+    }
+}
+
+/* ---------- 24. ONDA AL PULSAR ---------- */
+.ripple {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    margin: -4px 0 0 -4px;
+    border-radius: 50%;
+    background: rgba(232, 180, 91, .55);
+    pointer-events: none;
+    animation: ripple-out .6s ease-out forwards;
+}
+
+@keyframes ripple-out {
+    to {
+        scale: 26;
+        opacity: 0;
+    }
+}
+
+/* ---------- 25. CONFETI DE MARCA ---------- */
+.confetti {
+    position: absolute;
+    top: 0;
+    width: 7px;
+    height: 11px;
+    pointer-events: none;
+    z-index: 5;
+    animation: confetti-fall 1.4s cubic-bezier(.3, .7, .5, 1) forwards;
+}
+
+@keyframes confetti-fall {
+    from {
+        opacity: 1;
+        translate: 0 0;
+        rotate: 0deg;
+    }
+
+    to {
+        opacity: 0;
+        translate: var(--dx, 0) 260px;
+        rotate: var(--dr, 360deg);
+    }
+}
+
+/* ---------- 10. SECCIONES QUE ENTRAN GIRANDO ---------- */
+.reveal {
+    opacity: 0;
+    translate: 0 34px;
+    rotate: -.7deg;
+    scale: .97;
+    transition: opacity .7s ease, translate .7s cubic-bezier(.22, 1, .36, 1),
+        rotate .7s cubic-bezier(.22, 1, .36, 1), scale .7s cubic-bezier(.22, 1, .36, 1);
+}
+
+.reveal.is-revealed {
+    opacity: 1;
+    translate: none;
+    rotate: 0deg;
+    scale: 1;
+}
+
+/* ---------- 22. BLOBS QUE SE DEFORMAN ---------- */
+.hero-aurora span {
+    animation-name: float-a, morph;
+    animation-duration: 19s, 13s;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+}
+
+.hero-aurora span:nth-child(2) {
+    animation-name: float-b, morph;
+    animation-duration: 23s, 17s;
+}
+
+@keyframes morph {
+
+    0%,
+    100% {
+        border-radius: 50% 50% 50% 50%;
+    }
+
+    33% {
+        border-radius: 62% 38% 45% 55%;
+    }
+
+    66% {
+        border-radius: 40% 60% 58% 42%;
+    }
+}
+
+/* ---------- 23. REJILLA DE FONDO REACTIVA ---------- */
+.grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(45, 57, 36, .045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(45, 57, 36, .045) 1px, transparent 1px);
+    background-size: 54px 54px;
+    background-position: calc(var(--px, 0) * 14px) calc(var(--sy, 0) * .06px);
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 40%, #000, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 40%, #000, transparent 75%);
+}
+
+/* ---------- MOVIMIENTO REDUCIDO: se retira todo ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+    .cursor-ring,
+    .spark-dot,
+    .ripple,
+    .confetti,
+    .hero-stars,
+    .read-bar,
+    .grid-bg {
+        display: none !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        translate: none;
+        rotate: none;
+        scale: 1;
+        transition: none;
+    }
+
+    .featured {
+        transform: none;
+    }
+
+    .chip {
+        translate: none;
+    }
+
+    .type-target::after {
+        animation: none;
+    }
+
+    .avail::before {
+        animation: none;
+    }
+}
+
+/* En táctil no hay cursor que seguir */
+@media (hover: none) {
+
+    .cursor-ring,
+    .spark-dot {
+        display: none;
+    }
+}
