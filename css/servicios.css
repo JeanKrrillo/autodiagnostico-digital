@@ -2748,3 +2748,266 @@ body.using-keys .kbd-hint {
         display: none;
     }
 }
+
+/* ============================================================
+   MÓVIL ≤640px — CORRECCIÓN DE PARPADEO, MOVIMIENTO Y DENSIDAD
+
+   Tres problemas se corrigen aquí, en este orden:
+
+   1. PARPADEO / "PANTALLAZO". Las tarjetas grandes recibían dos
+      sistemas de entrada a la vez: .reveal (opacity:0 conmutada
+      por IntersectionObserver) y rise-in con animation-timeline.
+      Ambos animan opacity/translate/scale sobre el mismo nodo. En
+      móvil un bloque alto llena el viewport y nunca completa su
+      animation-range, así que se quedaba a media opacidad. Se
+      anula el timeline y se deja un único sistema.
+
+   2. MOVIMIENTO CONSTANTE. 28 animaciones infinitas, cinco de
+      ellas sobre background-position o box-shadow, que repintan
+      en cada frame y mantienen la GPU ocupada durante todo el
+      scroll. En pantalla pequeña ninguna aporta lectura.
+
+   3. ESCALA VERTICAL. Los clamp() usan vw como término medio,
+      pero a 390px el vw siempre cae por debajo del mínimo, de
+      modo que en móvil sólo se aplicaba el valor grande. Se
+      redefinen con mínimos propios y se compacta la lista de
+      122 tarjetas, que es la que alarga la página.
+   ============================================================ */
+@media (max-width: 640px) {
+
+    /* ---------- 1. UN SOLO SISTEMA DE ENTRADA ---------- */
+    /* El timeline de scroll se retira: en móvil no llega a
+       completarse y deja los bloques translúcidos. */
+    .featured,
+    .stats,
+    .platforms-card,
+    .cta,
+    .solution {
+        animation-timeline: none;
+        animation-range: normal;
+        animation-name: none;
+    }
+
+    /* El reveal por JS se mantiene, pero sin desplazamiento ni
+       giro: sólo un fundido corto, que no arrastra layout. */
+    .reveal {
+        translate: none;
+        rotate: none;
+        scale: 1;
+        transition: opacity .35s ease;
+    }
+
+    /* Red de seguridad: si el observer no llega a disparar
+       (pestaña en segundo plano, scroll muy rápido), el bloque
+       debe verse igual. Nada queda dependiendo del JS. */
+    .reveal:not(.is-revealed) {
+        opacity: 1;
+    }
+
+    /* ---------- 2. QUIETUD ---------- */
+    /* Se cortan las animaciones infinitas decorativas. Se listan
+       los contenedores; las de interacción (sheen, chip-spin,
+       icon-land) siguen vivas porque responden a un toque. */
+    .hero-aurora,
+    .hero-aurora span,
+    .hero-stars,
+    .grid-bg,
+    .cta-glow,
+    .featured-gauge .ring,
+    .stat-num i,
+    .avail::before,
+    .btn-gold::after,
+    .featured::after,
+    .live-dot {
+        animation: none !important;
+    }
+
+    /* Los blobs desenfocados son lo más caro de repintar: un
+       blur(70px) a pantalla completa cuesta más que todo el
+       resto junto. En móvil se retiran. */
+    .hero-aurora {
+        display: none;
+    }
+
+    /* Sin animación el degradado debe quedar en una posición
+       legible, no en el punto de partida del keyframe. */
+    .hero h1 em,
+    .btn-gold,
+    .featured-tag {
+        background-position: center !important;
+    }
+
+    /* ---------- 3. DENSIDAD VERTICAL ---------- */
+    /* Los clamp() se recalibran con un mínimo propio de móvil:
+       antes el término vw nunca ganaba y quedaba el valor alto. */
+    .hero h1 {
+        font-size: clamp(1.75rem, 7.5vw, 2.4rem);
+        line-height: 1.12;
+    }
+
+    .hero-lead {
+        font-size: .95rem;
+        line-height: 1.5;
+    }
+
+    .section-head-text {
+        font-size: clamp(1.15rem, 5vw, 1.45rem);
+    }
+
+    .featured-tag {
+        font-size: clamp(1.1rem, 4.8vw, 1.4rem);
+    }
+
+    .stat-num {
+        font-size: clamp(1.5rem, 6.5vw, 1.9rem);
+    }
+
+    /* El hero ocupaba 10.5rem sólo de padding vertical. */
+    .hero {
+        padding-block: 2rem 3rem;
+    }
+
+    .wrap {
+        padding-inline: 1.1rem;
+    }
+
+    .section-head {
+        margin-bottom: 1rem;
+    }
+
+    /* Las estadísticas en dos columnas: a una sola ocupaban
+       cuatro pantallas de alto. */
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        margin-bottom: 1.75rem;
+    }
+
+    .stat {
+        padding: .95rem .7rem;
+    }
+
+    /* La lista de 122 servicios es el grueso de la página.
+       Compactar cada fila ahorra más que cualquier otro ajuste. */
+    .solutions {
+        gap: .4rem;
+    }
+
+    .solution {
+        gap: .65rem;
+        padding: .6rem .7rem;
+    }
+
+    .solution-name {
+        font-size: .88rem;
+        line-height: 1.3;
+    }
+
+    .solution-cat {
+        font-size: .7rem;
+    }
+
+    .solution-icon {
+        width: 2rem;
+        height: 2rem;
+        flex: 0 0 2rem;
+        font-size: .95rem;
+    }
+
+    .platforms-card {
+        padding: 1.5rem 1.15rem;
+    }
+
+    .platforms-grid {
+        grid-template-columns: repeat(auto-fill, minmax(4.1rem, 1fr));
+        gap: 1rem .5rem;
+    }
+
+    .cta {
+        padding: 1.75rem 1.15rem;
+    }
+
+    /* Los botones a ancho completo se apilan sin huecos raros y
+       cumplen el objetivo táctil de 44px. */
+    .cta-buttons {
+        flex-direction: column;
+        gap: .6rem;
+    }
+
+    .cta-buttons .btn,
+    .hero-contact .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
+    }
+
+    /* Ningún bloque debe empujar la página a lo ancho. */
+    .solution,
+    .featured,
+    .platforms-card,
+    .cta,
+    .stat {
+        min-width: 0;
+    }
+
+    .solution-name,
+    .solution-cat,
+    .stat-label {
+        overflow-wrap: anywhere;
+    }
+}
+
+/* ---------- MÓVIL: SIN PARALLAX ----------
+   --sy sigue actualizándose con el scroll, pero en móvil no debe
+   mover ni desvanecer nada: .hero-text bajaba su opacidad a medida
+   que se bajaba, y sobre un hero que ocupa toda la pantalla eso se
+   percibía como un lavado a blanco, no como una transición. */
+@media (max-width: 640px) {
+
+    .hero-inner,
+    .hero::after {
+        translate: none;
+    }
+
+    .hero-text {
+        opacity: 1;
+    }
+
+    .grid-bg {
+        background-position: 0 0;
+    }
+}
+
+/* ---------- VER MÁS ----------
+   Sólo aparece en móvil y sin filtro: es la salida a una lista de
+   122 filas. En escritorio y con filtro activo js/servicios.js lo
+   mantiene oculto. */
+.ver-mas {
+    display: block;
+    width: 100%;
+    margin: .9rem 0 0;
+    padding: .85rem 1rem;
+    min-height: 44px;
+    border: 1px solid var(--borde-cristal);
+    border-radius: 999px;
+    background: var(--crema-tarjeta);
+    color: var(--verde-forense);
+    font: inherit;
+    font-weight: 700;
+    font-size: .9rem;
+    cursor: var(--cursor-pointer);
+}
+
+.ver-mas:hover {
+    background: #fff;
+    border-color: rgba(45, 57, 36, .28);
+}
+
+.ver-mas:focus-visible {
+    outline: 2px solid var(--dorado-premium);
+    outline-offset: 2px;
+}
+
+.ver-mas[hidden] {
+    display: none;
+}

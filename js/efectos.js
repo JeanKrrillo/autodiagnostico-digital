@@ -320,6 +320,10 @@
        permiso explícito (iOS) simplemente no se activa. */
     (function gyro() {
         if (!('DeviceOrientationEvent' in window)) return;
+        // En pantalla pequeña el hero ya no tiene capas que desplazar
+        // y el sensor reacciona a cada temblor de la mano: la página
+        // se movía sola de forma constante.
+        if (small.matches) return;
 
         function start() {
             addEventListener('deviceorientation', function (e) {

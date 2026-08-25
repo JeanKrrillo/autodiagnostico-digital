@@ -125,6 +125,53 @@
         next.hidden = false;
     }
 
+    /* ---------- Lista por tandas (solo movil) ----------
+       En escritorio la rejilla es de varias columnas y las 122
+       filas caben en un vistazo razonable. En movil van una debajo
+       de otra: sin tope, el pie queda a ocho pantallas de scroll.
+       Se muestran TANDA filas y el resto se pide con un boton.
+
+       El tope solo se aplica sin filtro activo: si alguien ya ha
+       acotado por sintoma, el resultado es corto y esconderlo
+       estorbaria. */
+    var TANDA = 24;
+    var tandas = 1;
+    var mobil = matchMedia('(max-width: 640px)');
+    var verMas = null;
+
+    function limite() {
+        if (!mobil.matches || active.size > 0) return Infinity;
+        return TANDA * tandas;
+    }
+
+    function pintarVerMas(total, tope) {
+        var faltan = total - tope;
+
+        if (!(faltan > 0)) {
+            if (verMas) verMas.hidden = true;
+            return;
+        }
+
+        if (!verMas) {
+            verMas = document.createElement('button');
+            verMas.type = 'button';
+            verMas.className = 'ver-mas';
+            verMas.addEventListener('click', function () {
+                tandas++;
+                paint();
+            });
+            var lista = document.querySelector('.solutions');
+            if (lista && lista.parentNode) lista.parentNode.insertBefore(verMas, lista.nextSibling);
+        }
+
+        verMas.hidden = false;
+        verMas.textContent = 'Ver ' + Math.min(faltan, TANDA) + ' servicios más (' + faltan + ' restantes)';
+    }
+
+    // Al girar el aparato o pasar a escritorio el tope cambia de sentido
+    (mobil.addEventListener ? mobil.addEventListener.bind(mobil, 'change') :
+        mobil.addListener.bind(mobil))(function () { tandas = 1; paint(); });
+
     /* ---------- Pintado ----------
        Las filas que salen y las que entran se tratan distinto: las
        que ya estaban no vuelven a animarse, para que el movimiento
@@ -132,10 +179,20 @@
     function paint() {
         var shown = 0;
         var entering = [];
+        var tope = limite();
 
         index.forEach(function (rec) {
             var ok = matches(rec);
             var was = !rec.el.hidden;
+
+            // En movil la lista se sirve por tandas: 122 filas de golpe
+            // son ocho pantallas de scroll antes de llegar al pie.
+            if (ok && shown >= tope) {
+                shown++;
+                rec.el.hidden = true;
+                rec.el.classList.remove('is-entering');
+                return;
+            }
 
             if (ok) {
                 shown++;
@@ -146,6 +203,8 @@
             }
             rec.el.classList.remove('is-entering');
         });
+
+        pintarVerMas(shown, tope);
 
         if (!calm.matches) {
             // El retardo escalonado se corta a los 10 elementos: más
