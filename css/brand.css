@@ -161,3 +161,144 @@
         padding-bottom: 5.5rem;
     }
 }
+
+/* ---------- 6. CTA A SERVICIOS ----------
+   Estilos propios: css/tailwind.css es un build estático que no
+   incluye utilidades arbitrarias tipo bg-[var(--token)], así que
+   el botón se define aquí para no depender de clases inexistentes. */
+.jk-cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.jk-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 1rem 2rem;
+    border: 1px solid var(--borde-cristal);
+    border-radius: 9999px;
+    background: var(--verde-forense);
+    color: var(--crema-tarjeta);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -.01em;
+    text-decoration: none;
+    box-shadow: 0 10px 15px -3px rgba(45, 57, 36, .18);
+    transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+
+.jk-cta:hover {
+    background: #3A4A2E;
+    box-shadow: 0 14px 22px -6px rgba(45, 57, 36, .28);
+    transform: translateY(-2px);
+}
+
+.jk-cta:active {
+    transform: scale(.96);
+}
+
+.jk-cta:focus-visible {
+    outline: 2px solid var(--dorado-premium);
+    outline-offset: 3px;
+}
+
+.jk-cta-arrow {
+    transition: transform .18s ease;
+}
+
+.jk-cta:hover .jk-cta-arrow {
+    transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .jk-cta,
+    .jk-cta-arrow {
+        transition: none;
+    }
+    .jk-cta:hover {
+        transform: none;
+    }
+}
+
+/* ---------- 7. CURSORES DE MARCA ----------
+   Mismo sistema que servicios.html: monograma vectorial que cambia
+   a la variante clara cuando el puntero está sobre fondo oscuro.
+   La clase .is-over-dark la conmuta js/cursor.js. */
+:root {
+    --cursor-default: url('../logos/cursorflecha_dark.svg') 16 16, auto;
+    --cursor-pointer: url('../logos/cursordedo_dark.svg') 16 16, pointer;
+    --cursor-text: url('../logos/cursortexto_dark.svg') 16 16, text;
+}
+
+html,
+body {
+    cursor: var(--cursor-default);
+}
+
+p, h1, h2, h3, h4, h5, h6,
+input[type="text"], input[type="search"], input[type="email"],
+textarea, code, pre {
+    cursor: var(--cursor-text);
+}
+
+a, button, [role="button"], input[type="submit"], input[type="button"],
+select, summary, [tabindex="0"],
+.choice-btn, .qa-pill, .btn-undo, .fab-donation, .jk-cta,
+.hive-cell, .stepper-item, .keypad-key, .fracture-node,
+.countdown-info, .qa-modal-close, .calendar-close, .swipe-instr-btn,
+a *, button *, [role="button"] *,
+.choice-btn *, .qa-pill *, .btn-undo *, .fab-donation *, .jk-cta *,
+.hive-cell *, .stepper-item *, .keypad-key *, .fracture-node *,
+.countdown-info *, .qa-modal-close *, .calendar-close *, .swipe-instr-btn * {
+    cursor: var(--cursor-pointer);
+}
+
+/* Variante clara sobre fondos oscuros. Se redefinen las variables y
+   además se aplica cursor directamente: Chromium no repinta el
+   cursor sólo con el cambio de variable. */
+body.is-over-dark,
+body.is-over-dark html {
+    --cursor-default: url('../logos/cursorflecha_light.svg') 16 16, auto;
+    --cursor-pointer: url('../logos/cursordedo_light.svg') 16 16, pointer;
+    --cursor-text: url('../logos/cursortexto_light.svg') 16 16, text;
+    cursor: url('../logos/cursorflecha_light.svg') 16 16, auto !important;
+}
+
+body.is-over-dark p,
+body.is-over-dark h1, body.is-over-dark h2, body.is-over-dark h3,
+body.is-over-dark h4, body.is-over-dark h5, body.is-over-dark h6,
+body.is-over-dark input[type="text"], body.is-over-dark input[type="search"],
+body.is-over-dark input[type="email"], body.is-over-dark textarea,
+body.is-over-dark code, body.is-over-dark pre {
+    cursor: url('../logos/cursortexto_light.svg') 16 16, text !important;
+}
+
+body.is-over-dark a, body.is-over-dark button,
+body.is-over-dark [role="button"], body.is-over-dark input[type="submit"],
+body.is-over-dark input[type="button"], body.is-over-dark select,
+body.is-over-dark summary, body.is-over-dark [tabindex="0"],
+body.is-over-dark .choice-btn, body.is-over-dark .qa-pill,
+body.is-over-dark .hive-cell, body.is-over-dark .stepper-item,
+body.is-over-dark .keypad-key, body.is-over-dark .fracture-node,
+body.is-over-dark .countdown-info, body.is-over-dark .qa-modal-close,
+body.is-over-dark .calendar-close, body.is-over-dark .swipe-instr-btn,
+body.is-over-dark .btn-undo, body.is-over-dark .fab-donation,
+body.is-over-dark .jk-cta,
+body.is-over-dark a *, body.is-over-dark button *,
+body.is-over-dark [role="button"] *, body.is-over-dark .choice-btn *,
+body.is-over-dark .qa-pill *, body.is-over-dark .btn-undo *,
+body.is-over-dark .fab-donation *, body.is-over-dark .jk-cta * {
+    cursor: url('../logos/cursordedo_light.svg') 16 16, pointer !important;
+}
+
+/* En táctil y pantallas pequeñas no hay puntero: cursor nativo. */
+@media (hover: none), (pointer: coarse) {
+    html, body, a, button, [role="button"], p, h1, h2, h3, h4, h5, h6,
+    .choice-btn, .qa-pill, .btn-undo, .fab-donation, .jk-cta,
+    .hive-cell, .stepper-item, .keypad-key, .fracture-node,
+    .countdown-info, .qa-modal-close, .calendar-close, .swipe-instr-btn {
+        cursor: auto;
+    }
+}
